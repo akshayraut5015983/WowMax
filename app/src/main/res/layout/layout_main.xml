@@ -1,0 +1,1143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical">
+
+                <ViewFlipper
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:autoStart="true"
+                    android:background="@color/black"
+                    android:flipInterval="1000">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/img_bann" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:scaleType="fitXY"
+                        android:src="@drawable/img__" />
+
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:scaleType="fitXY"
+                        android:src="@drawable/img_clo" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/img_ba" />
+
+
+                </ViewFlipper>
+            </LinearLayout>
+            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adVieww"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="#80000000"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-7999232318006976/5758004858" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+
+            <!-- <RelativeLayout android:id="@+id/rel"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
+
+                 <com.google.android.gms.ads.AdView
+                     android:id="@+id/ad_view"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentBottom="true"
+                     android:layout_centerHorizontal="true"
+                     app:adSize="BANNER"
+                     app:adUnitId="@string/banner_ad_unit_id" />
+
+                 <TextView android:id="@+id/tvBan"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_alignParentRight="true"
+                     android:background="#90000000"
+                     android:drawableLeft="@drawable/ic_clear_black_24dp"
+                     android:padding="2dp" />
+             </RelativeLayout>-->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Latest Movie"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvLatestMov"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:id="@+id/ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_logo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Hindi"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvHindi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_logo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+                    </LinearLayout>
+
+
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Marathi"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvMarathi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/bann" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_logo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Web Seies"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvWebSeries"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/bannn" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/bannn" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img__" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Short Movies"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvShortMovi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img__" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_bann" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_logo" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Rommance"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvRommance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/bann" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_logo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img__" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Action And Drama"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvActionA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img__" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_bann" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Comedy"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvComedy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_logo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Horror"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvHorror"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_bann" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_logo" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Crime And Suspense"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvCrimeSupense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_logo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/mov" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_bann" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/greay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:gravity="left"
+                        android:text="Adult Movies"
+                        android:textColor="@color/white"
+                        android:textFontWeight="1"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvAdultMovi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:gravity="right"
+                        android:text="See All"
+                        android:textColor="@color/white" />
+                </RelativeLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ban" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_bann" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_clo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_logo" />
+
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="2dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/img_ba" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/greay" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#80000000"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-7999232318006976/5758004858" />
+</RelativeLayout>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">VidMax</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+
+    <string name="facebook_app_id">769433820523681</string>
+    <string name="fb_login_protocol_scheme">fb769433820523681</string>
+</resources>

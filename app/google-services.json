@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "565726237110",
+    "firebase_url": "https://vidomax-96ceb.firebaseio.com",
+    "project_id": "vidomax-96ceb",
+    "storage_bucket": "vidomax-96ceb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565726237110:android:c64cc429cf8a9bc374b117",
+        "android_client_info": {
+          "package_name": "com.swaliya.vidmax"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "565726237110-nlb9vltj7j05nr6lup6nmu2p764i7eg9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swaliya.vidmax",
+            "certificate_hash": "081306cd99c60fbfa812914efa11fa6f8a7feabc"
+          }
+        },
+        {
+          "client_id": "565726237110-1h34e5i6b4tltoo4257cjk7p3tpmpu0d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVtjfooB4V75TCRaYWRJNAbDOlAFumdJU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "565726237110-1h34e5i6b4tltoo4257cjk7p3tpmpu0d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

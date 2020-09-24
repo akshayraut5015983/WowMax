@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/back_prof"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/com_facebook_profile_picture_blank_portrait" />
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="Logout"
+            android:textColor="@color/black"
+            android:textSize="26dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:gravity="center"
+            android:text="Mail"
+            android:textColor="@color/black"
+            android:textSize="22dp" />
+
+        <TextView
+            android:id="@+id/textViewMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="center"
+            android:text="Mobile"
+            android:textColor="@color/black"
+            android:textSize="22dp" />
+
+
+        <Button
+            android:id="@+id/btnProf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/btn_squre"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="Logout"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+</RelativeLayout>
