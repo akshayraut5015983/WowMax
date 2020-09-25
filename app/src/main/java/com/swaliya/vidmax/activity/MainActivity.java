@@ -100,8 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         mAuth = FirebaseAuth.getInstance();
-
-
         mAd = MobileAds.getRewardedVideoAdInstance(this);
         mAd.setRewardedVideoAdListener(this);
 
@@ -150,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isFromMail = false;
             }
         }
-
+//sfdv d
         navigationView = (NavigationView) findViewById(R.id.nav);
         //  navigationView.getMenu().getItem(1).setIcon(R.drawable.ic_wrap_text_black_24dp);
         drawerLayout = findViewById(R.id.drawer);
@@ -188,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        //   removeCart();
         listSuperHeroes = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -196,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setLayoutManager(layoutManager);
         loading = ProgressDialog.show(this, "Loading Data", "Please Wait...", false, false);
         getData();
+        loading.dismiss();
         adapter = new HindiAdapter(listSuperHeroes, this);
         Log.d("tag", String.valueOf(adapter.getItemCount()));
         recyclerView.setAdapter(adapter);
@@ -221,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(MainActivity.this, "Eoorr", Toast.LENGTH_SHORT).show();
+                loading.dismiss();
                 Log.d(TAG, "onErrorResponse: ");
             }
         });
@@ -285,9 +284,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
         Log.d("histcout", String.valueOf(adapter.getItemCount()));
-      //  Toast.makeText(this, String.valueOf(adapter.getItemCount()), Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this, String.valueOf(adapter.getItemCount()), Toast.LENGTH_SHORT).show();
         if (adapter.getItemCount() == 0) {
-        //    Toast.makeText(this, "Data not available", Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(this, "Data not available", Toast.LENGTH_SHORT).show();
         }
         adapter.notifyDataSetChanged();
         loading.dismiss();
@@ -443,8 +442,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             return true;
         } else if (id == R.id.nav_orderchat) {
-            drawerLayout.closeDrawers();
 
+            drawerLayout.closeDrawers();
             ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nf = cn.getActiveNetworkInfo();
             if (nf != null && nf.isConnected() == true) {
@@ -454,9 +453,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
             return true;
-        }
-        // titile  category quality rekese yearee langugave movi duration desp
-        else if (id == R.id.nav_wallet) {
+        } else if (id == R.id.nav_wallet) {
             drawerLayout.closeDrawers();
 
             ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -474,7 +471,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nf = cn.getActiveNetworkInfo();
             if (nf != null && nf.isConnected() == true) {
-
 
                 try {
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
