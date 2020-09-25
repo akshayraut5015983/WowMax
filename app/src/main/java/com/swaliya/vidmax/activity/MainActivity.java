@@ -21,6 +21,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isFromMail = false;
             }
         }
-//sfdv d
+
         navigationView = (NavigationView) findViewById(R.id.nav);
         //  navigationView.getMenu().getItem(1).setIcon(R.drawable.ic_wrap_text_black_24dp);
         drawerLayout = findViewById(R.id.drawer);
@@ -197,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter = new HindiAdapter(listSuperHeroes, this);
         Log.d("tag", String.valueOf(adapter.getItemCount()));
         recyclerView.setAdapter(adapter);
-
     }
 
     private void getData() {
@@ -263,6 +263,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
         requestQueue.add(jsonArrayRequest);*/
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            Log.d("TAG", "The interstitial wasn't loaded yet.");
+            mInterstitialAd.loadAd(new AdRequest.Builder().build());
+        }
     }
 
     private void parseData(JSONArray array) {
@@ -360,11 +371,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         requestQueue.add(stringRequest);
     }*/
 
-   /* private void forIntent(String vegetable) {
-        Intent i = new Intent(getApplicationContext(), OrderPlaceActivity.class);
-        i.putExtra("Key", vegetable);
-        startActivity(i);
-    }*/
+
 
     /* @Override
      public void onBackPressed() {
@@ -392,21 +399,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
 
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawers();
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
             }
-        }, 2000);
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }
     }
 
 
