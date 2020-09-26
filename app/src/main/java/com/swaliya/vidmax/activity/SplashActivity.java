@@ -25,7 +25,7 @@ import com.swaliya.vidmax.configg.SessionManager;
 import java.util.ArrayList;
 
 
-public class SplashActivity extends AppCompatActivity  implements MediaPlayer.OnCompletionListener{
+public class SplashActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
     SessionManager session;
     Animation anim;
     ImageView imageView, eimg, mimg;
@@ -34,6 +34,7 @@ public class SplashActivity extends AppCompatActivity  implements MediaPlayer.On
     VideoView vw;
     ArrayList<Integer> videolist = new ArrayList<>();
     int currvideo = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,26 +42,25 @@ public class SplashActivity extends AppCompatActivity  implements MediaPlayer.On
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT )
-        {
-            getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                     | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY );
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
 
         session = new SessionManager(getApplicationContext());
         imageView = (ImageView) findViewById(R.id.img);
         mimg = (ImageView) findViewById(R.id.mimg);
         eimg = (ImageView) findViewById(R.id.eimg);// Declare an imageView to show the animation.
-        anim = AnimationUtils.loadAnimation(getApplicationContext(), android.R.anim.fade_in); // Create the animation.
-
+        anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.zoom); // Create the animation.
+        imageView.startAnimation(anim);
         eImg = findViewById(R.id.eimg);
         mImg = findViewById(R.id.mimg);
 
-        final ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1.0f);
+        /*final ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1.0f);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setInterpolator(new LinearInterpolator());
         animator.setDuration(2000L);
@@ -74,7 +74,7 @@ public class SplashActivity extends AppCompatActivity  implements MediaPlayer.On
                 mImg.setTranslationX(translationX - width);
             }
         });
-        animator.start();
+        animator.start();*/
 
         Animation animation1 =
                 AnimationUtils.loadAnimation(getApplicationContext(),
@@ -83,7 +83,7 @@ public class SplashActivity extends AppCompatActivity  implements MediaPlayer.On
                 AnimationUtils.loadAnimation(getApplicationContext(),
                         R.anim.fade);
 
-       // imageView.startAnimation(animation1);
+        // imageView.startAnimation(animation1);
         mimg.startAnimation(animation1);
         eimg.startAnimation(animation1);
 
@@ -99,10 +99,10 @@ public class SplashActivity extends AppCompatActivity  implements MediaPlayer.On
                     //  overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                     finish();
                 } else {*/
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    //  overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                    finish();
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent);
+                //  overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
 
 
             }
@@ -152,7 +152,6 @@ public class SplashActivity extends AppCompatActivity  implements MediaPlayer.On
             }
         }
     }
-
 
 
 }

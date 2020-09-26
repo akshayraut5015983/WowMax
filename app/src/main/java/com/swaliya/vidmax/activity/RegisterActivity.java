@@ -104,6 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
                 strMob = edMob.getText().toString();
                 strPass = edPass.getText().toString();
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
                /* if (strName.equals("")) {
                     Toast.makeText(RegisterActivity.this, "Enter name", Toast.LENGTH_SHORT).show();
                 } else if (strEmail.equals("")) {

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -28,7 +31,7 @@ public class VdoPlayActivity extends AppCompatActivity {
     String loginid = "", mobilenumber = "", passwords = "";
     String item = "", itemFi = "";
     VideoView mVideoView;
-
+    ProgressBar progressBar;
 
     // private static final String VIDEO_SAMPLE = "https://drive.google.com/file/d/1WX4TKgMti6LQ6VuIgxEfZYX8eGJ-598V/view";
 
@@ -41,6 +44,7 @@ public class VdoPlayActivity extends AppCompatActivity {
     // Tag for the instance state bundle.
     private static String PLAYBACK_TIME = "play_time";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +53,7 @@ public class VdoPlayActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         session = new SessionManager(this);
-
+        progressBar = findViewById(R.id.progress_bar);
         session = new SessionManager(getApplicationContext());
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
         if (pref.contains(Config.KEY_NAME)) {
@@ -130,6 +134,13 @@ public class VdoPlayActivity extends AppCompatActivity {
         MediaController controller = new MediaController(this);
         controller.setMediaPlayer(mVideoView);
         mVideoView.setMediaController(controller);
+       /* ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo nf = cn.getActiveNetworkInfo();
+        if (nf != null && nf.isConnected() == true) {
+            initializePlayer();
+        } else {
+            Toast.makeText(VdoPlayActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+        }*/
         initializePlayer();
     }
 
@@ -139,7 +150,7 @@ public class VdoPlayActivity extends AppCompatActivity {
 
         // Save the current playback position (in milliseconds) to the
         // instance state bundle.
-     //   outState.putInt(PLAYBACK_TIME, mVideoView.getCurrentPosition());
+        //   outState.putInt(PLAYBACK_TIME, mVideoView.getCurrentPosition());
     }
 
     @Override
@@ -187,11 +198,12 @@ public class VdoPlayActivity extends AppCompatActivity {
 
     private void initializePlayer() {
         // Show the "Buffering..." message while the video loads.
-
+        progressBar.setVisibility(View.VISIBLE);
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tuza);
 
         // Buffer and decode the video sample.
         Uri videoUri = getMedia(VIDEO_SAMPLE);
-        mVideoView.setVideoURI(videoUri);
+        mVideoView.setVideoURI(uri);
 
         // Listener for onPrepared() event (runs after the media is prepared).
         mVideoView.setOnPreparedListener(
@@ -199,7 +211,7 @@ public class VdoPlayActivity extends AppCompatActivity {
                     @Override
                     public void onPrepared(MediaPlayer mediaPlayer) {
                         // Hide buffering message.
-
+                        progressBar.setVisibility(View.GONE);
                         // Restore saved position, if available.
                         if (mCurrentPosition > 0) {
                             mVideoView.seekTo(mCurrentPosition);
@@ -222,7 +234,7 @@ public class VdoPlayActivity extends AppCompatActivity {
                         Toast.makeText(VdoPlayActivity.this,
                                 "Toast",
                                 Toast.LENGTH_SHORT).show();
-
+                        progressBar.setVisibility(View.GONE);
                         // Return the video position to the start.
                         mVideoView.seekTo(0);
                     }

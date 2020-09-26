@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +23,8 @@ import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.swaliya.vidmax.R;
 import com.swaliya.vidmax.configg.Config;
 import com.swaliya.vidmax.configg.SessionManager;
@@ -32,7 +36,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
     String item = "", itemFi = "";
     VideoView mVideoView;
     ImageView imgPlay, imgFull;
-
+    private InterstitialAd mInterstitialAd;
     private static final String VIDEO_SAMPLE = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4";
 
     //  private static final String VIDEO_SAMPLE = "https://developers.google.com/training/images/tacoma_narrows.mp4";
@@ -67,10 +71,13 @@ public class VdoDetailsActivity extends AppCompatActivity {
         mVideoView = findViewById(R.id.vid);
         imgPlay = findViewById(R.id.omgPlay);
         imgFull = findViewById(R.id.imgFull);
-
-
         mBufferingTextView = findViewById(R.id.buffering_textview);
         progressBar = findViewById(R.id.pBar);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-7999232318006976/4666901574");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
 
         if (savedInstanceState != null) {
             mCurrentPosition = savedInstanceState.getInt(PLAYBACK_TIME);
@@ -80,6 +87,27 @@ public class VdoDetailsActivity extends AppCompatActivity {
 
         controller = new MediaController(this);
 
+
+        findViewById(R.id.imgShare).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo nf = cn.getActiveNetworkInfo();
+                if (nf != null && nf.isConnected() == true) {
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    } else {
+                        Log.d("TAG", "The interstitial wasn't loaded yet.");
+                        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                    }
+                    Toast.makeText(VdoDetailsActivity.this, "Share Some Details", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(VdoDetailsActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
     }
 
@@ -93,17 +121,29 @@ public class VdoDetailsActivity extends AppCompatActivity {
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                imgFull.setVisibility(View.VISIBLE);
-                controller.setMediaPlayer(mVideoView);
-                mVideoView.setMediaController(controller);
-                initializePlayer();
-                //  Toast.makeText(VdoDetailsActivity.this, "Playing vdo", Toast.LENGTH_SHORT).show();
-                imgPlay.setVisibility(View.GONE);
+
+                ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo nf = cn.getActiveNetworkInfo();
+                if (nf != null && nf.isConnected() == true) {
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    } else {
+                        Log.d("TAG", "The interstitial wasn't loaded yet.");
+                        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                    }
+                    progressBar.setVisibility(View.VISIBLE);
+                    imgFull.setVisibility(View.VISIBLE);
+                    controller.setMediaPlayer(mVideoView);
+                    mVideoView.setMediaController(controller);
+                    initializePlayer();
+                    //  Toast.makeText(VdoDetailsActivity.this, "Playing vdo", Toast.LENGTH_SHORT).show();
+                    imgPlay.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(VdoDetailsActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         // Load the media each time onStart() is called.
-
     }
 
     @Override
@@ -161,10 +201,11 @@ public class VdoDetailsActivity extends AppCompatActivity {
     private void initializePlayer() {
         // Show the "Buffering..." message while the video loads.
         //   mBufferingTextView.setVisibility(VideoView.VISIBLE);
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tuza);
 
         // Buffer and decode the video sample.
         Uri videoUri = getMedia(VIDEO_SAMPLE);
-        mVideoView.setVideoURI(videoUri);
+        mVideoView.setVideoURI(uri);
 
         Log.d("TAG", "initializePlayer: " + videoUri.toString());
         // Listener for onPrepared() event (runs after the media is prepared).

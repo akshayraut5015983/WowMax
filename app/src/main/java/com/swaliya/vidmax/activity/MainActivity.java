@@ -1,6 +1,8 @@
 package com.swaliya.vidmax.activity;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -37,6 +39,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
@@ -47,9 +50,12 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.swaliya.vidmax.BuildConfig;
 import com.swaliya.vidmax.R;
 import com.swaliya.vidmax.adapter.HindiAdapter;
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+        forNotify();
         mAuth = FirebaseAuth.getInstance();
         mAd = MobileAds.getRewardedVideoAdInstance(this);
         mAd.setRewardedVideoAdListener(this);
@@ -122,6 +129,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adView = findViewById(R.id.adVieww);
         AdRequest adRequestt = new AdRequest.Builder().build();
         adView.loadAd(adRequestt);
+       /* adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Toast.makeText(MainActivity.this, "onAdLoaded()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                Toast.makeText(MainActivity.this, "onAdOpened()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                Toast.makeText(MainActivity.this, "onAdClosed()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Toast.makeText(MainActivity.this, "onAdFailedToLoad()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+                Toast.makeText(MainActivity.this, "onAdLeftApplication()", Toast.LENGTH_SHORT).show();
+            }
+        });*/
 
         sessionManager = new SessionManager(this);
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
@@ -198,6 +236,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         adapter = new HindiAdapter(listSuperHeroes, this);
         Log.d("tag", String.valueOf(adapter.getItemCount()));
         recyclerView.setAdapter(adapter);
+    }
+
+    private void forNotify() {
+
+        NotificationChannel notificationChannel = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            notificationChannel = new NotificationChannel("MyNo", "MyNo", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(notificationChannel);
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic("genral")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Successfull";
+                        if (!task.isSuccessful()) {
+                            msg = "msg_subscribe_failed";
+                        }
+                        Log.d(TAG, msg);
+                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     private void getData() {
@@ -467,7 +528,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         } else if (id == R.id.nav_wallet) {
             drawerLayout.closeDrawers();
-
             ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nf = cn.getActiveNetworkInfo();
             if (nf != null && nf.isConnected() == true) {
@@ -502,10 +562,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             return true;
         } else if (id == R.id.nav_terms) {
-            drawerLayout.closeDrawers();
 
+            drawerLayout.closeDrawers();
             ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nf = cn.getActiveNetworkInfo();
+
             if (nf != null && nf.isConnected() == true) {
 
             } else {
@@ -525,8 +586,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
             }
-
-
             return true;
         } else if (id == R.id.nav_logout) {
             drawerLayout.closeDrawers();
