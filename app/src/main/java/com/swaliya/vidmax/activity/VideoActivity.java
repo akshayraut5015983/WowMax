@@ -64,7 +64,7 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnCo
         vw.setOnCompletionListener(this);
 
         // video name should be in lower case alphabet.
-        videolist.add(R.raw.demo_video);
+        videolist.add(R.raw.tuza);
       /*  videolist.add(R.raw.faded);
         videolist.add(R.raw.aeroplane);*/
         setVideo(videolist.get(0));
