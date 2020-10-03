@@ -10,11 +10,12 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+        android:name=".AppController"
         android:allowBackup="true"
         android:debuggable="true"
-        android:icon="@drawable/cir_logo"
+        android:icon="@drawable/logo_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/cir_logo"
+        android:roundIcon="@drawable/logo_launcher"
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme"
@@ -58,6 +59,9 @@
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.MySubscriptionActivity" />
+        <activity android:name=".activity.WalletActivity" />
+        <activity android:name=".activity.WishListActivity" />
         <activity
             android:name=".activity.VideoActivity"
             android:screenOrientation="landscape" />
@@ -70,6 +74,7 @@
         <activity
             android:name=".activity.ProfileActivity"
             android:label="My Profile" />
+
         <service
             android:name=".configg.MyMessagingService"
             android:exported="false">

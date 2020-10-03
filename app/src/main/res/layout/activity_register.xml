@@ -53,7 +53,7 @@
                         android:layout_height="150dp"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
-                        android:src="@drawable/wh_logo" />
+                        android:src="@drawable/logo_blank" />
 
                     <RelativeLayout
                         android:id="@+id/loo"
@@ -80,7 +80,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    android:background="@color/grea"
+                    android:background="@color/bla"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="20dp">

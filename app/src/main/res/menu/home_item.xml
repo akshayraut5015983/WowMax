@@ -25,11 +25,11 @@
             android:title="Help">
             <menu>
                 <item
-                    android:id="@+id/nav_orderhistory"
+                    android:id="@+id/nav_subscription"
                     android:icon="@drawable/ic_subscriptions_black_24dp"
                     android:title="My Subscription" />
                 <item
-                    android:id="@+id/nav_orderchat"
+                    android:id="@+id/nav_wishlist"
                     android:icon="@drawable/ic_playlist_add_check_black_24dp"
                     android:title="Wish List" />
                 <item

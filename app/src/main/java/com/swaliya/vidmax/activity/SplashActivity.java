@@ -30,7 +30,6 @@ public class SplashActivity extends AppCompatActivity implements MediaPlayer.OnC
     Animation anim;
     ImageView imageView, eimg, mimg;
     ImageView mImg, eImg;
-
     VideoView vw;
     ArrayList<Integer> videolist = new ArrayList<>();
     int currvideo = 0;

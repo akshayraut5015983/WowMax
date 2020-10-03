@@ -16,19 +16,18 @@ import com.swaliya.vidmax.configg.Config;
 import com.swaliya.vidmax.configg.SessionManager;
 
 
-public class SearchActivity extends AppCompatActivity {
-    Button logoutBtn;
+public class MySubscriptionActivity extends AppCompatActivity {
+
 
     SessionManager sessionManager;
     SharedPreferences pref;
     String loginid = "", mobilenumber = "", passwords = "";
-    EditText edSearch;
-    String strSearch = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_sybscription);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sessionManager = new SessionManager(this);
@@ -42,15 +41,6 @@ public class SearchActivity extends AppCompatActivity {
         if (pref.contains(Config.KEY_PASSWORD)) {
             passwords = pref.getString(Config.KEY_PASSWORD, "");
         }
-        edSearch = findViewById(R.id.edSearch);
-        findViewById(R.id.btnSearch).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                strSearch = edSearch.getText().toString().trim();
-                edSearch.setText("");
-                Toast.makeText(SearchActivity.this, "Searching on " + strSearch, Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 

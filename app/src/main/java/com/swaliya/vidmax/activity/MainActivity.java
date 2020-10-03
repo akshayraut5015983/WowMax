@@ -1,6 +1,7 @@
 package com.swaliya.vidmax.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
@@ -16,6 +17,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,7 +42,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.ads.AdListener;
+
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
@@ -49,7 +57,6 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
-import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -61,23 +68,23 @@ import com.swaliya.vidmax.R;
 import com.swaliya.vidmax.adapter.HindiAdapter;
 import com.swaliya.vidmax.configg.Config;
 import com.swaliya.vidmax.configg.SessionManager;
-import com.swaliya.vidmax.model.Datum;
-import com.swaliya.vidmax.model.HindiModel;
+import com.swaliya.vidmax.helper.ApiClient;
+import com.swaliya.vidmax.helper.ApiInterface;
+import com.swaliya.vidmax.model.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RewardedVideoAdListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RewardedVideoAdListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     NavigationView navigationView;
     DrawerLayout drawerLayout;
 
@@ -95,11 +102,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private InterstitialAd mInterstitialAd;
     RewardedVideoAd mAd;
 
-    ProgressDialog loading;
-    private ArrayList<Datum> listSuperHeroes;
-    private RecyclerView.Adapter adapter;
-    RecyclerView recyclerView;
 
+    private List<Movie> listSuperHeroes;
+    private HindiAdapter adapter;
+    ProgressDialog loading;
+    RecyclerView recyclerView;
+    List<Movie> movieList;
+    HindiAdapter recyclerAdapter;
+SliderLayout sliderLayout;
+    HashMap<String,Integer> sliderImages;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         forNotify();
+
         mAuth = FirebaseAuth.getInstance();
         mAd = MobileAds.getRewardedVideoAdInstance(this);
         mAd.setRewardedVideoAdListener(this);
@@ -160,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(MainActivity.this, "onAdLeftApplication()", Toast.LENGTH_SHORT).show();
             }
         });*/
-
         sessionManager = new SessionManager(this);
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
         if (pref.contains(Config.KEY_NAME)) {
@@ -225,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        listSuperHeroes = new ArrayList<>();
+       /* listSuperHeroes = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -234,8 +245,67 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getData();
         loading.dismiss();
         adapter = new HindiAdapter(listSuperHeroes, this);
+
         Log.d("tag", String.valueOf(adapter.getItemCount()));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);*/
+        getResponce();
+
+        sliderLayout=findViewById(R.id.sliderLayout);
+        sliderImages = new HashMap<>();
+        sliderImages.put("Great Indian Deal", R.drawable.img_clo);
+        sliderImages.put("New Deal Every Hour",R.drawable.img_bann);
+        sliderImages.put("Appliances Sale", R.drawable.img_ban);
+
+        for (String name : sliderImages.keySet()) {
+
+            TextSliderView textSliderView = new TextSliderView(this);
+            textSliderView
+                    .description(name)
+                    .image(sliderImages.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setOnSliderClickListener(this);
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle()
+                    .putString("extra", name);
+            sliderLayout.addSlider(textSliderView);
+        }
+        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        sliderLayout.setCustomAnimation(new DescriptionAnimation());
+        sliderLayout.setDuration(3000);
+        sliderLayout.addOnPageChangeListener(this);
+
+    }
+
+    private void getResponce() {
+
+        loading = ProgressDialog.show(this, "Loading Data", "Please Wait...", false, false);
+        movieList = new ArrayList<>();
+        recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerAdapter = new HindiAdapter(movieList, MainActivity.this);
+        recyclerView.setAdapter(recyclerAdapter);
+
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call<List<Movie>> call = apiService.getMovies();
+        call.enqueue(new Callback<List<Movie>>() {
+            @Override
+            public void onResponse(Call<List<Movie>> call, retrofit2.Response<List<Movie>> response) {
+                loading.dismiss();
+                movieList = response.body();
+                Log.d("TAG", "Response = " + movieList);
+                recyclerAdapter.setMovieList(movieList);
+            }
+
+            @Override
+            public void onFailure(Call<List<Movie>> call, Throwable t) {
+                loading.dismiss();
+                Log.d("TAG", "Response = " + t.toString());
+            }
+        });
+
     }
 
     private void forNotify() {
@@ -338,7 +408,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void parseData(JSONArray array) {
-        try {
+       /* try {
             //  JSONArray array = new JSONArray(aarray);
             for (int i = 0; i < array.length(); i++) {
                 Datum vdo = new Datum();
@@ -361,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //    Toast.makeText(this, "Data not available", Toast.LENGTH_SHORT).show();
         }
         adapter.notifyDataSetChanged();
-        loading.dismiss();
+        loading.dismiss();*/
     }
 
     @SuppressLint("ResourceAsColor")
@@ -488,11 +558,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = menuItem.getItemId();
         if (id == R.id.nav_home) {
             drawerLayout.closeDrawers();
-         /*   MobileAds.initialize(this,"ca-app-pub-7999232318006976~6141148234");
-
-            mInterstitialAd = new InterstitialAd(this);
-            mInterstitialAd.setAdUnitId("ca-app-pub-7999232318006976/4666901574");*/
-
 
             if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
@@ -500,27 +565,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("TAG", "The interstitial wasn't loaded yet.");
                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
             }
-        } else if (id == R.id.nav_orderhistory) {
-            drawerLayout.closeDrawers();
+        } else if (id == R.id.nav_subscription) {
 
+            drawerLayout.closeDrawers();
             ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nf = cn.getActiveNetworkInfo();
             if (nf != null && nf.isConnected() == true) {
-                /*Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);*/
+                Intent i = new Intent(getApplicationContext(), MySubscriptionActivity.class);
+                startActivity(i);
                 loadRewardedVideoAd();
             } else {
                 Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
             }
 
             return true;
-        } else if (id == R.id.nav_orderchat) {
+        } else if (id == R.id.nav_wishlist) {
 
             drawerLayout.closeDrawers();
             ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nf = cn.getActiveNetworkInfo();
             if (nf != null && nf.isConnected() == true) {
-
+                Intent i = new Intent(getApplicationContext(), WishListActivity.class);
+                startActivity(i);
             } else {
                 Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
             }
@@ -531,7 +597,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nf = cn.getActiveNetworkInfo();
             if (nf != null && nf.isConnected() == true) {
-
+                Intent i = new Intent(getApplicationContext(), WalletActivity.class);
+                startActivity(i);
             } else {
                 Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
             }
@@ -566,8 +633,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawerLayout.closeDrawers();
             ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nf = cn.getActiveNetworkInfo();
-
             if (nf != null && nf.isConnected() == true) {
+                termsCondition();
 
             } else {
                 Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
@@ -602,6 +669,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
         return false;
+    }
+
+    private void termsCondition() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.layout_terms_condition);
+
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.btnOK);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 
     String TAG = "TAg";
@@ -655,6 +741,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onRewardedVideoCompleted() {
         Log.d(TAG, "onRewardedVideoCompleted: ");
+
+    }
+
+
+    @Override
+    public void onSliderClick(BaseSliderView slider) {
+     //   Toast.makeText(MainActivity.this, slider.getBundle().get("extra") +  " ", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
     }
 }

@@ -143,6 +143,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+
         // Load the media each time onStart() is called.
     }
 
@@ -201,7 +202,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
     private void initializePlayer() {
         // Show the "Buffering..." message while the video loads.
         //   mBufferingTextView.setVisibility(VideoView.VISIBLE);
-        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tuza);
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.tuza);
 
         // Buffer and decode the video sample.
         Uri videoUri = getMedia(VIDEO_SAMPLE);

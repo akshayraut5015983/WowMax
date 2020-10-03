@@ -48,7 +48,7 @@
                             android:layout_centerHorizontal="true"
                             android:layout_gravity="center"
                             android:scaleType="fitXY"
-                            android:src="@drawable/wh_logo" />
+                            android:src="@drawable/logo_blank" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:background="@color/grea"
+                        android:background="@color/bla"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:padding="20dp">

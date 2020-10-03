@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/swh"
     android:orientation="vertical">
 
     <ScrollView
@@ -17,16 +17,23 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/linear"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:orientation="vertical">
+
+                <com.daimajia.slider.library.SliderLayout
+                    android:id="@+id/sliderLayout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="200dp" />
 
                 <ViewFlipper
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:autoStart="true"
-                    android:background="@color/black"
-                    android:flipInterval="1000">
+                    android:background="@color/swh"
+                    android:flipInterval="1000"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -34,11 +41,6 @@
                         android:scaleType="fitXY"
                         android:src="@drawable/img_bann" />
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/img__" />
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -55,6 +57,7 @@
 
                 </ViewFlipper>
             </LinearLayout>
+
             <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/adVieww"
                 android:layout_width="match_parent"
@@ -62,7 +65,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:background="#80000000"
-                ads:adSize="BANNER"
+                ads:adSize="SMART_BANNER"
                 ads:adUnitId="ca-app-pub-7999232318006976/5758004858" />
 
             <View
@@ -224,8 +227,8 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler"
                     android:layout_width="match_parent"
-                    android:visibility="gone"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -1136,7 +1139,6 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="#80000000"
-        ads:adSize="BANNER"
+        ads:adSize="SMART_BANNER"
         ads:adUnitId="ca-app-pub-7999232318006976/2301953495" />
 </RelativeLayout>

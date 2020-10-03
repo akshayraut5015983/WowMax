@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">VidMax</string>
+    <string name="app_name">Wowmax</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
 
     <string name="facebook_app_id">769433820523681</string>
     <string name="fb_login_protocol_scheme">fb769433820523681</string>
+    <string name="str">These Terms of Use govern your use of our service. As used in these Terms of Use, \"Vidmax service\", \"our service\" or \"the service\" means the personalized service provided by Vidmax for discovering and watching Vidmax content, including all features and functionalities, recommendations and reviews, the website, and user interfaces, as well as all content and software associated with our service.</string>
 </resources>
