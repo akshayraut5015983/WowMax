@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -109,69 +110,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     RecyclerView recyclerView;
     List<Movie> movieList;
     HindiAdapter recyclerAdapter;
-SliderLayout sliderLayout;
-    HashMap<String,Integer> sliderImages;
+    SliderLayout sliderLayout;
+    HashMap<String, Integer> sliderImages;
+    View layoutMAin, layoutInternet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-        forNotify();
+        forAdvertise();
+        forNotification();
+        forSlider();
 
         mAuth = FirebaseAuth.getInstance();
-        mAd = MobileAds.getRewardedVideoAdInstance(this);
-        mAd.setRewardedVideoAdListener(this);
-
-        MobileAds.initialize(this, "ca-app-pub-7999232318006976~6141148234");
-
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-7999232318006976/4666901574");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-        adView = findViewById(R.id.adVieww);
-        AdRequest adRequestt = new AdRequest.Builder().build();
-        adView.loadAd(adRequestt);
-       /* adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                Toast.makeText(MainActivity.this, "onAdLoaded()", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdOpened() {
-                super.onAdOpened();
-                Toast.makeText(MainActivity.this, "onAdOpened()", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-                Toast.makeText(MainActivity.this, "onAdClosed()", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdFailedToLoad(int i) {
-                super.onAdFailedToLoad(i);
-                Toast.makeText(MainActivity.this, "onAdFailedToLoad()", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                super.onAdLeftApplication();
-                Toast.makeText(MainActivity.this, "onAdLeftApplication()", Toast.LENGTH_SHORT).show();
-            }
-        });*/
         sessionManager = new SessionManager(this);
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
         if (pref.contains(Config.KEY_NAME)) {
@@ -248,13 +201,82 @@ SliderLayout sliderLayout;
 
         Log.d("tag", String.valueOf(adapter.getItemCount()));
         recyclerView.setAdapter(adapter);*/
+
         getResponce();
 
-        sliderLayout=findViewById(R.id.sliderLayout);
+
+        findViewById(R.id.btnTryAgain).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onStart();
+            }
+        });
+    }
+
+    private void forAdvertise() {
+
+        mAd = MobileAds.getRewardedVideoAdInstance(this);
+        mAd.setRewardedVideoAdListener(this);
+
+        MobileAds.initialize(this, "ca-app-pub-7999232318006976~6141148234");
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-7999232318006976/4666901574");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+
+            }
+        });
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        adView = findViewById(R.id.adVieww);
+        AdRequest adRequestt = new AdRequest.Builder().build();
+        adView.loadAd(adRequestt);
+
+       /* adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Toast.makeText(MainActivity.this, "onAdLoaded()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                Toast.makeText(MainActivity.this, "onAdOpened()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                Toast.makeText(MainActivity.this, "onAdClosed()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Toast.makeText(MainActivity.this, "onAdFailedToLoad()", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+                Toast.makeText(MainActivity.this, "onAdLeftApplication()", Toast.LENGTH_SHORT).show();
+            }
+        });*/
+    }
+
+    private void forSlider() {
+        sliderLayout = findViewById(R.id.sliderLayout);
         sliderImages = new HashMap<>();
-        sliderImages.put("Great Indian Deal", R.drawable.img_clo);
-        sliderImages.put("New Deal Every Hour",R.drawable.img_bann);
-        sliderImages.put("Appliances Sale", R.drawable.img_ban);
+        sliderImages.put("One", R.drawable.img_clo);
+        sliderImages.put("Two", R.drawable.img_bann);
+        sliderImages.put("Three", R.drawable.img_ban);
 
         for (String name : sliderImages.keySet()) {
 
@@ -269,12 +291,12 @@ SliderLayout sliderLayout;
                     .putString("extra", name);
             sliderLayout.addSlider(textSliderView);
         }
-        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        sliderLayout.setCustomAnimation(new DescriptionAnimation());
-        sliderLayout.setDuration(3000);
+        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
+        // sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        //  sliderLayout.setCustomAnimation(new DescriptionAnimation());
+        sliderLayout.setDuration(2000);
         sliderLayout.addOnPageChangeListener(this);
-
+        sliderLayout.getPagerIndicator().setVisibility(View.GONE);
     }
 
     private void getResponce() {
@@ -308,7 +330,7 @@ SliderLayout sliderLayout;
 
     }
 
-    private void forNotify() {
+    private void forNotification() {
 
         NotificationChannel notificationChannel = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -325,10 +347,9 @@ SliderLayout sliderLayout;
                             msg = "msg_subscribe_failed";
                         }
                         Log.d(TAG, msg);
-                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     private void getData() {
@@ -397,14 +418,33 @@ SliderLayout sliderLayout;
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        forAdvertise();
+        layoutMAin = findViewById(R.id.layoutMain);
+        layoutInternet = findViewById(R.id.layoutInternet);
+        ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo nf = cn.getActiveNetworkInfo();
+        if (nf != null && nf.isConnected() == true) {
+            layoutMAin.setVisibility(View.VISIBLE);
+            layoutInternet.setVisibility(View.GONE);
+        } else {
+            layoutInternet.setVisibility(View.VISIBLE);
+            layoutMAin.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        forAdvertise();
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
             Log.d("TAG", "The interstitial wasn't loaded yet.");
             mInterstitialAd.loadAd(new AdRequest.Builder().build());
         }
+
     }
 
     private void parseData(JSONArray array) {
@@ -747,7 +787,7 @@ SliderLayout sliderLayout;
 
     @Override
     public void onSliderClick(BaseSliderView slider) {
-     //   Toast.makeText(MainActivity.this, slider.getBundle().get("extra") +  " ", Toast.LENGTH_SHORT).show();
+        //   Toast.makeText(MainActivity.this, slider.getBundle().get("extra") +  " ", Toast.LENGTH_SHORT).show();
     }
 
     @Override

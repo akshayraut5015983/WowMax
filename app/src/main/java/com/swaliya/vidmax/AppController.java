@@ -12,11 +12,11 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AutoErrorReporter.get(this)
+       /* AutoErrorReporter.get(this)
                 .setEmailAddresses("agnaraut@gmail.com")
                 .setEmailSubject("Crash Report Vidmax App")
-                .start();
-       /* Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+                .start();*/
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
 
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
@@ -39,7 +39,6 @@ public class AppController extends Application {
         intent.putExtra (Intent.EXTRA_TEXT, stackTrace);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // required when starting from Application
         startActivity(intent);
-*/
 
     }
 

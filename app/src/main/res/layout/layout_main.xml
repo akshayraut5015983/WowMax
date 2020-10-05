@@ -25,7 +25,8 @@
                 <com.daimajia.slider.library.SliderLayout
                     android:id="@+id/sliderLayout"
                     android:layout_width="fill_parent"
-                    android:layout_height="200dp" />
+                    android:layout_height="200dp"
+                    android:background="@color/swhh" />
 
                 <ViewFlipper
                     android:layout_width="match_parent"
@@ -64,7 +65,6 @@
                 android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:background="#80000000"
                 ads:adSize="SMART_BANNER"
                 ads:adUnitId="ca-app-pub-7999232318006976/5758004858" />
 
@@ -1122,7 +1122,6 @@
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
-
 
             <View
                 android:layout_width="match_parent"
