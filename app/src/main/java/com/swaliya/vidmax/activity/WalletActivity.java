@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.swaliya.vidmax.R;
@@ -25,7 +26,14 @@ public class WalletActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        findViewById(R.id.imgBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         sessionManager = new SessionManager(this);
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
@@ -38,6 +46,10 @@ public class WalletActivity extends AppCompatActivity {
         if (pref.contains(Config.KEY_PASSWORD)) {
             passwords = pref.getString(Config.KEY_PASSWORD, "");
         }
+
+
+
+
       /*  findViewById(R.id.btnOK).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,14 +58,5 @@ public class WalletActivity extends AppCompatActivity {
         });*/
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
 }

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorAccent">#D81B60</color>
     <color name="white">#ffffff</color>
-
+    <color name="swwh">#170E0E</color>
     <color name="swh">#00307E</color>
     <color name="swhh">#C35E8DB9</color>
     <color name="wh">#46FFFFFF</color>
@@ -11,7 +11,7 @@
     <color name="bl">#17DAA520</color>
     <color name="red">#EE0202</color>
     <color name="redd">#DFEE0202</color>
-    <color name="gold">#DAA520</color>
+    <color name="gold">#f5d000</color>
     <color name="grea">#C8050505</color>
     <color name="greay">#707070</color>
     <color name="whitee">#ADFFFFFF</color>

@@ -13,12 +13,14 @@
 
         android:icon="@drawable/ic_subscriptions_black_24dp"
         android:title="Two"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/three"
         android:icon="@drawable/ic_playlist_add_check_black_24dp"
         android:title="Three"
+        android:visible="false"
         app:showAsAction="never" />
 
 

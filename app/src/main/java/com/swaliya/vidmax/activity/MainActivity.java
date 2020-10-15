@@ -6,31 +6,40 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Layout;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 /*
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -61,12 +70,14 @@ import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.swaliya.vidmax.BuildConfig;
 import com.swaliya.vidmax.R;
 import com.swaliya.vidmax.adapter.HindiAdapter;
+import com.swaliya.vidmax.adapter.TabsAdapter;
 import com.swaliya.vidmax.configg.Config;
 import com.swaliya.vidmax.configg.SessionManager;
 import com.swaliya.vidmax.helper.ApiClient;
@@ -90,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
 
     SessionManager sessionManager;
-
     String strName = "", strMob = "", strEmail = "";
 
     SharedPreferences pref;
@@ -102,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AdView mAdView, adView;
     private InterstitialAd mInterstitialAd;
     RewardedVideoAd mAd;
-
 
     private List<Movie> listSuperHeroes;
     private HindiAdapter adapter;
@@ -123,7 +132,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         forAdvertise();
         forNotification();
         forSlider();
-
+        forTab();
+        forNavigationClick();
         mAuth = FirebaseAuth.getInstance();
         sessionManager = new SessionManager(this);
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
@@ -167,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.one) {
                     startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+                    overridePendingTransition(R.anim.enter, R.anim.hold);
                 } else if (item.getItemId() == R.id.two) {
                     Toast.makeText(MainActivity.this, "Two", Toast.LENGTH_SHORT).show();
                 } else {
@@ -176,16 +187,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         navigationView.setNavigationItemSelectedListener(this);
+
         findViewById(R.id.main).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), ViewAllVdoActivity.class));
+                overridePendingTransition(R.anim.enter, R.anim.hold);
             }
         });
         findViewById(R.id.ll).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), VdoDetailsActivity.class));
+                overridePendingTransition(  R.anim.hold, R.anim.slide_down);
             }
         });
 
@@ -202,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("tag", String.valueOf(adapter.getItemCount()));
         recyclerView.setAdapter(adapter);*/
 
-        getResponce();
+        // getResponce();
 
 
         findViewById(R.id.btnTryAgain).setOnClickListener(new View.OnClickListener() {
@@ -212,6 +226,212 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+
+    private void forNavigationClick() {
+        findViewById(R.id.nav_home).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                }
+            }
+        });
+        findViewById(R.id.nav_subscription).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo nf = cn.getActiveNetworkInfo();
+                if (nf != null && nf.isConnected() == true) {
+                    Intent i = new Intent(getApplicationContext(), MySubscriptionActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.enter, R.anim.hold);
+                    loadRewardedVideoAd();
+                } else {
+                    Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        findViewById(R.id.nav_wishlist).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo nf = cn.getActiveNetworkInfo();
+                if (nf != null && nf.isConnected() == true) {
+                    Intent i = new Intent(getApplicationContext(), WishListActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.enter, R.anim.hold);
+                } else {
+                    Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        findViewById(R.id.nav_wallet).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo nf = cn.getActiveNetworkInfo();
+                if (nf != null && nf.isConnected() == true) {
+                    Intent i = new Intent(getApplicationContext(), WalletActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.enter, R.anim.hold);
+                } else {
+                    Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        findViewById(R.id.nav_reff).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+
+                ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo nf = cn.getActiveNetworkInfo();
+                if (nf != null && nf.isConnected() == true) {
+
+                    try {
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Vidmax");
+                        String shareMessage = "\nLet me recommend you this application\n\n";
+
+                        shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                        startActivity(Intent.createChooser(shareIntent, "choose one"));
+                    } catch (Exception e) {
+                        Log.d("TAg", "onNavigationItemSelected: ");
+                    }
+                } else {
+                    Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        findViewById(R.id.nav_terms).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                drawerLayout.closeDrawers();
+                //  termsCondition(R.string.privacy);
+                termsCondition(R.string.terms);
+            }
+        });
+        findViewById(R.id.nav_privacy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                drawerLayout.closeDrawers();
+                termsCondition(R.string.privacy);
+                //  privacyAlert(2);
+            }
+        });
+        findViewById(R.id.nav_legel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                termsCondition(R.string.legal);
+            }
+        });
+        findViewById(R.id.nav_about).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                termsCondition(R.string.adddress);
+            }
+        });
+        findViewById(R.id.nav_guide).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                termsCondition(R.string.guide);
+            }
+        });
+        findViewById(R.id.nav_faq).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                termsCondition(R.string.faqq);
+            }
+        });
+        findViewById(R.id.nav_customer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                termsCondition(R.string.service);
+            }
+        });
+        findViewById(R.id.nav_my_profile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo nf = cn.getActiveNetworkInfo();
+                if (nf != null && nf.isConnected() == true) {
+
+                    Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+                    startActivity(i);
+
+                } else {
+                    Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        findViewById(R.id.nav_logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                if (isFromMail) {
+                    mAuth.signOut();
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(i);
+                    sessionManager.logoutUser();
+                } else {
+                    Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(i);
+                    sessionManager.logoutUser();
+                }
+            }
+        });
+
+    }
+
+    private void forTab() {
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Just Added"));
+        tabLayout.addTab(tabLayout.newTab().setText("Movie"));
+        tabLayout.addTab(tabLayout.newTab().setText("Web Series"));
+        tabLayout.addTab(tabLayout.newTab().setText("Short Movie"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        TabsAdapter tabsAdapter = new TabsAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(tabsAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
 
     private void forAdvertise() {
 
@@ -276,7 +496,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sliderImages = new HashMap<>();
         sliderImages.put("One", R.drawable.img_clo);
         sliderImages.put("Two", R.drawable.img_bann);
-        sliderImages.put("Three", R.drawable.img_ban);
+        sliderImages.put("Three", R.drawable.img_ba);
 
         for (String name : sliderImages.keySet()) {
 
@@ -284,14 +504,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             textSliderView
                     .description(name)
                     .image(sliderImages.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
+                    .setScaleType(BaseSliderView.ScaleType.FitCenterCrop)
                     .setOnSliderClickListener(this);
             textSliderView.bundle(new Bundle());
             textSliderView.getBundle()
                     .putString("extra", name);
             sliderLayout.addSlider(textSliderView);
         }
-        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
+
+        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
         // sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         //  sliderLayout.setCustomAnimation(new DescriptionAnimation());
         sliderLayout.setDuration(2000);
@@ -302,6 +523,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void getResponce() {
 
         loading = ProgressDialog.show(this, "Loading Data", "Please Wait...", false, false);
+        loading.dismiss();
         movieList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -674,11 +896,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo nf = cn.getActiveNetworkInfo();
             if (nf != null && nf.isConnected() == true) {
-                termsCondition();
+                termsCondition(R.string.terms);
 
             } else {
                 Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
             }
+            return true;
+        } else if (id == R.id.nav_privacy) {
+
+            drawerLayout.closeDrawers();
+            termsCondition(R.string.privacy);
+            //   privacyAlert(2);
+            return true;
+        } else if (id == R.id.nav_legel) {
+
+            drawerLayout.closeDrawers();
+            termsCondition(R.string.legal);
+
+
+            return true;
+        } else if (id == R.id.nav_about) {
+
+            drawerLayout.closeDrawers();
+            termsCondition(R.string.adddress);
+
+            return true;
+        } else if (id == R.id.nav_guide) {
+
+            drawerLayout.closeDrawers();
+            termsCondition(R.string.guide);
+
+            return true;
+        } else if (id == R.id.nav_faq) {
+
+            drawerLayout.closeDrawers();
+            termsCondition(R.string.faqq);
+
+            return true;
+        } else if (id == R.id.nav_customer) {
+
+            drawerLayout.closeDrawers();
+            termsCondition(R.string.service);
 
             return true;
         } else if (id == R.id.nav_my_profile) {
@@ -711,13 +969,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    private void termsCondition() {
-        final Dialog dialog = new Dialog(this);
+    private void privacyAlert(int terms) {
+        final Dialog dialog = new Dialog(this, android.R.style.Theme_Light);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
-        dialog.setContentView(R.layout.layout_terms_condition);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        dialog.setContentView(R.layout.layout_privacy);
 
+      /*  TextView textView = (TextView) dialog.findViewById(R.id.tvMsg);
+        textView.setText(terms);*/
         Button dialogButton = (Button) dialog.findViewById(R.id.btnOK);
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -725,9 +985,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 dialog.dismiss();
             }
         });
-
         dialog.show();
+    }
 
+    private void termsCondition(int terms) {
+        final Dialog dialog = new Dialog(this,  R.style.AlertDialogStyle);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        dialog.setContentView(R.layout.layout_privacy);
+
+        TextView textView = (TextView) dialog.findViewById(R.id.tvMsg);
+        textView.setText(terms);
+        Button dialogButton = (Button) dialog.findViewById(R.id.btnOK);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                overridePendingTransition(R.anim.hold, R.anim.slide_down);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     String TAG = "TAg";
@@ -781,9 +1059,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onRewardedVideoCompleted() {
         Log.d(TAG, "onRewardedVideoCompleted: ");
-
     }
-
 
     @Override
     public void onSliderClick(BaseSliderView slider) {

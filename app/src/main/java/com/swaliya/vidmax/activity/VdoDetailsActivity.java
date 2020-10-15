@@ -4,23 +4,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.MediaFormat;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdRequest;
@@ -29,13 +33,15 @@ import com.swaliya.vidmax.R;
 import com.swaliya.vidmax.configg.Config;
 import com.swaliya.vidmax.configg.SessionManager;
 
+import java.util.Locale;
+
 public class VdoDetailsActivity extends AppCompatActivity {
     SessionManager session;
     SharedPreferences pref;
     String loginid = "", mobilenumber = "", passwords = "";
     String item = "", itemFi = "";
     VideoView mVideoView;
-    ImageView imgPlay, imgFull;
+    ImageView imgPlay, imgFull, imgSetting;
     private InterstitialAd mInterstitialAd;
     private static final String VIDEO_SAMPLE = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4";
 
@@ -54,7 +60,14 @@ public class VdoDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vdodetails);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        findViewById(R.id.imgBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         session = new SessionManager(this);
 
         session = new SessionManager(getApplicationContext());
@@ -71,6 +84,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
         mVideoView = findViewById(R.id.vid);
         imgPlay = findViewById(R.id.omgPlay);
         imgFull = findViewById(R.id.imgFull);
+        imgSetting = findViewById(R.id.imgSetting);
         mBufferingTextView = findViewById(R.id.buffering_textview);
         progressBar = findViewById(R.id.pBar);
 
@@ -91,6 +105,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
         findViewById(R.id.imgShare).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo nf = cn.getActiveNetworkInfo();
@@ -117,6 +132,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
         super.onStart();
 
         imgFull.setVisibility(View.GONE);
+        imgSetting.setVisibility(View.GONE);
         imgPlay.setVisibility(View.VISIBLE);
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +149,9 @@ public class VdoDetailsActivity extends AppCompatActivity {
                     }
                     progressBar.setVisibility(View.VISIBLE);
                     imgFull.setVisibility(View.VISIBLE);
-                    controller.setMediaPlayer(mVideoView);
+                    imgSetting.setVisibility(View.VISIBLE);
+                    controller.setMediaPlayer(mVideoView); //  MediaStore.EXTRA_VIDEO_QUALITY,720;
+
                     mVideoView.setMediaController(controller);
                     initializePlayer();
                     //  Toast.makeText(VdoDetailsActivity.this, "Playing vdo", Toast.LENGTH_SHORT).show();
@@ -143,8 +161,27 @@ public class VdoDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+        findViewById(R.id.imgSetting).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        // Load the media each time onStart() is called.
+                PopupMenu popup = new PopupMenu(VdoDetailsActivity.this, view);
+                //Inflating the Popup using xml file
+                popup.getMenuInflater().inflate(R.menu.quality_menu, popup.getMenu());
+
+                //registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Toast.makeText(VdoDetailsActivity.this, "Quality : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+                        return true;
+
+                    }
+                });
+
+                popup.show();
+            }
+        });
+
     }
 
     @Override
@@ -238,6 +275,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
 
         // Listener for onCompletion() event (runs after media has finished
         // playing).
+
         mVideoView.setOnCompletionListener(
                 new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -273,14 +311,5 @@ public class VdoDetailsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+
 }

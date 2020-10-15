@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.swaliya.vidmax.R;
@@ -23,7 +24,14 @@ public class ViewAllVdoActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_vdo);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        findViewById(R.id.imgBack).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         session = new SessionManager(this);
       //  https://gist.github.com/jsturgis/3b19447b304616f18657
         session = new SessionManager(getApplicationContext());
@@ -48,15 +56,5 @@ public class ViewAllVdoActivity extends AppCompatActivity  {
 
 
 
-    @Override
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }

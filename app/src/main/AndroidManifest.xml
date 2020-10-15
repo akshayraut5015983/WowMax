@@ -13,9 +13,9 @@
         android:name=".AppController"
         android:allowBackup="true"
         android:debuggable="true"
-        android:icon="@drawable/logo_launcher"
+        android:icon="@drawable/logo_wow"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo_launcher"
+        android:roundIcon="@drawable/logo_wow"
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme"
@@ -67,7 +67,10 @@
             android:screenOrientation="landscape" />
         <activity android:name=".activity.ViewAllVdoActivity" />
         <activity android:name=".activity.VdoDetailsActivity" />
-        <activity android:name=".activity.SearchActivity" />
+        <activity
+            android:name=".activity.SearchActivity"
+           />
+
         <activity
             android:name=".activity.VdoPlayActivity"
             android:screenOrientation="landscape" />

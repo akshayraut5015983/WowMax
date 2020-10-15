@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/swh"
+    android:background="@color/swwh"
     android:orientation="vertical">
 
-    <ScrollView
+    <ScrollView android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -24,9 +24,10 @@
 
                 <com.daimajia.slider.library.SliderLayout
                     android:id="@+id/sliderLayout"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:background="@color/swhh" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
 
                 <ViewFlipper
                     android:layout_width="match_parent"
@@ -74,27 +75,242 @@
                 android:background="@color/greay" />
 
 
-            <!-- <RelativeLayout android:id="@+id/rel"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
 
-                 <com.google.android.gms.ads.AdView
-                     android:id="@+id/ad_view"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:layout_alignParentBottom="true"
-                     android:layout_centerHorizontal="true"
-                     app:adSize="BANNER"
-                     app:adUnitId="@string/banner_ad_unit_id" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
 
-                 <TextView android:id="@+id/tvBan"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_alignParentRight="true"
-                     android:background="#90000000"
-                     android:drawableLeft="@drawable/ic_clear_black_24dp"
-                     android:padding="2dp" />
-             </RelativeLayout>-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/untitled"
+                            app:civ_border_color="@color/red"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Hindi"
+                            android:textColor="@color/gold"
+                            android:textSize="12dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/untitled"
+                            app:civ_border_color="@color/red"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Marathi"
+                            android:textColor="@color/gold"
+                            android:textSize="12dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/untitled"
+                            app:civ_border_color="@color/red"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Songs"
+                            android:textColor="@color/gold"
+                            android:textSize="12dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/untitled"
+                            app:civ_border_color="@color/red"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Web Series"
+                            android:textColor="@color/gold"
+                            android:textSize="12dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/untitled"
+                            app:civ_border_color="@color/red"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Romantic"
+                            android:textColor="@color/gold"
+                            android:textSize="12dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/untitled"
+                            app:civ_border_color="@color/red"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Action and Drama"
+                            android:textColor="@color/gold"
+                            android:textSize="12dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/untitled"
+                            app:civ_border_color="@color/red"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Horror"
+                            android:textColor="@color/gold"
+                            android:textSize="12dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/untitled"
+                            app:civ_border_color="@color/red"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Crime"
+                            android:textColor="@color/gold"
+                            android:textSize="12dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:src="@drawable/untitled"
+                            app:civ_border_color="@color/red"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Adult"
+                            android:textColor="@color/gold"
+                            android:textSize="12dp"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </HorizontalScrollView>
 
 
             <LinearLayout
@@ -132,55 +348,260 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:id="@+id/ll"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_logo" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ban"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ban" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ba"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ban"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -232,57 +653,260 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ban" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ba"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_logo" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ban" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_bann"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img__"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
-
-
                 </HorizontalScrollView>
             </LinearLayout>
 
@@ -327,54 +951,259 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_logo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_logo" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ban"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ba"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ban"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -420,54 +1249,259 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/bannn" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img__"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/bannn" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img__" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ba"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_bann"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -513,54 +1547,259 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img__" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_bann" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ban" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/ban" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_logo" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_bann"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_logo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ba"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -606,54 +1845,259 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/bann" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ban" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_logo" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img__" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_bann"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_logo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ba"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_logo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -699,54 +2143,259 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img__" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_bann" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ban" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img__"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img__"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ban"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -792,54 +2441,259 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_logo" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ba"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ban" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_bann"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ban"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_logo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -885,54 +2739,259 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_logo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_bann" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ban" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_logo" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ban"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_logo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -978,54 +3037,259 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_logo" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ban" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/mov" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_bann" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ban"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_bann"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ban"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>
@@ -1071,54 +3335,259 @@
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="150dp">
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ban" />
+                            android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_bann" />
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_clo" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="3dp"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
-                            android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_logo" />
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
 
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="match_parent"
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_margin="2dp"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/img_ba" />
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_logo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_ban"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_bann"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
+                            android:orientation="vertical">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:layout_width="110dp"
+                                android:layout_height="140dp"
+                                android:layout_margin="2dp"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/img_clo"
+                                app:riv_border_color="@color/red"
+                                app:riv_border_width="2dp"
+                                app:riv_corner_radius="10dp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:text="Name of Movie"
+                                    android:textColor="@color/white" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="left"
+                                    android:padding="3dp"
+                                    android:text="Category"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="3dp"
+                                    android:gravity="left"
+                                    android:text="HD 720P"
+                                    android:textColor="@color/red"
+                                    android:textSize="8dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                     </LinearLayout>
                 </HorizontalScrollView>
             </LinearLayout>

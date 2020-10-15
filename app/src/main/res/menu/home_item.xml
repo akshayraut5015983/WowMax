@@ -44,7 +44,30 @@
                     android:id="@+id/nav_terms"
                     android:icon="@drawable/ic_warning_black_24dp"
                     android:title="Terms and Condition" />
-             
+                <item
+                    android:id="@+id/nav_privacy"
+                    android:icon="@drawable/ic_perm_identity_black_24dp"
+                    android:title="Privacy Statement" />
+                <item
+                    android:id="@+id/nav_legel"
+                    android:icon="@drawable/ic_perm_identity_black_24dp"
+                    android:title="Legal Notice" />
+                <item
+                    android:id="@+id/nav_about"
+                    android:icon="@drawable/ic_perm_identity_black_24dp"
+                    android:title="About Us" />
+                <item
+                android:id="@+id/nav_guide"
+                android:icon="@drawable/ic_perm_identity_black_24dp"
+                android:title="Project Guide" />
+                <item
+                    android:id="@+id/nav_faq"
+                    android:icon="@drawable/ic_perm_identity_black_24dp"
+                    android:title="FAQ" />
+                <item
+                    android:id="@+id/nav_customer"
+                    android:icon="@drawable/ic_perm_identity_black_24dp"
+                    android:title="Customer Service" />
             </menu>
         </item>
     </group>
@@ -56,6 +79,7 @@
             android:id="@+id/c"
             android:title="My Account">
             <menu>
+
                 <item
                     android:id="@+id/nav_my_profile"
                     android:icon="@drawable/ic_perm_identity_black_24dp"

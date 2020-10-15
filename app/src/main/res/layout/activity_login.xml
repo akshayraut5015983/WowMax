@@ -48,7 +48,7 @@
                             android:layout_centerHorizontal="true"
                             android:layout_gravity="center"
                             android:scaleType="fitXY"
-                            android:src="@drawable/logo_blank" />
+                            android:src="@drawable/blank" />
 
                         <TextView
                             android:layout_width="match_parent"

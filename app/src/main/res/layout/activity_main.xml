@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer"
     android:layout_width="match_parent"
-    android:background="@color/swh"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity">
 
@@ -16,7 +15,7 @@
             android:id="@+id/appp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/swh">
+            android:background="@color/swwh">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toool"
@@ -28,14 +27,28 @@
                     android:layout_height="match_parent"
                     android:gravity="center">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/app_name"
-                        android:textColor="@color/white"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="38dp"
+                            android:layout_marginRight="5dp"
+                            android:src="@drawable/blank" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:gravity="center_vertical"
+                            android:text="@string/app_name"
+                            android:textColor="@color/gold"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -60,13 +73,36 @@
             android:orientation="vertical">
 
             <include
-                android:id="@+id/layoutMain"
-                layout="@layout/layout_main" />
+                layout="@layout/layout_main"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/layoutInternet"
-                layout="@layout/layout_no_internate" />
+                layout="@layout/layout_no_internate"
+                android:visibility="gone" />
 
+            <RelativeLayout
+                android:id="@+id/layoutMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorPrimary"
+                    android:elevation="6dp"
+                    android:minHeight="?attr/actionBarSize"
+                    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:tabSelectedTextColor="@color/gold" />
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@id/tab_layout" />
+
+            </RelativeLayout>
         </RelativeLayout>
 
     </RelativeLayout>
@@ -76,11 +112,15 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/swhh"
+        android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
-        app:menu="@menu/home_item" />
+      >
+
+        <include layout="@layout/layout_navigation" />
+
+    </com.google.android.material.navigation.NavigationView>
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

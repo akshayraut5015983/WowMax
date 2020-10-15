@@ -53,7 +53,7 @@
                         android:layout_height="150dp"
                         android:layout_gravity="center"
                         android:scaleType="fitXY"
-                        android:src="@drawable/logo_blank" />
+                        android:src="@drawable/blank" />
 
                     <RelativeLayout
                         android:id="@+id/loo"
