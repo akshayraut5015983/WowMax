@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/swwh"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/edName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/wh"
+            android:drawableLeft="@drawable/ic_perm_identity_black_24dp"
+            android:hint="Enter name"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/wh" />
+
+        <EditText
+            android:id="@+id/edEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/wh"
+            android:drawableLeft="@drawable/ic_email_black_24dp"
+            android:hint="Enter email"
+            android:inputType="textEmailAddress"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/wh" />
+
+        <EditText
+            android:id="@+id/edMob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/wh"
+            android:drawableLeft="@drawable/ic_phone_android_black_24dp"
+            android:hint="Enter mobile"
+            android:inputType="number"
+            android:maxLength="10"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/wh" />
+
+        <EditText
+            android:id="@+id/edPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/wh"
+            android:drawableLeft="@drawable/ic_lock_open_black_24dp"
+            android:hint="Enter password"
+            android:inputType="textPassword"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/wh" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/btn_squre"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+</LinearLayout>

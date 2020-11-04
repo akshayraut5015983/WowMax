@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/back_blue"
     android:layout_height="match_parent"
-    android:background="@drawable/img_back"
     tools:context=".activity.SplashActivity">
+
 
 
     <ImageView
@@ -15,33 +16,13 @@
         android:layout_centerInParent="true"
         android:src="@drawable/blank" />
 
-    <VideoView
-        android:id="@+id/vv"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+    <ProgressBar
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentBottom="true"
-        android:visibility="gone" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
 
-    <RelativeLayout
-        android:id="@+id/loo"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/eimg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_launcher_background" />
-
-        <ImageView
-            android:id="@+id/mimg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_launcher_background" />
-    </RelativeLayout>
 
 </RelativeLayout>

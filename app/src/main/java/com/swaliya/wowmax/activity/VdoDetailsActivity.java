@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
@@ -26,6 +27,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.squareup.picasso.Picasso;
+import com.swaliya.wowmax.BuildConfig;
 import com.swaliya.wowmax.R;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
@@ -39,7 +42,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
     ImageView imgPlay, imgFull, imgSetting;
     private InterstitialAd mInterstitialAd;
     // private static final String VIDEO_SAMPLE = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4";
-// http://swaliyasoftech.com/img/video/swaliyaintro.mp4
+    // http://swaliyasoftech.com/img/video/swaliyaintro.mp4
     private static String VIDEO_SAMPLE = "http://swaliyasoftech.com/img/video/swaliyaintro.mp4";
 
     //  private static final String VIDEO_SAMPLE = "https://developers.google.com/training/images/tacoma_narrows.mp4";
@@ -53,8 +56,8 @@ public class VdoDetailsActivity extends AppCompatActivity {
     private static final String PLAYBACK_TIME = "play_time";
     public MediaController controller;
     private ImageView imgPreview;
-    String strName = "", strCat = "", strQul = "", strRel = "", strDur = "", strDesp = "", strurl = "";
-    int imgCode = 0;
+    String strName = "", strCat = "", strQul = "", strRel = "", strDur = "", strDesp = "", strurl = "",imgCode = "";
+
     TextView tvName, tvCat, tvqul, tvRel, tvDur, tvDesp;
 
     @Override
@@ -114,9 +117,9 @@ public class VdoDetailsActivity extends AppCompatActivity {
             strQul = i.getString("qlt");
             strDur = i.getString("dur");
             strDesp = i.getString("desp");
-            imgCode = i.getInt("img");
+            imgCode = i.getString("img");
 
-            imgPreview.setImageResource(imgCode);
+            //  imgPreview.setImageResource(imgCode);
             tvName.setText("Name- " + strName);
             tvCat.setText("Category- " + strCat);
             tvqul.setText("Quality -" + strQul);
@@ -125,7 +128,15 @@ public class VdoDetailsActivity extends AppCompatActivity {
             tvDesp.setText("Description- " + strDesp);
             VIDEO_SAMPLE = strurl;
         }
+        String imgUrl = Config.URL + imgCode;
+        Log.d("TAG", "onCreate: " + strurl);
+        Log.d("TAG", "onCreate img: " + imgUrl);
 
+        Picasso.with(this)
+                .load(imgUrl)
+                .placeholder(R.drawable.black_wowmax_lan)
+                .error(R.drawable.black_wowmax_lan)
+                .into(imgPreview);
 
         if (savedInstanceState != null) {
             mCurrentPosition = savedInstanceState.getInt(PLAYBACK_TIME);
@@ -134,7 +145,14 @@ public class VdoDetailsActivity extends AppCompatActivity {
 
         controller = new MediaController(this);
 
-
+        findViewById(R.id.tvTriler).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast toast = Toast.makeText(VdoDetailsActivity.this, "Coming Soon", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
         findViewById(R.id.imgShare).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,7 +167,20 @@ public class VdoDetailsActivity extends AppCompatActivity {
                         Log.d("TAG", "The interstitial wasn't loaded yet.");
                         mInterstitialAd.loadAd(new AdRequest.Builder().build());
                     }
-                    Toast.makeText(VdoDetailsActivity.this, "Share Some Details", Toast.LENGTH_SHORT).show();
+                    try {
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Vidmax");
+                        String shareMessage = "\nLet me recommend you this application\n\n";
+
+                        shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                        startActivity(Intent.createChooser(shareIntent, "choose one"));
+                    } catch (Exception e) {
+                        Log.d("TAg", "onNavigationItemSelected: ");
+                    }
+                    //  Toast.makeText(VdoDetailsActivity.this, "Share Some Details", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(VdoDetailsActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
                 }
@@ -171,7 +202,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
                 ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo nf = cn.getActiveNetworkInfo();
                 if (nf != null && nf.isConnected() == true) {
-                    if (mInterstitialAd.isLoaded()) {
+                    /*if (mInterstitialAd.isLoaded()) {
                         mInterstitialAd.show();
                     } else {
                         Log.d("TAG", "The interstitial wasn't loaded yet.");
@@ -186,7 +217,12 @@ public class VdoDetailsActivity extends AppCompatActivity {
                     mVideoView.setMediaController(controller);
                     initializePlayer();
                     //  Toast.makeText(VdoDetailsActivity.this, "Playing vdo", Toast.LENGTH_SHORT).show();
-                    imgPlay.setVisibility(View.GONE);
+                    imgPlay.setVisibility(View.GONE);*/
+
+                    Log.d("TAG", "onClick: " + VIDEO_SAMPLE);
+                    startActivity(new Intent(getApplicationContext(), VideoActivity.class).putExtra("key", VIDEO_SAMPLE));
+
+
                 } else {
                     Toast.makeText(VdoDetailsActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
                 }

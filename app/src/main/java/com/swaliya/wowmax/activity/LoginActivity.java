@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,32 +49,16 @@ import com.swaliya.wowmax.R;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
 
-public class LoginActivity extends AppCompatActivity /*implements GoogleApiClient.OnConnectionFailedListener*/ {
+public class LoginActivity extends AppCompatActivity {
 
-   /* private static final String TAG = "MainActivity";
-    private SignInButton signInButton;
-    private GoogleApiClient googleApiClient;
-    private static final int RC_SIGN_IN = 1;
-    String name, email;
-    String idToken;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;*/
 
-    private static final int RC_SIGN_IN = 234;
-    //Tag for the logs optional
     private static final String TAG = "coding";
-
-    //creating a GoogleSignInClient object
-    GoogleSignInClient mGoogleSignInClient;
-
-    //And also a Firebase Auth object
-    FirebaseAuth mAuth;
 
     EditText edMobile, edPass;
     String strMob = "", strPass = "";
-    ImageView mImg, eImg;
     SessionManager sessionManager;
     private ProgressDialog pDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +67,9 @@ public class LoginActivity extends AppCompatActivity /*implements GoogleApiClien
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         edMobile = findViewById(R.id.edMob);
-        eImg = findViewById(R.id.eimg);
-        mImg = findViewById(R.id.mimg);
+
         sessionManager = new SessionManager(getApplicationContext());
         edPass = findViewById(R.id.edPass);
-        eImg = findViewById(R.id.eimg);
-        mImg = findViewById(R.id.mimg);
 
 
         findViewById(R.id.btnRegister).setOnClickListener(new View.OnClickListener() {
@@ -137,27 +121,6 @@ public class LoginActivity extends AppCompatActivity /*implements GoogleApiClien
             }
         });
 
-        mAuth = FirebaseAuth.getInstance();
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        //Then we will get the GoogleSignInClient object from GoogleSignIn class
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        //Now we will attach a click listener to the sign_in_button
-        //and inside onClick() method we are calling the signIn() method that will open
-        //google sign in intent
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn();
-                //Then we need a GoogleSignInOptions object
-                //And we need to build it as below
-            }
-        });
     }
 
     private void forForgotPassword() {
@@ -167,22 +130,52 @@ public class LoginActivity extends AppCompatActivity /*implements GoogleApiClien
         final EditText edNumber = (EditText) dialog.findViewById(R.id.edMob);
 
         Button dialogButton = (Button) dialog.findViewById(R.id.btnSubmit);
+
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String strNo = edNumber.getText().toString();
                 if (strNo.equals("")) {
-                    Toast toast = Toast.makeText(LoginActivity.this, "Enter Name", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(LoginActivity.this, "Enter Valid Details", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else if (strNo.length() != 10) {
+                    Toast toast = Toast.makeText(LoginActivity.this, "Enter Valid Details", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else {
                     overridePendingTransition(R.anim.hold, R.anim.slide_down);
+                    sendForgotMsg(strNo);
                     dialog.dismiss();
                 }
             }
         });
 
         dialog.show();
+    }
+
+    private void sendForgotMsg(String strNo) {
+        String url = Config.URL + "API/APIURL.aspx?msg=Forgotpass%20" + strNo;
+        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.contains("successful")) {
+                    Toast.makeText(LoginActivity.this, "Password will be send to Your Mobile Number", Toast.LENGTH_LONG).show();
+
+                } else if (response.contains("Not Available")) {
+                    Toast.makeText(LoginActivity.this, "Your Mobile Not Registered ", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Error In Network", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(LoginActivity.this, "Error in sending message.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
     private void doLogin(String strMob, String strPass) {
@@ -215,8 +208,7 @@ public class LoginActivity extends AppCompatActivity /*implements GoogleApiClien
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("key", "reg");
                     startActivity(intent);
-                    //  startActivity(new Intent(getApplicationContext(), MainActivity.class).putExtra("key", "reg"));
-                    sessionManager.createLoginSession("name", strMob, strPass);
+                    sessionManager.createLoginSession("name", " ", strMob, strPass);
                     edMobile.setText("");
                     edPass.setText("");
                     pDialog.dismiss();
@@ -263,68 +255,6 @@ public class LoginActivity extends AppCompatActivity /*implements GoogleApiClien
             finish();
         }*/
 
-    }
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //if the requestCode is the Google Sign In code that we defined at starting
-        if (requestCode == RC_SIGN_IN) {
-
-            //Getting the GoogleSignIn Task
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                //Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-
-                //authenticating with firebase
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
-        //getting the auth credential
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-
-        //Now using firebase we are signing in the user here
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            sessionManager.createLoginSession(user.getDisplayName(), user.getPhoneNumber(), user.getEmail());
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("key", "mail"));
-                            Toast.makeText(LoginActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-
-                        // ...
-                    }
-                });
-    }
-
-
-    //this method is called on click
-    private void signIn() {
-        //getting the google signin intent
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-
-        //starting the activity for result
-        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
 

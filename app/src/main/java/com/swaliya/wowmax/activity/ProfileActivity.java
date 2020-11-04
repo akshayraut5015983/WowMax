@@ -48,7 +48,7 @@ public class ProfileActivity extends AppCompatActivity/* implements GoogleApiCli
     FirebaseAuth mAuth;
     SessionManager sessionManager;
     SharedPreferences pref;
-    String loginid = "", mobilenumber = "", passwords = "";
+    String loginid = "", mobilenumber = "", email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +73,8 @@ public class ProfileActivity extends AppCompatActivity/* implements GoogleApiCli
         if (pref.contains(Config.KEY_MOBILE)) {
             mobilenumber = pref.getString(Config.KEY_MOBILE, "");
         }
-        if (pref.contains(Config.KEY_PASSWORD)) {
-            passwords = pref.getString(Config.KEY_PASSWORD, "");
+        if (pref.contains(Config.KEY_EMAIl)) {
+            email = pref.getString(Config.KEY_EMAIl, "");
         }
 
         findViewById(R.id.btnChange).setOnClickListener(new View.OnClickListener() {
@@ -175,9 +175,10 @@ public class ProfileActivity extends AppCompatActivity/* implements GoogleApiCli
         } else {
 
             textName.setText("Name-  " + loginid);
-            textEmail.setText("Email-  " + mobilenumber);
-            textMobile.setText("Mobile-  " + passwords);
+            textEmail.setText("Email-  " + email);
+            textMobile.setText("Mobile-  " + mobilenumber);
         }
+
        /* imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,6 +187,7 @@ public class ProfileActivity extends AppCompatActivity/* implements GoogleApiCli
             }
 
         });*/
+
         findViewById(R.id.btnProf).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,15 +237,15 @@ public class ProfileActivity extends AppCompatActivity/* implements GoogleApiCli
                     Toast toast = Toast.makeText(ProfileActivity.this, "Enter old Password", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
-                } else  if (strNewPas.equals("")) {
+                } else if (strNewPas.equals("")) {
                     Toast toast = Toast.makeText(ProfileActivity.this, "Enter old New Password", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
-                }else  if (strConPass.equals("")) {
+                } else if (strConPass.equals("")) {
                     Toast toast = Toast.makeText(ProfileActivity.this, "Confirm Password", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
-                }else if (!strNewPas.equals(strConPass)) {
+                } else if (!strNewPas.equals(strConPass)) {
                     edNew.setText("");
                     edConPass.setText("");
                     Toast toast = Toast.makeText(ProfileActivity.this, "Password Not Match", Toast.LENGTH_SHORT);

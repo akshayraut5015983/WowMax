@@ -2,6 +2,7 @@ package com.swaliya.wowmax.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -14,31 +15,52 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.source.dash.DashMediaSource;
+import com.google.android.exoplayer2.source.hls.HlsMediaSource;
+import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.swaliya.wowmax.R;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
 
 import java.util.ArrayList;
 
-public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
+public class VideoActivity extends AppCompatActivity {
     SessionManager session;
     SharedPreferences pref;
     String loginid = "", mobilenumber = "", passwords = "";
-    String item = "", itemFi = "";
+    SimpleExoPlayer player;
+    String strLastUrl = "";
 
-    VideoView vw;
-    ArrayList<Integer> videolist = new ArrayList<>();
-    int currvideo = 0;
+    // private PlayerView playerView;
+    private SimpleExoPlayerView playerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
         //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ActionBar actionBar=getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
         session = new SessionManager(this);
-
         session = new SessionManager(getApplicationContext());
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
         if (pref.contains(Config.KEY_NAME)) {
@@ -50,70 +72,67 @@ public class VideoActivity extends AppCompatActivity implements MediaPlayer.OnCo
         if (pref.contains(Config.KEY_PASSWORD)) {
             passwords = pref.getString(Config.KEY_PASSWORD, "");
         }
-        /*VideoView videoview = (VideoView) findViewById(R.id.vid);
-
-        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.demo_video);
-
-        videoview.setVideoURI(uri);
-        videoview.start();*/
-
-
-        vw = (VideoView) findViewById(R.id.vid);
-
-        vw.setMediaController(new MediaController(this));
-        vw.setOnCompletionListener(this);
-
-        // video name should be in lower case alphabet.
-       // videolist.add(R.raw.tuza);
-      /*  videolist.add(R.raw.faded);
-        videolist.add(R.raw.aeroplane);*/
-        setVideo(videolist.get(0));
-    }
-
-    public void setVideo(int id) {
-        String uriPath
-                = "android.resource://"
-                + getPackageName() + "/" + id;
-        Uri uri = Uri.parse(uriPath);
-        vw.setVideoURI(uri);
-        vw.start();
-    }
-
-    public void onCompletion(MediaPlayer mediapalyer) {
-        AlertDialog.Builder obj = new AlertDialog.Builder(VideoActivity.this);
-        obj.setTitle("Playback Finished!");
-        obj.setIcon(R.mipmap.ic_launcher);
-        MyListener m = new MyListener();
-        obj.setPositiveButton("Replay", m);
-        obj.setNegativeButton("Next", m);
-        obj.setMessage("Want to replay or play next video?");
-        obj.show();
-    }
-
-    class MyListener implements DialogInterface.OnClickListener {
-        public void onClick(DialogInterface dialog, int which) {
-            if (which == -1) {
-                vw.seekTo(0);
-                vw.start();
-            } else {
-                ++currvideo;
-                if (currvideo == videolist.size())
-                    currvideo = 0;
-                setVideo(videolist.get(currvideo));
-            }
+        Bundle str = getIntent().getExtras();
+        if (str != null) {
+            strLastUrl = str.getString("key");
         }
-    }
+        playerView = findViewById(R.id.exoplayer);
 
+    }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        initializePlayer();
+        // initializePlaaayer();
+    }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+    @Override
+    protected void onStop() {
+        super.onStop();
+        playerView.setPlayer(null);
+        player.release();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        player.seekTo(player.getContentPosition());
+    }
+    //http://www.wowmaxmovies.com/video/angrezimedium.mkv
+
+    private void initializePlayer() {
+        final String strUrl = strLastUrl;
+        player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
+        playerView.setPlayer(player);
+
+        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(
+                this,
+                Util.getUserAgent(this, getString(R.string.app_name)));
+        ProgressiveMediaSource mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(Uri.parse(strUrl));
+
+        player.prepare(mediaSource);
+        player.setPlayWhenReady(true);
+    }
+
+    private void initializePlaaayer() {
+        if (player == null) {
+            player = new SimpleExoPlayer.Builder(this).build();
+            playerView.setPlayer(player);
+            Uri uri = Uri.parse(String.valueOf(strLastUrl));
+
+
+            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "Application Name"));
+
+            MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(String.valueOf("http://www.wowmaxmovies.com/video/angrezimedium.mkv")));
+
+            player.setPlayWhenReady(true);
+            player.prepare(mediaSource, false, false);
         }
     }
+
+
 }
+

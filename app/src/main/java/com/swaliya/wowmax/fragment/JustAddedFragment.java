@@ -1,146 +1,172 @@
 package com.swaliya.wowmax.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.swaliya.wowmax.R;
 import com.swaliya.wowmax.activity.MainActivity;
-import com.swaliya.wowmax.adapter.HindiAdapter;
-import com.swaliya.wowmax.helper.ApiClient;
-import com.swaliya.wowmax.helper.ApiInterface;
-import com.swaliya.wowmax.model.Movie;
+import com.swaliya.wowmax.activity.MySubscriptionActivity;
+import com.swaliya.wowmax.activity.VdoDetailsActivity;
+import com.swaliya.wowmax.adapter.MovieListAdapter;
+import com.swaliya.wowmax.configg.Config;
+import com.swaliya.wowmax.model.MainMovieListModel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
 
 public class JustAddedFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     private AdView mAdView, adView;
     private SliderLayout sliderLayout;
     private HashMap<String, Integer> sliderImages;
 
-    List<Movie> movieList;
-    HindiAdapter recyclerAdapter;
+    List<MainMovieListModel> movieList;
+    MovieListAdapter recyclerAdapter;
     ProgressDialog loading;
     RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_just_add, viewGroup, false);
+        View v = inflater.inflate(R.layout.layout_mainjust, viewGroup, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler);
-        getResponce();
+
         forAdverties(v);
-        forSlider(v);
 
-        /*listSuperHeroes = new ArrayList<>();
+        //   forSlider(v);
+
+        movieList = new ArrayList<>();
         recyclerView = v.findViewById(R.id.recycler);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+
         loading = ProgressDialog.show(getContext(), "Loading Data", "Please Wait...", false, false);
-        getData();
-        loading.dismiss();
-        adapter = new HindiAdapter(listSuperHeroes, getContext());
 
-        Log.d("tag", String.valueOf(adapter.getItemCount()));
-        recyclerView.setAdapter(adapter);*/
+        ConnectivityManager cn = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo nf = cn.getActiveNetworkInfo();
 
+        if (nf != null && nf.isConnected() == true) {
 
-       /* v.findViewById(R.id.layCircle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Coming Soon...!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        v.findViewById(R.id.main).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-             *//*   startActivity(new Intent(getContext(), ViewAllVdoActivity.class));
-                getActivity().overridePendingTransition(R.anim.enter, R.anim.hold);*//*
-            }
-        });
+            getResponce();
 
-        v.findViewById(R.id.ll).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), VdoDetailsActivity.class));
-                getActivity().overridePendingTransition(R.anim.slide_up, R.anim.hold);
-            }
-        });*/
+        } else {
+
+            Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_SHORT).show();
+
+        }
 
 
         return v;
 
     }
 
+
     private void getResponce() {
 
-        loading = ProgressDialog.show(getContext(), "Loading Data", "Please Wait...", false, false);
-        loading.dismiss();
-        movieList = new ArrayList<>();
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerAdapter = new HindiAdapter(movieList, getActivity());
-        recyclerView.setAdapter(recyclerAdapter);
-
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<List<Movie>> call = apiService.getMovies();
-        call.enqueue(new Callback<List<Movie>>() {
+        String url = Config.URL + "api/apiurl.aspx?msg=GetMovieDetails";
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
-            public void onResponse(Call<List<Movie>> call, retrofit2.Response<List<Movie>> response) {
-                loading.dismiss();
-                movieList = response.body();
-                Log.d("TAG", "Response = " + movieList);
-                recyclerAdapter.setMovieList(movieList);
+            public void onResponse(JSONArray response) {
+                parseData(response);
+                Log.d("TAG", "onResponse: " + response);
+
             }
-
+        }, new Response.ErrorListener() {
             @Override
-            public void onFailure(Call<List<Movie>> call, Throwable t) {
+            public void onErrorResponse(VolleyError error) {
                 loading.dismiss();
-                Log.d("TAG", "Response = " + t.toString());
+                Toast.makeText(getContext(), "Poor Internet Connection", Toast.LENGTH_LONG).show();
+                Log.d("TAG", "onErrorResponse: " + error.getLocalizedMessage());
             }
         });
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(jsonArrayRequest);
+
+    }
+
+    private void parseData(JSONArray response) {
+
+        for (int i = 0; i < response.length(); i++) {
+            MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+            try {
+
+                JSONObject jsonObject = response.getJSONObject(i);
+
+                mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
+                mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
+                mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
+                mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
+                mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
+                mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
+                mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
+                mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
+                mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
+                mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+                Log.d("list", "parseData: " + jsonObject.getString("MovieTitle"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            movieList.add(mAinMoviListModel);
+        }
+
+
+        loading.dismiss();
+        Collections.reverse(movieList);
+        recyclerAdapter = new MovieListAdapter(movieList, getContext());
+        Log.d("tag", String.valueOf(recyclerAdapter.getItemCount()));
+        recyclerView.setAdapter(recyclerAdapter);
 
     }
 
     private void forAdverties(View v) {
 
-
         MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
+
             }
         });
+        PublisherAdView mPublisherAdView = v.findViewById(R.id.adView);
+        PublisherAdRequest adRequest = new PublisherAdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
 
-        mAdView = v.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        PublisherAdView mPublisherAdVieww = v.findViewById(R.id.adVieww);
+        PublisherAdRequest adRequestt = new PublisherAdRequest.Builder().build();
+        mPublisherAdVieww.loadAd(adRequestt);
 
-        adView = v.findViewById(R.id.adVieww);
-        AdRequest adRequestt = new AdRequest.Builder().build();
-        adView.loadAd(adRequestt);
+
     }
 
     private void forSlider(View v) {
@@ -148,7 +174,7 @@ public class JustAddedFragment extends Fragment implements BaseSliderView.OnSlid
         sliderImages = new HashMap<>();
         sliderImages.put("Nawabzade", R.drawable.nawabazadep);
         sliderImages.put("Manmarziyaa", R.drawable.manmarziyaanp);
-        sliderImages.put("Fry day", R.drawable.frydayp);
+
 
         for (String name : sliderImages.keySet()) {
 

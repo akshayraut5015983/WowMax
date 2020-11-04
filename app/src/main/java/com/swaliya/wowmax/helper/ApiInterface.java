@@ -1,6 +1,6 @@
 package com.swaliya.wowmax.helper;
 
-import com.swaliya.wowmax.model.Movie;
+import com.swaliya.wowmax.model.MainMovieListModel;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface ApiInterface {
-
-    @GET("volley_array.json")
-    Call<List<Movie>> getMovies();
+    // volley_array.json    for testing
+    @GET("api/apiurl.aspx?msg=GetMovieDetails")
+    Call<List<MainMovieListModel>> getMovies();
 }

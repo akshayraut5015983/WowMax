@@ -1,6 +1,7 @@
 package com.swaliya.wowmax.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -70,7 +71,9 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 strSearch = edSearch.getText().toString().trim();
                 edSearch.setText("");
-                Toast.makeText(SearchActivity.this, "Searching on " + strSearch, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(SearchActivity.this, "Searching on " + strSearch, Toast.LENGTH_SHORT).show();
+
+                //   startActivity(new Intent(getApplicationContext(), VideoActivity.class).putExtra("key", strSearch));
             }
         });
 
@@ -144,7 +147,6 @@ public class SearchActivity extends AppCompatActivity {
 
 
     }
-
 
 
 }

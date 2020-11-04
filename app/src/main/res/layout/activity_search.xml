@@ -111,7 +111,6 @@
             android:orientation="vertical">
 
             <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-                android:id="@+id/exo_player_view"
                 android:layout_width="match_parent"
                 android:layout_height="250dp">
 
@@ -123,7 +122,6 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/btn_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_baseline_settings_24" />

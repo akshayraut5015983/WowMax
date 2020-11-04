@@ -6,6 +6,7 @@ public class Config {
     // http://Annapurnaagro.in/
     public static final String PREF_NAME = "ethiqs";
     public static final String KEY_NAME = "name";
+    public static final String KEY_EMAIl = "email";
     public static final String KEY_MOBILE = "mobile";
     public static final String KEY_PASSWORD = "password";
 

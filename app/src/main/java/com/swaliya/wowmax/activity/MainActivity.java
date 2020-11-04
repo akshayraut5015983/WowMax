@@ -1,6 +1,5 @@
 package com.swaliya.wowmax.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -13,13 +12,10 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,10 +26,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -42,19 +34,16 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -64,27 +53,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.swaliya.wowmax.BuildConfig;
 import com.swaliya.wowmax.R;
-import com.swaliya.wowmax.adapter.HindiAdapter;
+import com.swaliya.wowmax.adapter.MovieListAdapter;
 import com.swaliya.wowmax.adapter.TabsAdapter;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
-import com.swaliya.wowmax.helper.ApiClient;
-import com.swaliya.wowmax.helper.ApiInterface;
 import com.swaliya.wowmax.model.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 
-
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RewardedVideoAdListener, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener/*, RewardedVideoAdListener*/, BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     NavigationView navigationView;
     DrawerLayout drawerLayout;
 
@@ -92,23 +74,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String strName = "", strMob = "", strEmail = "";
 
     SharedPreferences pref;
-    String loginid = "", mobilenumber = "", passwords = "";
+    String loginid = "", logemail = "", mobilenumber = "", passwords = "";
     FirebaseAuth mAuth;
     boolean isFromMail = true;
     FirebaseUser user;
 
-    private AdView mAdView, adView;
+
     private InterstitialAd mInterstitialAd;
     RewardedVideoAd mAd;
 
     private List<Movie> listSuperHeroes;
-    private HindiAdapter adapter;
+    private MovieListAdapter adapter;
     ProgressDialog loading;
     RecyclerView recyclerView;
     List<Movie> movieList;
-    HindiAdapter recyclerAdapter;
-    SliderLayout sliderLayout;
-    HashMap<String, Integer> sliderImages;
+    MovieListAdapter recyclerAdapter;
+
     View layoutMAin, layoutInternet;
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -120,8 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+
         drawerLayout = findViewById(R.id.drawer);
         Toolbar toolbar = findViewById(R.id.toool);
         layoutMAin = findViewById(R.id.layoutMain);
@@ -130,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         toggle.syncState();
 
         toolbar.inflateMenu(R.menu.home_menu);
@@ -137,8 +119,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.one) {
-                    startActivity(new Intent(getApplicationContext(), SearchActivity.class));
-                    overridePendingTransition(R.anim.enter, R.anim.hold);
+//                    startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+//                    overridePendingTransition(R.anim.enter, R.anim.hold);
                 } else if (item.getItemId() == R.id.two) {
                     Toast.makeText(MainActivity.this, "Two", Toast.LENGTH_SHORT).show();
                 } else {
@@ -156,6 +138,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
         if (pref.contains(Config.KEY_NAME)) {
             loginid = pref.getString(Config.KEY_NAME, "");
+        }
+        if (pref.contains(Config.KEY_EMAIl)) {
+            logemail = pref.getString(Config.KEY_EMAIl, "");
         }
         if (pref.contains(Config.KEY_MOBILE)) {
             mobilenumber = pref.getString(Config.KEY_MOBILE, "");
@@ -179,17 +164,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
+
         //  navigationView.getMenu().getItem(1).setIcon(R.drawable.ic_wrap_text_black_24dp);
+        //    forAdvertise();
 
-
-        // forAdvertise();
         forNotification();
         //  forSlider();
 
 
         navigationView.setNavigationItemSelectedListener(this);
         TextView tvId = navigationView.findViewById(R.id.tvUserId);
-        tvId.setText( mobilenumber);
+        tvId.setText(mobilenumber);
        /* listSuperHeroes = new ArrayList<>();
         recyclerView = findViewById(R.id.recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -208,26 +193,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
 
-        transaction.commit();
+    private void getData(String url) {
+        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                if (response.contains("Data Exists")) {
+                    Toast.makeText(MainActivity.this, "Data  already exist", Toast.LENGTH_LONG).show();
+
+                } else if (response.contains("successfully")) {
+                    Toast.makeText(MainActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                    intent.putExtra("key", "reg");
+                    startActivity(intent);
+                    sessionManager.createLoginSession(strName, strEmail, strMob, "strPass");
+                    finish();
+                } else {
+                    Toast.makeText(MainActivity.this, "Something wrong in network  ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(MainActivity.this, error.getMessage() + "", Toast.LENGTH_SHORT).show();
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
     }
+
 
     private void forNavigationClick() {
         findViewById(R.id.nav_home).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
-
-                if (mInterstitialAd.isLoaded()) {
+                recreate();
+               /* if (mInterstitialAd.isLoaded()) {
                     mInterstitialAd.show();
                 } else {
                     Log.d("TAG", "The interstitial wasn't loaded yet.");
                     mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                }
+                }*/
             }
         });
         findViewById(R.id.nav_subscription).setOnClickListener(new View.OnClickListener() {
@@ -240,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Intent i = new Intent(getApplicationContext(), MySubscriptionActivity.class);
                     startActivity(i);
                     overridePendingTransition(R.anim.enter, R.anim.hold);
-                    loadRewardedVideoAd();
+                    //  loadRewardedVideoAd();
                 } else {
                     Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
                 }
@@ -400,8 +409,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.addTab(tabLayout.newTab().setText("Short Movie"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+
         TabsAdapter tabsAdapter = new TabsAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(tabsAdapter);
+
+        // viewPager.setCurrentItem(1);
+
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -420,13 +433,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
     }
 
 
     private void forAdvertise() {
 
         mAd = MobileAds.getRewardedVideoAdInstance(this);
-        mAd.setRewardedVideoAdListener(this);
+        //  mAd.setRewardedVideoAdListener(this);
 
         MobileAds.initialize(this, "ca-app-pub-7999232318006976~6141148234");
 
@@ -441,46 +455,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-        adView = findViewById(R.id.adVieww);
-        AdRequest adRequestt = new AdRequest.Builder().build();
-        adView.loadAd(adRequestt);
 
 
     }
 
-    private void forSlider() {
-        sliderLayout = findViewById(R.id.sliderLayout);
-        sliderImages = new HashMap<>();
-        sliderImages.put("One", R.drawable.img_clo);
-        sliderImages.put("Two", R.drawable.img_bann);
-        sliderImages.put("Three", R.drawable.img_ba);
 
-        for (String name : sliderImages.keySet()) {
-
-            TextSliderView textSliderView = new TextSliderView(this);
-            textSliderView
-                    .description(name)
-                    .image(sliderImages.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.FitCenterCrop)
-                    .setOnSliderClickListener(this);
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra", name);
-            sliderLayout.addSlider(textSliderView);
-        }
-
-        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
-        // sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        //  sliderLayout.setCustomAnimation(new DescriptionAnimation());
-        sliderLayout.setDuration(2000);
-        sliderLayout.addOnPageChangeListener(this);
-        sliderLayout.getPagerIndicator().setVisibility(View.GONE);
-    }
-
-    private void getResponce() {
+   /* private void getResponce() {
 
         loading = ProgressDialog.show(this, "Loading Data", "Please Wait...", false, false);
         loading.dismiss();
@@ -493,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setAdapter(recyclerAdapter);
 
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<List<Movie>> call = apiService.getMovies();
+        Call<List<MAinMoviListModel>> call = apiService.getMovies();
         call.enqueue(new Callback<List<Movie>>() {
             @Override
             public void onResponse(Call<List<Movie>> call, retrofit2.Response<List<Movie>> response) {
@@ -510,7 +490,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-    }
+    }*/
 
     private void forNotification() {
 
@@ -653,13 +633,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         loading.dismiss();*/
     }
 
-    @SuppressLint("ResourceAsColor")
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.home_menu, menu);
-
-        return true;
-    }
 
     private void loadRewardedVideoAd() {
         mAd.loadAd("ca-app-pub-7999232318006976/5848191117",
@@ -704,29 +677,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }*/
 
 
-
-    /* @Override
-     public void onBackPressed() {
-         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-         builder.setMessage("Are you want to close");
-         builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-             @Override
-             public void onClick(DialogInterface dialog, int which) {
-                 dialog.dismiss();
-             }
-         });
-         builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-             @Override
-             public void onClick(DialogInterface dialog, int which) {
-                 finishAffinity();
-             }
-         });
-         Dialog dialog = builder.create();
-         dialog.show();
-
-
-     }*/
-
     boolean doubleBackToExitPressedOnce = false;
 
     @Override
@@ -757,15 +707,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
+
+        /*
         if (id == R.id.nav_home) {
             drawerLayout.closeDrawers();
-
-            if (mInterstitialAd.isLoaded()) {
+          *//*  if (mInterstitialAd.isLoaded()) {
                 mInterstitialAd.show();
             } else {
                 Log.d("TAG", "The interstitial wasn't loaded yet.");
                 mInterstitialAd.loadAd(new AdRequest.Builder().build());
-            }
+            }*//*
         } else if (id == R.id.nav_subscription) {
 
             drawerLayout.closeDrawers();
@@ -774,7 +725,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (nf != null && nf.isConnected() == true) {
                 Intent i = new Intent(getApplicationContext(), MySubscriptionActivity.class);
                 startActivity(i);
-                loadRewardedVideoAd();
+                //   loadRewardedVideoAd();
             } else {
                 Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
             }
@@ -904,7 +855,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 sessionManager.logoutUser();
             }
             return true;
-        }
+        }*/
         return false;
     }
 
@@ -931,7 +882,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     String TAG = "TAg";
 
-    @Override
+   /* @Override
     public void onRewardedVideoAdLoaded() {
         Log.i(TAG, "Rewarded: onRewardedVideoAdLoaded");
         try {
@@ -980,7 +931,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onRewardedVideoCompleted() {
         Log.d(TAG, "onRewardedVideoCompleted: ");
-    }
+    }*/
 
     @Override
     public void onSliderClick(BaseSliderView slider) {

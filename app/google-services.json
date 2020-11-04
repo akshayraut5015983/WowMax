@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "565726237110",
-    "firebase_url": "https://vidomax-96ceb.firebaseio.com",
-    "project_id": "vidomax-96ceb",
-    "storage_bucket": "vidomax-96ceb.appspot.com"
+    "project_number": "597825694589",
+    "firebase_url": "https://wowmax-80946.firebaseio.com",
+    "project_id": "wowmax-80946",
+    "storage_bucket": "wowmax-80946.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:565726237110:android:c64cc429cf8a9bc374b117",
+        "mobilesdk_app_id": "1:597825694589:android:21996cca00f3166f027a14",
         "android_client_info": {
-          "package_name": "com.swaliya.vidmax"
+          "package_name": "com.swaliya.wowmax"
         }
       },
       "oauth_client": [
         {
-          "client_id": "565726237110-nlb9vltj7j05nr6lup6nmu2p764i7eg9.apps.googleusercontent.com",
+          "client_id": "597825694589-1170ph1bvee2659g0npfhmea2va3lrr6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.swaliya.vidmax",
-            "certificate_hash": "081306cd99c60fbfa812914efa11fa6f8a7feabc"
+            "package_name": "com.swaliya.wowmax",
+            "certificate_hash": "c6a8a337b05ddb041509e27a07d6df16e771f948"
           }
         },
         {
-          "client_id": "565726237110-1h34e5i6b4tltoo4257cjk7p3tpmpu0d.apps.googleusercontent.com",
+          "client_id": "597825694589-4f66qqmbeu507hkk2n8uf9lgcd2pnthp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCVtjfooB4V75TCRaYWRJNAbDOlAFumdJU"
+          "current_key": "AIzaSyCx24CocUh_8Dk_PqiBVPW9L8D-UuYU-HA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "565726237110-1h34e5i6b4tltoo4257cjk7p3tpmpu0d.apps.googleusercontent.com",
+              "client_id": "597825694589-4f66qqmbeu507hkk2n8uf9lgcd2pnthp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

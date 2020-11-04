@@ -23,10 +23,11 @@ public class SessionManager {
         editor = pref.edit();
     }
 
-    public void createLoginSession(String name, String mobile, String pass) {
+    public void createLoginSession(String name,String email, String mobile, String pass) {
 
         editor.putBoolean(Config.IS_LOGIN, true);
         editor.putString(Config.KEY_NAME, name);
+        editor.putString(Config.KEY_EMAIl, email);
         editor.putString(Config.KEY_MOBILE, mobile);
         editor.putString(Config.KEY_PASSWORD, pass);
         editor.commit();

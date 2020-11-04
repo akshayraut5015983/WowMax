@@ -2,10 +2,11 @@
     <string name="app_name">Wowmax</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
+    <string name="banner_ad_unit_id">ca-app-pub-6795588514339421/2935966591</string>
+    <string name="app_id_admob">ca-app-pub-6795588514339421~7376305877</string>
+    <string name="facebook_app_id">347952026463067</string>
+    <string name="fb_login_protocol_scheme">fb347952026463067</string>
 
-    <string name="facebook_app_id">769433820523681</string>
-    <string name="fb_login_protocol_scheme">fb769433820523681</string>
-    <string name="str">These Terms of Use govern your use of our service. As used in these Terms of Use, \"Vidmax service\", \"our service\" or \"the service\" means the personalized service provided by Vidmax for discovering and watching Vidmax content, including all features and functionalities, recommendations and reviews, the website, and user interfaces, as well as all content and software associated with our service.</string>
     <string name="terms">\n\n \t WowMax Movies Pvt.Ltd. \n \tTerms of Use
 WowMax Movies Pvt.Ltd. provides a personalized subscription service that allows our
 members to access movies and TV shows (“WowMax Movies Pvt.Ltd. content”)
@@ -662,4 +663,5 @@ the WowMax app on your Android or iOS phone or tablet! Calling through the app i
 is an internet or cellular connection. Download the WowMax app: Questions? Learn how to contact us
 from the WowMax app! Call us from any phone. You will need a landline or cellular phone service
     </string>
+
 </resources>

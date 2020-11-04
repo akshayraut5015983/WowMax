@@ -1,6 +1,7 @@
 package com.swaliya.wowmax.activity;
 
 import android.animation.ValueAnimator;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -29,6 +31,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -52,7 +55,7 @@ import java.util.Arrays;
 public class RegisterActivity extends AppCompatActivity {
     EditText edName, edMob, edEmail, edPass;
     String strName = "", strMob = "", strEmail = "", strPass = "";
-    ImageView mImg, eImg;
+
     SessionManager sessionManager;
     private ProgressDialog pDialog;
     String urlMain = "";
@@ -66,6 +69,8 @@ public class RegisterActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     CallbackManager mCallbackManager;
     FirebaseAuth mAuth;
+    Dialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,23 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
         edMob = findViewById(R.id.edMob);
         edEmail = findViewById(R.id.edEmail);
         edPass = findViewById(R.id.edPass);
-        eImg = findViewById(R.id.eimg);
-        mImg = findViewById(R.id.mimg);
-        final ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1.0f);
-        animator.setRepeatCount(ValueAnimator.INFINITE);
-        animator.setInterpolator(new LinearInterpolator());
-        animator.setDuration(2000L);
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                final float progress = (float) animation.getAnimatedValue();
-                final float width = eImg.getWidth();
-                final float translationX = width * progress;
-                eImg.setTranslationX(translationX);
-                mImg.setTranslationX(translationX - width);
-            }
-        });
-        animator.start();
+        dialog = new Dialog(this);
 
         findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,15 +131,13 @@ public class RegisterActivity extends AppCompatActivity {
                         // http://wowmaxmovies.com/API/APIURL.aspx?msg=newuser%20name%20city%20email%20mobile%20subscription%20700%20pass
                         urlMain = Config.URL + "API/APIURL.aspx?msg=newuser%20" + name + "%20city%20" + strEmail + "%20" + strMob + "%20subscription%20700%20" + strPass;
                         Log.d(TAG, "url: " + urlMain);
-                        getData(urlMain);
+                        getData(urlMain, strName, strEmail, strMob);
                         //  Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_LONG).show();
 
                     } else {
                         Toast.makeText(RegisterActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
                     }
-
                 }
-
             }
         });
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -173,24 +160,26 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById(R.id.fb).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 LoginManager.getInstance().logInWithReadPermissions(RegisterActivity.this, Arrays.asList("email", "public_profile"));
                 LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         Log.d("Tag", "facebook:onSuccess:" + loginResult);
+                        Toast.makeText(RegisterActivity.this, "Wait a minutes", Toast.LENGTH_SHORT).show();
                         handleFacebookAccessToken(loginResult.getAccessToken());
                     }
 
                     @Override
                     public void onCancel() {
                         Log.d("Tag", "facebook:onCancel");
-                        Toast.makeText(RegisterActivity.this, "onCancel", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Cancel login", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(FacebookException error) {
                         Log.d("Tag", "facebook:onError");
-                        Toast.makeText(RegisterActivity.this, "onError", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Error", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -198,8 +187,6 @@ public class RegisterActivity extends AppCompatActivity {
 
 // ...
     }
-// C6:A8:A3:37:B0:5D:DB:04:15:09:E2:7A:07:D6:DF:16:E7:71:F9:48
-// 08:13:06:cd:99:c6:0f:bf:a8:12:91:4e:fa:11:fa:6f:8a:7f:ea:bc
 
     public void handleFacebookAccessToken(AccessToken token) {
         Log.d("TAg", "handleFacebookAccessToken:" + token);
@@ -208,16 +195,19 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    // Sign in success, update UI with the signed-in user's information
+
                     Log.d("TAg", "signInWithCredential:success");
                     FirebaseUser user = mAuth.getCurrentUser();
 
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class).putExtra("key", "mail"));
-                    sessionManager.createLoginSession(user.getDisplayName(), user.getPhoneNumber(), user.getEmail());
+
+                    fromGamil(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
+
+//                    startActivity(new Intent(getApplicationContext(), MainActivity.class).putExtra("key", "mail"));
+//                    sessionManager.createLoginSession(user.getDisplayName(), user.getEmail(), user.getPhoneNumber(), "");
+//                    Toast.makeText(RegisterActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
                 } else {
-                    // If sign in fails, display a message to the user.
-                    //  Log.w("TAg", "signInWithCredential:failure", task.;
-                    Toast.makeText(RegisterActivity.this, "Authentication failed.",
+
+                    Toast.makeText(RegisterActivity.this, "Authentication failed. Error in Network",
                             Toast.LENGTH_SHORT).show();
 
                 }
@@ -225,6 +215,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
     }
+
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
@@ -238,11 +229,13 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                    //        Toast.makeText(RegisterActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            sessionManager.createLoginSession(user.getDisplayName(), user.getPhoneNumber(), user.getEmail());
-                            startActivity(new Intent(RegisterActivity.this, MainActivity.class).putExtra("key", "mail"));
-                            Toast.makeText(RegisterActivity.this, "Welcome", Toast.LENGTH_SHORT).show();
+                            fromGamil(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
+
+//                            sessionManager.createLoginSession(user.getDisplayName(), user.getEmail(), user.getPhoneNumber(), "");
+//                            startActivity(new Intent(RegisterActivity.this, MainActivity.class).putExtra("key", "mail"));
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -256,35 +249,99 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
+    private void checkPassword() {
+
+
+    }
+
+    private void fromGamil(String name, String email, String mobile) {
+
+        Log.d(TAG, "makeText: " + name + " " + email + " " + mobile);
+
+        dialog.setContentView(R.layout.layout_mail_pass);
+
+        final EditText edName = (EditText) dialog.findViewById(R.id.edName);
+        final EditText edemail = (EditText) dialog.findViewById(R.id.edEmail);
+        final EditText edmob = (EditText) dialog.findViewById(R.id.edMob);
+        final EditText edpass = (EditText) dialog.findViewById(R.id.edPass);
+        edName.setText(name);
+        edemail.setText(email);
+        edmob.setText(mobile);
+
+
+        final Button dialogButton = (Button) dialog.findViewById(R.id.btnRegister);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                strName = edName.getText().toString();
+                strEmail = edemail.getText().toString();
+                strMob = edmob.getText().toString();
+                strPass = edpass.getText().toString();
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+                if (strName.equals("")) {
+                    Toast.makeText(RegisterActivity.this, "Enter name", Toast.LENGTH_SHORT).show();
+                } else if (strEmail.equals("")) {
+                    Toast.makeText(RegisterActivity.this, "Enter email", Toast.LENGTH_SHORT).show();
+                } else if (!strEmail.matches(emailPattern)) {
+                    Toast.makeText(RegisterActivity.this, "Enter valid email", Toast.LENGTH_SHORT).show();
+                } else if (strMob.equals("")) {
+                    Toast.makeText(RegisterActivity.this, "Enter mobile", Toast.LENGTH_SHORT).show();
+                } else if (strMob.length() != 10) {
+                    Toast.makeText(RegisterActivity.this, "Enter valid mobile", Toast.LENGTH_SHORT).show();
+                } else if (strPass.equals("")) {
+                    Toast.makeText(RegisterActivity.this, "Enter password", Toast.LENGTH_SHORT).show();
+                } else {
+                    String name = strName.replaceAll(" ", "_");
+                    ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo nf = cn.getActiveNetworkInfo();
+                    if (nf != null && nf.isConnected() == true) {
+                        String url = Config.URL + "API/APIURL.aspx?msg=SelectMobile%20" + strMob;
+                        pDialog = new ProgressDialog(RegisterActivity.this);
+                        pDialog.setMessage("Please Wait Verifing mobile...");
+                        pDialog.setCancelable(false);
+                        pDialog.show();
+                        urlMain = Config.URL + "API/APIURL.aspx?msg=newuser%20" + name + "%20city%20" + strEmail + "%20" + strMob + "%20subscription%20700%20" + strPass;
+                        Log.d(TAG, "url: " + urlMain);
+                        getData(urlMain, strName, strEmail, strMob);
+
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        dialog.show();
+
+
+    }
+
     private void signIn() {
         //getting the google signin intent
+        //  mGoogleSignInClient.signOut();
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-
         //starting the activity for result
         startActivityForResult(signInIntent, RC_SIGN_IN);
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Toast.makeText(this, "Wait a minutes..", Toast.LENGTH_SHORT).show();
 
         if (requestCode == RC_SIGN_IN) {
-
             //Getting the GoogleSignIn Task
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 //Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-
                 //authenticating with firebase
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 Log.d(TAG, "getStatusCode: " + e.getStatusCode());
                 Log.d(TAG, "getLocalizedMessage: " + e.getLocalizedMessage());
                 Log.d(TAG, "getMessage: " + e.getMessage());
-
-
                 Toast.makeText(RegisterActivity.this, "Error In  network Please...!", Toast.LENGTH_LONG).show();
             }
         }
@@ -320,7 +377,7 @@ public class RegisterActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     } */
 
-    private void getData(String url) {
+    private void getData(String url, final String name, final String Email, final String Mob) {
         StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -331,10 +388,23 @@ public class RegisterActivity extends AppCompatActivity {
                     edMob.setText("");
                     edPass.setText("");
                     edName.setText("");
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
                 } else if (response.contains("successfully")) {
-                    Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                    intent.putExtra("key", "reg");
+                    startActivity(intent);
+                    sessionManager.createLoginSession(name, Email, Mob, "strPass");
                     finish();
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
                 } else {
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                    }
                     Toast.makeText(RegisterActivity.this, "Something wrong in network  ", Toast.LENGTH_SHORT).show();
                 }
             }

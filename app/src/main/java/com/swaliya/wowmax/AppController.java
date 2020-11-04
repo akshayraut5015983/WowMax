@@ -31,7 +31,7 @@ public class AppController extends Application {
 
         Intent intent = new Intent (Intent.ACTION_SEND);
         intent.setType("message/rfc822");
-        intent.putExtra (Intent.EXTRA_EMAIL, new String[] {"agnaraut@gmail.com"});
+        intent.putExtra (Intent.EXTRA_EMAIL, new String[] {"swaliyasoftech@gmail.com"});
         intent.putExtra (Intent.EXTRA_SUBJECT, "MyApp Crash log file");
         intent.putExtra (Intent.EXTRA_TEXT, stackTrace);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // required when starting from Application

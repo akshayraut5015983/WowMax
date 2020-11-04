@@ -6,10 +6,6 @@
     <item
         android:id="@+id/two"
         android:title="720p"/>
-    <item
-        android:id="@+id/three"
-        android:title="1080p"/>
-    <item
-        android:id="@+id/four"
-        android:title="1440p"/>
+    <item android:title="1080p"/>
+    <item android:title="1440p"/>
 </menu>

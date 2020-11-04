@@ -72,9 +72,6 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/layout_main"
-                android:visibility="gone" />
 
             <include
                 android:id="@+id/layoutInternet"
@@ -91,17 +88,39 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/colorPrimary"
-                    android:elevation="6dp"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                    app:tabGravity="fill"
+                    app:tabMode="fixed"
                     app:tabSelectedTextColor="@color/gold" />
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/view_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_below="@id/tab_layout" />
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/tab_layout" />
 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tablayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/swwh"
+                    app:tabGravity="fill"
+                    app:tabMode="fixed" />
+
+                <LinearLayout
+                    android:id="@+id/fragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/tablayout"
+                    android:orientation="vertical" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -115,8 +134,7 @@
         android:background="@android:color/transparent"
         android:fitsSystemWindows="true"
         app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-      >
+        app:itemTextColor="@color/white">
 
         <include layout="@layout/layout_navigation" />
 
