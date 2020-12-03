@@ -39,14 +39,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:layout_width="200dp"
-                            android:layout_height="150dp"
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
-                            android:layout_gravity="center"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/blank" />
+                            android:layout_margin="2dp"
+                            android:src="@drawable/logo_wow" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -70,7 +69,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:orientation="vertical">
 

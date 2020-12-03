@@ -2,7 +2,11 @@
     <string name="app_name">Wowmax</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
-    <string name="banner_ad_unit_id">ca-app-pub-6795588514339421/2935966591</string>
+
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <!--<string name="banner_ad_unit_id">ca-app-pub-6795588514339421/8670193325</string>-->
+
+    <string name="intts_ads_unit">ca-app-pub-6795588514339421/1617804041</string>
     <string name="app_id_admob">ca-app-pub-6795588514339421~7376305877</string>
     <string name="facebook_app_id">347952026463067</string>
     <string name="fb_login_protocol_scheme">fb347952026463067</string>
@@ -228,7 +232,7 @@ connection with such an assignment or transfer.\n
 confirmation messages, notices) in electronic form only, for example via emails to your
 email address provided during registration.</string>
 
-    <string name="privacy">\n\n
+    <string name="privacy"> \n\n
         Privacy Statement\n\n
 \t\t\t\tThis Privacy Statement explains our practices, including your choices, regarding the
 collection, use, and disclosure of certain information, including your personal 
@@ -390,7 +394,7 @@ Protection of WowMax Movies Pvt.Ltd. and others: WowMax Movies Pvt.Ltd. and its
 Service Providers may disclose and otherwise use your personal and other information 
 where we or they reasonably believe such disclosure is needed to (a) satisfy any 
 applicable law, regulation, legal process, or governmental request, (b) enforce 
-applicable terms of use, including investigation of potential violations thereof, (c) 
+applicable terms of use, including investigation of potential violations thereof, ©
 detect, prevent, or otherwise address illegal or suspected illegal activities (including 
 payment fraud), security or technical issues, or (d) protect against harm to the rights, 
 property or safety of WowMax Movies Pvt.Ltd., its users or the public, as required or 
@@ -510,8 +514,7 @@ process, please reference this help article: help.WowMax Movies Pvt.Ltd..com/nod
 For information about deletion, removal and retention of information, please reference 
 this help article: help.WowMax Movies Pvt.Ltd..com/node/. We respond to all requests 
 we receive from individuals wishing to exercise their data protection rights in 
-accordance with applicable data protection laws.
-    </string>
+accordance with applicable data protection laws.</string>
 
     <string name="legal">\n\n\t
 Legal Notices\n\n
@@ -538,6 +541,7 @@ under those Open Source Software licenses. Additional information about Open Sou
 Commercial Software, including required acknowledgements, license terms and notices, can be
 found.
     </string>
+
     <string name="adddress">\n\n
 WowMax Movies Pvt.Ltd. Corporate Information\n\n
 \t\t\t\tWowMax Movies Pvt.Ltd. serves members in many different countries. The WowMax
@@ -554,6 +558,7 @@ Phone : +91  9607050707 \n\n
 Email : support@wowmaxmovies.com \n\n
 Website : www.wowmaxmovies.com \n\n
     </string>
+
     <string name="faqq">\n\n
 
 What is WowMax?\n\n

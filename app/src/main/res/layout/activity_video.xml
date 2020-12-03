@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
+
         android:layout_centerInParent="true"
         app:resize_mode="fill"
         app:show_buffering="always" />

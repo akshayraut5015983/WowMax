@@ -4,13 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.trackselection.MappingTrackSelector;
@@ -19,8 +23,13 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.swaliya.wowmax.R;
+import com.swaliya.wowmax.adapter.DbAdapter;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
+import com.swaliya.wowmax.helper.DatabaseHelper;
+import com.swaliya.wowmax.model.DbModel;
+
+import java.util.ArrayList;
 
 
 public class SearchActivity extends AppCompatActivity {
@@ -53,7 +62,7 @@ public class SearchActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        final DatabaseHelper helper = new DatabaseHelper(SearchActivity.this);
         sessionManager = new SessionManager(this);
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
         if (pref.contains(Config.KEY_NAME)) {
@@ -71,74 +80,42 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 strSearch = edSearch.getText().toString().trim();
                 edSearch.setText("");
+                if (helper.insert(strSearch, strSearch + " Description")) {
+                    Toast.makeText(SearchActivity.this, "Inserted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SearchActivity.this, "Not Insert", Toast.LENGTH_SHORT).show();
+                }
+                fillListview();
                 //  Toast.makeText(SearchActivity.this, "Searching on " + strSearch, Toast.LENGTH_SHORT).show();
 
-                //   startActivity(new Intent(getApplicationContext(), VideoActivity.class).putExtra("key", strSearch));
+
             }
         });
 
-        /*exoPlayerView = (SimpleExoPlayerView) findViewById(R.id.exo_player_view);
 
-        try {
+    }
 
-            bandwidthMeter = new DefaultBandwidthMeter();
-            trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+    public void fillListview() {
+        RecyclerView recyclerView = findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
 
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
+        ArrayList<DbModel> dbModels = new ArrayList<>();
+        DatabaseHelper dbhelper = new DatabaseHelper(this);
 
+       /* ArrayList<DbModel> dogList = dbhelper.getAllData();
+        for (int i = 0; i < dogList.size(); i++) {
+            DbModel dbModel = new DbModel();
+            dbModel.setId(dogList.get(i).getId());
+            dbModel.setName(dogList.get(i).getName());
+            dbModel.setDesp(dogList.get(i).getDesp());
+            Log.d("TAG", "fillListview: " + dogList.get(i).getDesp() + dogList.get(i).getName());
 
-            Uri videoURI = Uri.parse(videoURL);
+        }*/
 
-            DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("exoplayer_video");
-            ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-            MediaSource mediaSource = new ExtractorMediaSource(videoURI, dataSourceFactory, extractorsFactory, null, null);
-
-            exoPlayerView.setPlayer(exoPlayer);
-            exoPlayer.prepare(mediaSource);
-            exoPlayer.setPlayWhenReady(true);
-            exoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL);
-
-
-        } catch (Exception e) {
-            Log.e("MAinActivity", " exoplayer error " + e.toString());
-        }
-        findViewById(R.id.btn_settings).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(SearchActivity.this, v);
-                //Inflating the Popup using xml file
-                popup.getMenuInflater().inflate(R.menu.quality_menu, popup.getMenu());
-
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Toast.makeText(SearchActivity.this, "You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                });
-
-                popup.show();
-
-
-               *//* videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-                trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-
-                selector = (MappingTrackSelector) trackSelector;
-                MappingTrackSelector.MappedTrackInfo mappedTrackInfo = selector.getCurrentMappedTrackInfo();
-                if (mappedTrackInfo != null) {
-                    int rendererIndex = 0;
-
-
-                    Pair<AlertDialog, TrackSelectionView> dialogPair =
-                            TrackSelectionView.getDialog(SearchActivity.this, "Available Quality", (DefaultTrackSelector) selector, rendererIndex);
-                    dialogPair.first.show();
-                }*//*
-
-
-            }
-        });*/
-
-
+        DbAdapter dbAdapter = new DbAdapter(SearchActivity.this, dbhelper.getAllData());
+        recyclerView.setAdapter(dbAdapter);
+    /*    Customadapter myAdapter = new Customadapter(dogList, this);
+        myListview.setAdapter(myAdapter);*/
     }
 
     @Override
@@ -150,196 +127,3 @@ public class SearchActivity extends AppCompatActivity {
 
 
 }
-
-
-/*public class videoSwitch extends AppCompatActivity {
-    private PlayerView simpleExoPlayerView;
-    private SimpleExoPlayer player;
-    private View loading;
-    private ImageButton changeQuality;
-    private TrackGroupArray trackGroups;
-    private TrackSelector trackSelector;
-    private MappingTrackSelector selector;
-    private TrackSelection.Factory videoTrackSelectionFactory;
-    String space = "\n";
-    Uri URL;
-    private DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); //will hide the status bar
-        setContentView(R.layout.activity_video_switch);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE); //will rotate the screen
-        Bundle b = getIntent().getExtras();
-        String playable = b.getString("playable", "");
-        String url = b.getString("address_", "");
-        String name = b.getString("name_", "");
-        String address = ("http://" + name + "/" + url);
-
-        if (playable.equals("yes")) {
-            URL = Uri.parse(address);
-            // Toast.makeText(getBaseContext(), address, Toast.LENGTH_LONG).show();
-            initializePlayer(bandwidthMeter);
-        } else {
-            Toast.makeText(getBaseContext(), "Address is empty or not Valid! Playing a pre-defined Url", Toast.LENGTH_LONG).show();
-            //  Toast.makeText(getBaseContext(), "Player launched!", Toast.LENGTH_LONG).show();
-            URL = Uri.parse("https://s3-us-west-2.amazonaws.com/hls-playground/hls.m3u8");//multiple quality
-            //URL = Uri.parse("https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8");
-            //URL = Uri.parse("https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8");
-            // URL = Uri.parse("http://115.112.70.86/new.m3u8");
-            //URL = Uri.parse("http://cbsnewshd-lh.akamaihd.net/i/CBSNHD_7@199302/index_700_av-p.m3u8");
-            initializePlayer(bandwidthMeter);
-        }
-
-        // Toast.makeText(getBaseContext(), "Player launched!", Toast.LENGTH_LONG).show();
-        player.addListener(new ExoPlayer.EventListener() {
-
-            @Override
-            public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
-            }
-
-            @Override
-            public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-                Log.d("_____________________ ", String.valueOf(space));
-
-            }
-
-            @Override
-            public void onLoadingChanged(boolean isLoading) {
-            }
-
-            @Override
-            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-                switch (playbackState) {
-                    case ExoPlayer.STATE_READY:
-                        loading.setVisibility(View.GONE);
-                        break;
-                    case ExoPlayer.STATE_BUFFERING:
-                        loading.setVisibility(View.VISIBLE);
-                        break;
-                }
-                if (playbackState == Player.STATE_IDLE || playbackState == Player.STATE_ENDED ||
-                        !playWhenReady) {
-
-                    simpleExoPlayerView.setKeepScreenOn(false);
-                } else {
-                    // This prevents the screen from getting dim/lock
-                    simpleExoPlayerView.setKeepScreenOn(true);
-                }
-            }
-
-            @Override
-            public void onRepeatModeChanged(int repeatMode) {
-
-            }
-
-
-            @Override
-            public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
-            }
-
-            @Override
-            public void onPlayerError(ExoPlaybackException error) {
-                Toast.makeText(getBaseContext(), "Error Occurred While Fetching the Url,Please check the Url ", Toast.LENGTH_LONG).show();
-                player.stop();
-                player.setPlayWhenReady(true);
-                initializePlayer(bandwidthMeter);
-            }
-
-            @Override
-            public void onPositionDiscontinuity(int reason) {
-            }
-
-            @Override
-            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-            }
-
-            @Override
-            public void onSeekProcessed() {
-            }
-
-        });
-        player.setPlayWhenReady(true); //run file/link when ready to play.
-    }
-
-    private void initializePlayer(DefaultBandwidthMeter bandwidthMeter) {
-        loading = findViewById(R.id.loading);
-        changeQuality = findViewById(R.id.change_quality);
-        videoTrackSelectionFactory = new AdaptiveTrackSelection.Factory(bandwidthMeter);
-        trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
-        player = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
-        selector = (MappingTrackSelector) trackSelector;
-        simpleExoPlayerView = new SimpleExoPlayerView(this);
-        simpleExoPlayerView = (SimpleExoPlayerView) findViewById(R.id.player_view);
-        simpleExoPlayerView.setUseController(true);//set to true or false to see controllers
-        simpleExoPlayerView.requestFocus();
-        simpleExoPlayerView.setPlayer(player);
-        DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "StreamTest"), bandwidthMeter);
-        MediaSource videoSource = new HlsMediaSource(URL, dataSourceFactory, 1, null, null);
-        player.prepare(videoSource);
-        changeQuality.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                change_Quality();
-            }
-        });
-    }
-
-
-    private void change_Quality() {
-
-        MappingTrackSelector.MappedTrackInfo mappedTrackInfo = selector.getCurrentMappedTrackInfo();
-        if (mappedTrackInfo != null) {
-            int rendererIndex = 0;
-
-
-            Pair<AlertDialog, TrackSelectionView> dialogPair =
-                    TrackSelectionView.getDialog(videoSwitch.this, "Available Quality", (DefaultTrackSelector) selector, rendererIndex);
-            dialogPair.first.show();
-        }
-    }
-
-    private void hideSystemUi() {
-        simpleExoPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        player.release();
-
-    }
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        hideSystemUi();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        player.release();
-    }
-}*/

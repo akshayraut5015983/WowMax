@@ -8,6 +8,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -60,6 +62,9 @@ public class VideoActivity extends AppCompatActivity {
         //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         session = new SessionManager(this);
         session = new SessionManager(getApplicationContext());
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
@@ -116,6 +121,8 @@ public class VideoActivity extends AppCompatActivity {
         player.prepare(mediaSource);
         player.setPlayWhenReady(true);
     }
+
+
 
     private void initializePlaaayer() {
         if (player == null) {

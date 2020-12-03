@@ -9,12 +9,12 @@
 
 
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/blank" />
+        android:src="@drawable/logo_wow" />
 
     <ProgressBar
         android:layout_width="30dp"

@@ -2,7 +2,6 @@ package com.swaliya.wowmax.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.makeramen.roundedimageview.RoundedImageView;
-import com.squareup.picasso.Picasso;
 import com.swaliya.wowmax.R;
 import com.swaliya.wowmax.activity.VdoDetailsActivity;
 import com.swaliya.wowmax.configg.Config;
@@ -23,24 +21,24 @@ import com.swaliya.wowmax.model.MainMovieListModel;
 
 import java.util.List;
 
-public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.ViewHolder> {
+public class AdapterMarathi extends RecyclerView.Adapter<AdapterMarathi.ViewHolder> {
     private List<MainMovieListModel> android;
     private Context mContex;
 
-    public MovieListAdapter(List<MainMovieListModel> android, Context mContex) {
+    public AdapterMarathi(List<MainMovieListModel> android, Context mContex) {
         this.android = android;
         this.mContex = mContex;
     }
 
     @Override
-    public MovieListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public AdapterMarathi.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.rec_hindi_layout, viewGroup, false);
         return new ViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(MovieListAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(AdapterMarathi.ViewHolder viewHolder, int i) {
         MainMovieListModel mAinMoviListModel = android.get(i);
 
         viewHolder.tv_name.setText(mAinMoviListModel.getMovieTitle());

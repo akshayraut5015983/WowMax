@@ -53,7 +53,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.swaliya.wowmax.BuildConfig;
 import com.swaliya.wowmax.R;
-import com.swaliya.wowmax.adapter.MovieListAdapter;
+import com.swaliya.wowmax.adapter.AdapterComedy;
 import com.swaliya.wowmax.adapter.TabsAdapter;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
@@ -84,11 +84,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     RewardedVideoAd mAd;
 
     private List<Movie> listSuperHeroes;
-    private MovieListAdapter adapter;
+    private AdapterComedy adapter;
     ProgressDialog loading;
     RecyclerView recyclerView;
     List<Movie> movieList;
-    MovieListAdapter recyclerAdapter;
+    AdapterComedy recyclerAdapter;
 
     View layoutMAin, layoutInternet;
     ViewPager viewPager;
@@ -114,12 +114,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         toggle.syncState();
 
+
         toolbar.inflateMenu(R.menu.home_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.one) {
-//                    startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+                    startActivity(new Intent(MainActivity.this, ViewAllVdoActivity.class).putExtra("key", "All"));
 //                    overridePendingTransition(R.anim.enter, R.anim.hold);
                 } else if (item.getItemId() == R.id.two) {
                     Toast.makeText(MainActivity.this, "Two", Toast.LENGTH_SHORT).show();
@@ -230,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
-                recreate();
+
                /* if (mInterstitialAd.isLoaded()) {
                     mInterstitialAd.show();
                 } else {
@@ -299,7 +300,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     try {
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                         shareIntent.setType("text/plain");
-                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Vidmax");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Wowmax");
                         String shareMessage = "\nLet me recommend you this application\n\n";
 
                         shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
@@ -494,6 +495,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void forNotification() {
 
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+
         NotificationChannel notificationChannel = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             notificationChannel = new NotificationChannel("MyNo", "MyNo", NotificationManager.IMPORTANCE_DEFAULT);
@@ -501,7 +504,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             manager.createNotificationChannel(notificationChannel);
         }
 
-        FirebaseMessaging.getInstance().subscribeToTopic("test")
+        FirebaseMessaging.getInstance().subscribeToTopic("group")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -509,6 +512,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (!task.isSuccessful()) {
                             msg = "msg_subscribe_failed";
                         }
+
                         Log.d(TAG, msg);
                         //  Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }

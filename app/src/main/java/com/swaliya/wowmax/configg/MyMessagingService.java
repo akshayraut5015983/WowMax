@@ -39,7 +39,7 @@ public class MyMessagingService extends FirebaseMessagingService {
     public void showNotification(String title, String msg, String imageUrl) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "MyNo")
                 .setContentTitle(title)
-                .setSmallIcon(R.drawable.cir_logo)
+                .setSmallIcon(R.drawable.logo_wow)
                 .setAutoCancel(true)
 
                 .setContentText(msg);
@@ -91,7 +91,7 @@ public class MyMessagingService extends FirebaseMessagingService {
 // Set the notification parameters to the notification builder object
         builder.setContentTitle(notificationTitle)
                 .setContentText(notificationContent)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.logo_wow)
                 .setSound(defaultSoundUri)
                 .setAutoCancel(true);
 // Set the image for the notification

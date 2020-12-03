@@ -1,16 +1,28 @@
 package com.swaliya.wowmax.fragment;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
@@ -24,80 +36,473 @@ import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.swaliya.wowmax.R;
 import com.swaliya.wowmax.activity.VdoDetailsActivity;
+import com.swaliya.wowmax.activity.ViewAllVdoActivity;
+import com.swaliya.wowmax.adapter.AdapterActionComedy;
+import com.swaliya.wowmax.adapter.AdapterActionDrama;
+import com.swaliya.wowmax.adapter.AdapterComedy;
+import com.swaliya.wowmax.adapter.AdapterComedyDrama;
+import com.swaliya.wowmax.adapter.AdapterMarathi;
+import com.swaliya.wowmax.adapter.AdapterRemAll;
+import com.swaliya.wowmax.adapter.AdapterRomance;
+import com.swaliya.wowmax.adapter.AdapterThrAction;
 import com.swaliya.wowmax.adapter.MyListAdapter;
+import com.swaliya.wowmax.configg.Config;
+import com.swaliya.wowmax.model.MainMovieListModel;
 import com.swaliya.wowmax.model.MyListData;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class MovieFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
+
     private AdView mAdView, adView;
     private SliderLayout sliderLayout;
     private HashMap<String, Integer> sliderImages;
 
+    List<MainMovieListModel> listComedy, listActComedy, listAll, listActDrama, listThrAction, listRomance, listComDrama,listMarathi;
+    RecyclerView.Adapter adpComedy, adpActComedy, adpAll, adpActDrama, adpThrAction, adpRomance, adpComDrama,adpMarathi;
+    RecyclerView rcComedy, rcActComedy, rcAll, rcActDrama, rcThrAction, rcRomance, rcComDrama,reMarathi;
+    LinearLayout layComedy, layactCom, layAll, layActDrama, layThrAction, layRomance, layComDrama,lyMarathi;
+
+    ProgressDialog loading;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_movie, viewGroup, false);
-
         forAdverties(v);
-    //    forSlider(v);
 
-        v.findViewById(R.id.layCircle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Coming Soon...!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        //   forSlider(v);
+        layAll = v.findViewById(R.id.layAll);
+        listAll = new ArrayList<>();
+        rcAll = v.findViewById(R.id.recAll);
+        rcAll.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        MyListData[] myListData = new MyListData[]{
-                new MyListData("http://wowmaxmovies.com/video/andhadhun.mp4", "Andhadund", "Comedy And Crime", "2018", "Full hd", "2.30 hr", "Akash, a piano player pretending to be visually-impaired, unwittingly becomes entangled in a number of problems as he witnesses the murder of a former film actor.", R.drawable.adnl, R.drawable.andp),
-                new MyListData("http://wowmaxmovies.com/video/Pyaar_Ka_Punchnama_2.mp4", "Pyar ka panchnama 2", "Comedy And Romance", "2015", "Full hd", "2.30 hr", "Anshul, Siddharth and Tarun each fall in love at the same time with different women. However, their relationships soon turn toxic and make them realise the dark side of love.", R.drawable.pyarkapal, R.drawable.pyarkapap),
-                new MyListData("http://wowmaxmovies.com/video/bahubali.mp4", "Bahubali", "Action and War", "2015", "Full hd", "2.40 hr", "In the kingdom of Mahishmati, Shivudu falls in love with a young warrior woman. While trying to woo her, he learns about the conflict-ridden past of his family and his true legacy.", R.drawable.babubalil, R.drawable.babubalip),
-                new MyListData("http://wowmaxmovies.com/video/baby.mp4", "Baby", "Thriller and action", "2015", "Full hd", "2.34 hr", "An elite team of the Indian intelligence system perpetually strives to detect and eliminate terrorists and their plots. Officer Ajay leads a team to destroy one such potentially lethal operation.", R.drawable.babyl, R.drawable.babyp),
-                new MyListData("http://wowmaxmovies.com/video/bharat.mp4", "Bharat", "Action and Drama ", "2019", "Full hd", "2.30 hr", "During the India-Pakistan partition, a family gets torn apart leaving Bharat, one of the children, in charge of the remaining members. All his life he tries to keep the promise he made to his father..", R.drawable.bharatl, R.drawable.bharatp),
-                new MyListData("http://wowmaxmovies.com/video/DeDePyaarDe.mp4", "De de pyar de", "Rommance ", "2019", "Full hd", "2.30 hr", "When Ashish falls in love with Ayesha, a woman almost half his age, he introduces her to his ex-wife and children. However, their unacceptance threatens to ruin their relationship..", R.drawable.dedepyardel, R.drawable.dedepyardep),
-                new MyListData("http://wowmaxmovies.com/video/fryday.mp4", "Fryday", "Comedy ", "2018", "Full hd", "2.30 hr", "Rajiv, a bad salesman, must find a way to save his job even though he has personal problems after encountering a devious man who breaks into his house and has other plans for him..", R.drawable.frydayl, R.drawable.frydayp),
-                new MyListData("http://wowmaxmovies.com/video/golmaalagain.mp4", "Golmaal Again", "Comedy ", "2017", "Full hd", "2.30 hr", "Five orphan men return to the orphanage they grew up in to attend their mentor's funeral. However, they encounter the ghost of their childhood friend, Khushi, and help her attain salvation.", R.drawable.golmaall, R.drawable.golmalp),
-                new MyListData("http://wowmaxmovies.com/video/gullyboy.mp4", "Gully boy", "Musical and Drama ", "2019", "Full hd", "2.30 hr", "Murad, an underdog, struggles to convey his views on social issues and life in Dharavi through rapping. His life changes drastically when he meets a local rapper, Shrikant alias MC Sher..", R.drawable.gullyboyl, R.drawable.gullyboyp),
-                new MyListData("http://wowmaxmovies.com/video/manmarziyaan.mp4", "Manmarziyaan", "Rommance ", "2018", "Full hd", "2.30 hr", "Rumi and Vicky, who are in love, are caught by Rumi's family and pressurised to get married. However, when Vicky refuses to commit, a marriage broker brings in Robbie as a prospective suitor..", R.drawable.manmarziyaanl, R.drawable.manmarziyaanp),
-                new MyListData("http://wowmaxmovies.com/video/nawabzaade.mp4", "Nawabzade", "Rommance and Comedy ", "2018", "Full hd", "2.30 hr", "When three best friends fall in love with the same girl, their friendship is challenged. However, they soon realize that there is more to her than her looks..", R.drawable.nawabzadel, R.drawable.nawabazadep),
-                new MyListData("http://wowmaxmovies.com/video/bajiraomastani.mp4", "Bajirao Mastani", "Rommance and action ", "2018", "Full hd", "2.30 hr", "The heroic Peshwa Bajirao, married to Kashibai, falls in love with Mastani, a warrior princess in distress. They struggle to make their love triumph amid opposition from his conservative family..", R.drawable.bajiraomastanil, R.drawable.bajiraomastanip),
-        };
 
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
-        MyListAdapter adapter = new MyListAdapter(myListData, getContext());
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        recyclerView.setAdapter(adapter);
+        layComedy = v.findViewById(R.id.layComedy);
+        listComedy = new ArrayList<>();
+        rcComedy = v.findViewById(R.id.recyclerComedy);
+        rcComedy.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
+        layactCom = v.findViewById(R.id.layActionComedy);
+        listActComedy = new ArrayList<>();
+        rcActComedy = v.findViewById(R.id.recActionComedy);
+        rcActComedy.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        layComDrama = v.findViewById(R.id.layComedyDrama);
+        listComDrama = new ArrayList<>();
+        rcComDrama = v.findViewById(R.id.recComedyDrama);
+        rcComDrama.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+
+        layActDrama = v.findViewById(R.id.layActionDrama);
+        listActDrama = new ArrayList<>();
+        rcActDrama = v.findViewById(R.id.recActionDrama);
+        rcActDrama.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+        lyMarathi = v.findViewById(R.id.layMarathi);
+        listMarathi = new ArrayList<>();
+        reMarathi = v.findViewById(R.id.recMarathi);
+        reMarathi.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+
+        layRomance = v.findViewById(R.id.layRomance);
+        listRomance = new ArrayList<>();
+        rcRomance = v.findViewById(R.id.recRomance);
+        rcRomance.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+
+        layThrAction = v.findViewById(R.id.layThrAction);
+        listThrAction = new ArrayList<>();
+        rcThrAction = v.findViewById(R.id.recThrAction);
+        rcThrAction.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+
+
+        ConnectivityManager cn = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo nf = cn.getActiveNetworkInfo();
+        if (nf != null && nf.isConnected()) {
+            getResponce();
+            loading = ProgressDialog.show(getContext(), "Loading Data", "Please Wait...", false, false);
+        } else {
+            Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_SHORT).show();
+        }
+        onLayoutClick();
         return v;
 
     }
 
-    private void forAdverties(View v) {
+    private void onLayoutClick() {
+        layAll.setOnClickListener(v -> startActivity(new Intent(getContext(), ViewAllVdoActivity.class).putExtra("key", "All")));
 
-
-        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+        layComedy.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ViewAllVdoActivity.class).putExtra("key", "Comedy"));
             }
         });
+        layactCom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ViewAllVdoActivity.class).putExtra("key", "Action and Comedy"));
+            }
+        });
+        layComDrama.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ViewAllVdoActivity.class).putExtra("key", "Comedy and Drama"));
+            }
+        });
+        lyMarathi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ViewAllVdoActivity.class).putExtra("key", "Marathi"));
+            }
+        });
+        layActDrama.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ViewAllVdoActivity.class).putExtra("key", "Action and Drama"));
+            }
+        });
+        layRomance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ViewAllVdoActivity.class).putExtra("key", "Romance"));
+            }
+        });
+        layThrAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ViewAllVdoActivity.class).putExtra("key", "Thriller and action"));
+            }
+        });
+    }
 
-        PublisherAdView mPublisherAdView = v.findViewById(R.id.adView);
-        PublisherAdRequest adRequest = new PublisherAdRequest.Builder().build();
-        mPublisherAdView.loadAd(adRequest);
 
-        PublisherAdView   mPublisherAdVieww = v.findViewById(R.id.adVieww);
-        PublisherAdRequest adRequestt = new PublisherAdRequest.Builder().build();
-        mPublisherAdVieww.loadAd(adRequestt);
+    private void getResponce() {
+
+        String url = Config.URL + "api/apiurl.aspx?msg=GetMovieDetails";
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                parseData(response);
+                Log.d("TAG", "onResponse: " + response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                Toast.makeText(getContext(), "Poor Internet Connection", Toast.LENGTH_LONG).show();
+                Log.d("TAG", "onErrorResponse: " + error.getLocalizedMessage());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(jsonArrayRequest);
+
+    }
+
+    private void parseData(JSONArray response) {
+        for (int i = 0; i < response.length(); i++) {
+            try {
+                JSONObject jsonObject = response.getJSONObject(i);
+                if (jsonObject.getString("CategoryName").equals("Comedy")) {
+                    setListComedy(jsonObject);
+                } else if (jsonObject.getString("CategoryName").equals("Action and Comedy")) {
+                    setListActionComedy(jsonObject);
+                } else if (jsonObject.getString("CategoryName").equals("Action and Drama")) {
+                    setListActionDrama(jsonObject);
+                } else if (jsonObject.getString("CategoryName").equals("Romance")) {
+                    setListRomance(jsonObject);
+                } else if (jsonObject.getString("CategoryName").equals("Marathi")) {
+                    setListMarathi(jsonObject);
+                } else if (jsonObject.getString("CategoryName").equals("Thriller and action")) {
+                    setListThrAction(jsonObject);
+                } else if (jsonObject.getString("CategoryName").equals("Comedy and Drama")) {
+                    setListComDrama(jsonObject);
+                } else {
+                    setRemainData(jsonObject);
+                }
+
+                Log.d("list", "parseData: " + jsonObject.getString("MovieTitle"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    private void setListMarathi(JSONObject jsonObject) {
+        MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+        try {
+
+            mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
+            mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
+            mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
+            mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
+            mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
+            mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
+            mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
+            mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
+            mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
+            mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+        } catch (Exception e) {
+            Log.d("TAG", "setListComedy: " + e);
+        }
+        listMarathi.add(mAinMoviListModel);
+        if (listMarathi.size() != 0) {
+            lyMarathi.setVisibility(View.VISIBLE);
+        } else {
+            lyMarathi.setVisibility(View.GONE);
+        }
+        loading.dismiss();
+        Collections.reverse(listMarathi);
+        adpComDrama = new AdapterMarathi(listMarathi, getContext());
+        reMarathi.setAdapter(adpMarathi);
+    }
+
+    private void setListComDrama(JSONObject jsonObject) {
+        MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+        try {
+
+            mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
+            mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
+            mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
+            mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
+            mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
+            mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
+            mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
+            mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
+            mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
+            mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+        } catch (Exception e) {
+            Log.d("TAG", "setListComedy: " + e);
+        }
+        listComDrama.add(mAinMoviListModel);
+        if (listComDrama.size() != 0) {
+            layComDrama.setVisibility(View.VISIBLE);
+        } else {
+            layComDrama.setVisibility(View.GONE);
+        }
+        loading.dismiss();
+        adpComDrama = new AdapterComedyDrama(listComDrama, getContext());
+        rcComDrama.setAdapter(adpComDrama);
+    }
+
+    private void setListRomance(JSONObject jsonObject) {
+        MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+        try {
+
+            mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
+            mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
+            mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
+            mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
+            mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
+            mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
+            mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
+            mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
+            mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
+            mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+        } catch (Exception e) {
+            Log.d("TAG", "setListComedy: " + e);
+        }
+        listRomance.add(mAinMoviListModel);
+        if (listRomance.size() != 0) {
+            layRomance.setVisibility(View.VISIBLE);
+        } else {
+            layRomance.setVisibility(View.GONE);
+        }
+        loading.dismiss();
+
+        adpRomance = new AdapterRomance(listRomance, getContext());
+
+        rcRomance.setAdapter(adpRomance);
+    }
+
+    private void setListThrAction(JSONObject jsonObject) {
+        MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+        try {
+
+            mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
+            mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
+            mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
+            mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
+            mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
+            mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
+            mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
+            mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
+            mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
+            mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+        } catch (Exception e) {
+            Log.d("TAG", "setListComedy: " + e);
+        }
+        listThrAction.add(mAinMoviListModel);
+        if (listThrAction.size() != 0) {
+            layThrAction.setVisibility(View.VISIBLE);
+        } else {
+            layThrAction.setVisibility(View.GONE);
+        }
+        loading.dismiss();
+
+        adpThrAction = new AdapterThrAction(listThrAction, getContext());
+        rcThrAction.setAdapter(adpThrAction);
+    }
+
+    private void setRemainData(JSONObject jsonObject) {
+        MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+        try {
+
+            mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
+            mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
+            mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
+            mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
+            mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
+            mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
+            mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
+            mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
+            mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
+            mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+        } catch (Exception e) {
+            Log.d("TAG", "setListComedy: " + e);
+        }
+        listAll.add(mAinMoviListModel);
+        if (listAll.size() != 0) {
+            layAll.setVisibility(View.VISIBLE);
+        } else {
+            layAll.setVisibility(View.GONE);
+        }
+        loading.dismiss();
+
+        adpAll = new AdapterRemAll(listAll, getContext());
+        rcAll.setAdapter(adpAll);
+    }
+
+    private void setListActionComedy(JSONObject jsonObject) {
+        MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+        try {
+
+            mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
+            mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
+            mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
+            mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
+            mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
+            mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
+            mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
+            mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
+            mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
+            mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+        } catch (Exception e) {
+            Log.d("TAG", "setListComedy: " + e);
+        }
+        listActComedy.add(mAinMoviListModel);
+        if (listActComedy.size() != 0) {
+            layactCom.setVisibility(View.VISIBLE);
+        } else {
+            layactCom.setVisibility(View.GONE);
+        }
+        loading.dismiss();
+
+        adpActComedy = new AdapterActionComedy(listActComedy, getContext());
+        rcActComedy.setAdapter(adpActComedy);
+    }
+
+    private void setListActionDrama(JSONObject jsonObject) {
+        MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+        try {
+
+            mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
+            mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
+            mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
+            mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
+            mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
+            mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
+            mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
+            mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
+            mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
+            mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+        } catch (Exception e) {
+            Log.d("TAG", "setListComedy: " + e);
+        }
+        listActDrama.add(mAinMoviListModel);
+        if (listActDrama.size() != 0) {
+            layActDrama.setVisibility(View.VISIBLE);
+        } else {
+            layActDrama.setVisibility(View.GONE);
+        }
+        loading.dismiss();
+
+        adpActDrama = new AdapterActionDrama(listActDrama, getContext());
+        rcActDrama.setAdapter(adpActDrama);
+    }
+
+    private void setListComedy(JSONObject jsonObject) {
+        MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+        try {
+
+            mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
+            mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
+            mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
+            mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
+            mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
+            mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
+            mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
+            mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
+            mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
+            mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+        } catch (Exception e) {
+            Log.d("TAG", "setListComedy: " + e);
+        }
+        listComedy.add(mAinMoviListModel);
+        if (listComedy.size() != 0) {
+            layComedy.setVisibility(View.VISIBLE);
+        } else {
+            layComedy.setVisibility(View.GONE);
+        }
+        loading.dismiss();
+        adpComedy = new AdapterComedy(listComedy, getContext());
+        rcComedy.setAdapter(adpComedy);
+    }
+
+    private void forAdverties(View v) {
+
+        try {
+
+            MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(InitializationStatus initializationStatus) {
+
+                }
+            });
+            PublisherAdView mPublisherAdView = v.findViewById(R.id.adView);
+            PublisherAdRequest adRequest = new PublisherAdRequest.Builder().build();
+            mPublisherAdView.loadAd(adRequest);
+
+            PublisherAdView mPublisherAdVieww = v.findViewById(R.id.adVieww);
+            PublisherAdRequest adRequestt = new PublisherAdRequest.Builder().build();
+            mPublisherAdVieww.loadAd(adRequestt);
+        } catch (Exception e) {
+            Log.d("TAAG", "forAdverties: " + e.getMessage(), e.getCause());
+        }
     }
 
     private void forSlider(View v) {
         sliderLayout = v.findViewById(R.id.sliderLayout);
         sliderImages = new HashMap<>();
-        sliderImages.put("Bahubali", R.drawable.babubalip);
-        sliderImages.put("Pyar ka panchanama", R.drawable.pyarkapap);
-        sliderImages.put("Bharat", R.drawable.bharatp);
+        sliderImages.put("Nawabzade", R.drawable.nawabazadep);
+        sliderImages.put("Manmarziyaa", R.drawable.manmarziyaanp);
+
 
         for (String name : sliderImages.keySet()) {
 

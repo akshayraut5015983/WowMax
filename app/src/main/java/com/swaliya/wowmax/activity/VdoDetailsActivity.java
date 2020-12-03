@@ -56,7 +56,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
     private static final String PLAYBACK_TIME = "play_time";
     public MediaController controller;
     private ImageView imgPreview;
-    String strName = "", strCat = "", strQul = "", strRel = "", strDur = "", strDesp = "", strurl = "",imgCode = "";
+    String strName = "", strCat = "", strQul = "", strRel = "", strDur = "", strDesp = "", strurl = "", imgCode = "";
 
     TextView tvName, tvCat, tvqul, tvRel, tvDur, tvDesp;
 
@@ -105,7 +105,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
 
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-7999232318006976/4666901574");
+        mInterstitialAd.setAdUnitId(String.valueOf(R.string.intts_ads_unit));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         Bundle i = getIntent().getExtras();
@@ -170,7 +170,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
                     try {
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                         shareIntent.setType("text/plain");
-                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Vidmax");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Wowmax");
                         String shareMessage = "\nLet me recommend you this application\n\n";
 
                         shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
