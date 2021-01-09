@@ -29,21 +29,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
@@ -58,10 +45,6 @@ import com.swaliya.wowmax.adapter.TabsAdapter;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
 import com.swaliya.wowmax.model.Movie;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -80,9 +63,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseUser user;
 
 
-    private InterstitialAd mInterstitialAd;
-    RewardedVideoAd mAd;
-
     private List<Movie> listSuperHeroes;
     private AdapterComedy adapter;
     ProgressDialog loading;
@@ -93,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     View layoutMAin, layoutInternet;
     ViewPager viewPager;
     TabLayout tabLayout;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,17 +102,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(new Intent(MainActivity.this, ViewAllVdoActivity.class).putExtra("key", "All"));
 //                    overridePendingTransition(R.anim.enter, R.anim.hold);
                 } else if (item.getItemId() == R.id.two) {
-                    Toast.makeText(MainActivity.this, "Two", Toast.LENGTH_SHORT).show();
+                    ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo nf = cn.getActiveNetworkInfo();
+                    if (nf != null && nf.isConnected()) {
+                        startActivity(new Intent(MainActivity.this, WowsShortListActivity.class));
+                    }
                 } else {
 
                 }
                 return false;
             }
         });
-
         forTab();
         forNavigationClick();
-
         mAuth = FirebaseAuth.getInstance();
         sessionManager = new SessionManager(this);
         pref = getSharedPreferences(Config.PREF_NAME, Context.MODE_PRIVATE);
@@ -188,41 +169,52 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.d("tag", String.valueOf(adapter.getItemCount()));
         recyclerView.setAdapter(adapter);*/
-
         //  getResponce();
-
-
-    }
-
-
-    private void getData(String url) {
-        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
+        findViewById(R.id.layHome).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(String response) {
+            public void onClick(View view) {
 
-                if (response.contains("Data Exists")) {
-                    Toast.makeText(MainActivity.this, "Data  already exist", Toast.LENGTH_LONG).show();
-
-                } else if (response.contains("successfully")) {
-                    Toast.makeText(MainActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                    intent.putExtra("key", "reg");
-                    startActivity(intent);
-                    sessionManager.createLoginSession(strName, strEmail, strMob, "strPass");
-                    finish();
-                } else {
-                    Toast.makeText(MainActivity.this, "Something wrong in network  ", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(MainActivity.this, error.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.add(stringRequest);
+        findViewById(R.id.layWowShort).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo nf = cn.getActiveNetworkInfo();
+                if (nf != null && nf.isConnected()) {
+                    startActivity(new Intent(MainActivity.this, WowsShortListActivity.class));
+                }
+            }
+        });
+        findViewById(R.id.laySong).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo nf = cn.getActiveNetworkInfo();
+                if (nf != null && nf.isConnected()) {
+                    startActivity(new Intent(MainActivity.this, SongsActivity.class));
+                }
+            }
+        });
+        findViewById(R.id.layShare).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Wowmax");
+                    String shareMessage = "\nLet me recommend you this application\n\n";
+
+                    shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID + "\n\n";
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, "choose one"));
+                } catch (Exception e) {
+                    Log.d("TAg", "onNavigationItemSelected: ");
+                }
+            }
+        });
+
+
     }
 
 
@@ -232,17 +224,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
 
-               /* if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                } else {
-                    Log.d("TAG", "The interstitial wasn't loaded yet.");
-                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                }*/
+
             }
         });
         findViewById(R.id.nav_subscription).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 drawerLayout.closeDrawers();
                 ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo nf = cn.getActiveNetworkInfo();
@@ -259,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         findViewById(R.id.nav_wishlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 drawerLayout.closeDrawers();
                 ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo nf = cn.getActiveNetworkInfo();
@@ -438,61 +427,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void forAdvertise() {
-
-        mAd = MobileAds.getRewardedVideoAdInstance(this);
-        //  mAd.setRewardedVideoAdListener(this);
-
-        MobileAds.initialize(this, "ca-app-pub-7999232318006976~6141148234");
-
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-7999232318006976/4666901574");
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-
-            }
-        });
-
-
-    }
-
-
-   /* private void getResponce() {
-
-        loading = ProgressDialog.show(this, "Loading Data", "Please Wait...", false, false);
-        loading.dismiss();
-        movieList = new ArrayList<>();
-        recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerAdapter = new HindiAdapter(movieList, MainActivity.this);
-        recyclerView.setAdapter(recyclerAdapter);
-
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<List<MAinMoviListModel>> call = apiService.getMovies();
-        call.enqueue(new Callback<List<Movie>>() {
-            @Override
-            public void onResponse(Call<List<Movie>> call, retrofit2.Response<List<Movie>> response) {
-                loading.dismiss();
-                movieList = response.body();
-                Log.d("TAG", "Response = " + movieList);
-                recyclerAdapter.setMovieList(movieList);
-            }
-
-            @Override
-            public void onFailure(Call<List<Movie>> call, Throwable t) {
-                loading.dismiss();
-                Log.d("TAG", "Response = " + t.toString());
-            }
-        });
-
-    }*/
-
     private void forNotification() {
 
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
@@ -519,70 +453,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 });
     }
 
-    private void getData() {
-        String url = "https://reqres.in/api/unknown";
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                //Toast.makeText(MainActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                try {
-                    JSONArray jsonArray = response.getJSONArray("data");
-                    parseData(jsonArray);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.d(TAG, "onResponse: " + response.toString());
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Eoorr", Toast.LENGTH_SHORT).show();
-                loading.dismiss();
-                Log.d(TAG, "onErrorResponse: ");
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-        requestQueue.add(jsonObjectRequest);
-
-
-        //http://urbsfhelp.live/API/APIURL.aspx?msg=Income%20sai&mobile=123456789
-       /* String MY_URL = Config.URL + "API/APIURL.aspx?msg=Income%20" + loginid + "&mobile=" + mobilenumber;
-
-  try {
-                    JSONArray jsonArray = response.getJSONArray("categories");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                        JSONArray jsonArray1 = jsonObject.getJSONArray("videos");
-                        parseData(jsonArray1);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(MY_URL,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d("response history", String.valueOf(response));
-                        parseData(response);
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        loading.dismiss();
-                        Log.d("incomreport", error.getMessage());
-                        error.getMessage();
-                    }
-                });
-        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-        requestQueue.add(jsonArrayRequest);*/
-
-    }
 
     @Override
     protected void onStart() {
@@ -592,6 +462,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
+
         ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo nf = cn.getActiveNetworkInfo();
         if (nf != null && nf.isConnected() == true) {
@@ -601,85 +472,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             layoutInternet.setVisibility(View.VISIBLE);
             layoutMAin.setVisibility(View.GONE);
         }
-        /*if (mInterstitialAd.isLoaded()) {
-            mInterstitialAd.show();
-        } else {
-            Log.d("TAG", "The interstitial wasn't loaded yet.");
-            mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        }*/
+
 
     }
-
-    private void parseData(JSONArray array) {
-       /* try {
-            //  JSONArray array = new JSONArray(aarray);
-            for (int i = 0; i < array.length(); i++) {
-                Datum vdo = new Datum();
-                JSONObject json = null;
-                try {
-                    json = array.getJSONObject(i);
-                    vdo.setName(json.getString("name"));
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                listSuperHeroes.add(vdo);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.d("histcout", String.valueOf(adapter.getItemCount()));
-        //  Toast.makeText(this, String.valueOf(adapter.getItemCount()), Toast.LENGTH_SHORT).show();
-        if (adapter.getItemCount() == 0) {
-            //    Toast.makeText(this, "Data not available", Toast.LENGTH_SHORT).show();
-        }
-        adapter.notifyDataSetChanged();
-        loading.dismiss();*/
-    }
-
-
-    private void loadRewardedVideoAd() {
-        mAd.loadAd("ca-app-pub-7999232318006976/5848191117",
-                new AdRequest.Builder()
-                        .build());
-    }
-
-   /* private void removeCart() {
-        // http://demo1.swaliyasoftech.com/api/apiurl.aspx?msg=deleterecord%209876543210
-        String url = Config.URL + "api/apiurl.aspx?msg=deleterecord%20" + mobilenumber;
-        Log.d("vollyadd", url);
-        StringRequest stringRequest = new StringRequest(url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("vollyaddresponce", response);
-                if (response.contains("Record deleted successfully")) {
-
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setMessage("Cart Not Clear");
-                    builder.setCancelable(false);
-                    builder.setPositiveButton("Delete Record", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            removeCart();
-                        }
-                    });
-
-                    Dialog dialog = builder.create();
-                    dialog.show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("inserterror", error.getMessage());
-                Toast.makeText(getApplicationContext(), "Error to Remove cart item check connection", Toast.LENGTH_LONG).show();
-            }
-        });
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-        requestQueue.add(stringRequest);
-    }*/
-
 
     boolean doubleBackToExitPressedOnce = false;
 
@@ -733,7 +528,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 Toast.makeText(MainActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
             }
-
             return true;
         } else if (id == R.id.nav_wishlist) {
 
@@ -886,57 +680,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     String TAG = "TAg";
 
-   /* @Override
-    public void onRewardedVideoAdLoaded() {
-        Log.i(TAG, "Rewarded: onRewardedVideoAdLoaded");
-        try {
-            if (mAd.isLoaded()) {
-                mAd.show();
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onRewardedVideoAdOpened() {
-        Log.i(TAG, "Rewarded: onRewardedVideoAdOpened");
-    }
-
-    @Override
-    public void onRewardedVideoStarted() {
-        Log.i(TAG, "Rewarded: onRewardedVideoStarted");
-    }
-
-    @Override
-    public void onRewardedVideoAdClosed() {
-        Log.i(TAG, "Rewarded: onRewardedVideoAdClosed");
-
-    }
-
-    @Override
-    public void onRewarded(com.google.android.gms.ads.reward.RewardItem rewardItem) {
-        Log.i(TAG, "Rewarded:  onRewarded! currency: " + rewardItem.getType() + "  amount: " +
-                rewardItem.getAmount());
-
-    }
-
-
-    @Override
-    public void onRewardedVideoAdLeftApplication() {
-        Log.i(TAG, "Rewarded: onRewardedVideoAdLeftApplication ");
-    }
-
-    @Override
-    public void onRewardedVideoAdFailedToLoad(int i) {
-        Log.i(TAG, "Rewarded: onRewardedVideoAdFailedToLoad: " + i);
-    }
-
-    @Override
-    public void onRewardedVideoCompleted() {
-        Log.d(TAG, "onRewardedVideoCompleted: ");
-    }*/
-
     @Override
     public void onSliderClick(BaseSliderView slider) {
         //   Toast.makeText(MainActivity.this, slider.getBundle().get("extra") +  " ", Toast.LENGTH_SHORT).show();
@@ -956,4 +699,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onPageScrollStateChanged(int state) {
 
     }
+
+
 }

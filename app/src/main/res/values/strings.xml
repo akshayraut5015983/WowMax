@@ -3,11 +3,20 @@
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
 
-    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <!--<string name="banner_ad_unit_id">ca-app-pub-6795588514339421/8670193325</string>-->
+    <!--// agn id id below
+    <string name="banner_ad_unit_id">ca-app-pub-7999232318006976/5758004858</string>
+    <string name="intts_ads_unit">ca-app-pub-7999232318006976/4666901574</string>
+    <string name="app_id_admob">ca-app-pub-7999232318006976~6141148234</string>-->
 
-    <string name="intts_ads_unit">ca-app-pub-6795588514339421/1617804041</string>
+    // Wowmax id below
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+     <string name="intts_ads_unit">ca-app-pub-3940256099942544/1033173712</string>
+
+
     <string name="app_id_admob">ca-app-pub-6795588514339421~7376305877</string>
+   <!-- <string name="banner_ad_unit_id">ca-app-pub-6795588514339421/8670193325</string>
+    <string name="intts_ads_unit">ca-app-pub-6795588514339421/1617804041</string>
+-->
     <string name="facebook_app_id">347952026463067</string>
     <string name="fb_login_protocol_scheme">fb347952026463067</string>
 

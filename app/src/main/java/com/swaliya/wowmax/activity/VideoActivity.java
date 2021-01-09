@@ -7,9 +7,13 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -18,7 +22,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
@@ -32,10 +38,12 @@ import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultAllocator;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
@@ -81,8 +89,24 @@ public class VideoActivity extends AppCompatActivity {
         if (str != null) {
             strLastUrl = str.getString("key");
         }
-        playerView = findViewById(R.id.exoplayer);
 
+       /* TrackSelector trackSelector = new DefaultTrackSelector();
+
+        DefaultLoadControl loadControl = new DefaultLoadControl.Builder().setBufferDurationsMs(32*1024, 64*1024, 1024, 1024).createDefaultLoadControl();
+        player = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
+
+        Log.e("TAG", "vdo url: " + strLastUrl);*/
+        playerView = findViewById(R.id.exoplayer);
+       /* WebView myWebView = findViewById(R.id.web);
+        WebSettings webSettings = myWebView.getSettings();
+
+        webSettings.setJavaScriptEnabled(true);
+        myWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        myWebView.getSettings().setLoadWithOverviewMode(true);
+        myWebView.getSettings().setUseWideViewPort(true);
+        // myWebView.loadData(strLastUrl, "text/html", "utf-8");
+        myWebView.getDisplay();
+        myWebView.loadUrl(strLastUrl);*/
     }
 
     @Override
@@ -105,11 +129,15 @@ public class VideoActivity extends AppCompatActivity {
         super.onPause();
         player.seekTo(player.getContentPosition());
     }
-    //http://www.wowmaxmovies.com/video/angrezimedium.mkv
 
     private void initializePlayer() {
         final String strUrl = strLastUrl;
+
+
+        Log.e("TAG", "vdo url: " + strLastUrl);
         player = ExoPlayerFactory.newSimpleInstance(this, new DefaultTrackSelector());
+//        player.setVideoScalingMode(C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
+//        playerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
         playerView.setPlayer(player);
 
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(
@@ -120,24 +148,6 @@ public class VideoActivity extends AppCompatActivity {
 
         player.prepare(mediaSource);
         player.setPlayWhenReady(true);
-    }
-
-
-
-    private void initializePlaaayer() {
-        if (player == null) {
-            player = new SimpleExoPlayer.Builder(this).build();
-            playerView.setPlayer(player);
-            Uri uri = Uri.parse(String.valueOf(strLastUrl));
-
-
-            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "Application Name"));
-
-            MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(String.valueOf("http://www.wowmaxmovies.com/video/angrezimedium.mkv")));
-
-            player.setPlayWhenReady(true);
-            player.prepare(mediaSource, false, false);
-        }
     }
 
 

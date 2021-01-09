@@ -2,27 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:background="@drawable/back_blue"
-    android:layout_height="match_parent"
     tools:context=".activity.SplashActivity">
 
 
+    <VideoView
+        android:id="@+id/vv"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/logo_wow" />
+        android:src="@drawable/logo_wow"
+        android:visibility="gone" />
 
     <ProgressBar
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
-
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

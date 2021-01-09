@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
@@ -79,6 +80,8 @@ public class VdoPlayActivity extends AppCompatActivity {
             VIDEO_SAMPLE = intent.getExtras().getString("key");
             mCurrentPosition = intent.getExtras().getInt("volume");
         }
+
+        Log.e("TAG", "vdo url: " + VIDEO_SAMPLE);
 
         /*Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.vdo_spl);
         Uri uri1 = Uri.parse("http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4");
@@ -197,12 +200,12 @@ public class VdoPlayActivity extends AppCompatActivity {
     private void initializePlayer() {
         // Show the "Buffering..." message while the video loads.
         progressBar.setVisibility(View.VISIBLE);
-      //  Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tuza);
+        //  Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.tuza);
 
         // Buffer and decode the video sample.
         Uri videoUri = getMedia(VIDEO_SAMPLE);
         mVideoView.setVideoURI(videoUri);
-
+        Log.e("TAG", "vdo url: " + VIDEO_SAMPLE);
         // Listener for onPrepared() event (runs after the media is prepared).
         mVideoView.setOnPreparedListener(
                 new MediaPlayer.OnPreparedListener() {

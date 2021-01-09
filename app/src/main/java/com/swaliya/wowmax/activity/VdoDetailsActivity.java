@@ -25,8 +25,19 @@ import android.widget.VideoView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
+import com.google.android.gms.ads.doubleclick.PublisherAdView;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdCallback;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.squareup.picasso.Picasso;
 import com.swaliya.wowmax.BuildConfig;
 import com.swaliya.wowmax.R;
@@ -40,26 +51,18 @@ public class VdoDetailsActivity extends AppCompatActivity {
     String item = "", itemFi = "";
     VideoView mVideoView;
     ImageView imgPlay, imgFull, imgSetting;
-    private InterstitialAd mInterstitialAd;
-    // private static final String VIDEO_SAMPLE = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4";
-    // http://swaliyasoftech.com/img/video/swaliyaintro.mp4
-    private static String VIDEO_SAMPLE = "http://swaliyasoftech.com/img/video/swaliyaintro.mp4";
 
-    //  private static final String VIDEO_SAMPLE = "https://developers.google.com/training/images/tacoma_narrows.mp4";
+    private static String VIDEO_SAMPLE = "http://swaliyasoftech.com/img/video/swaliyaintro.mp4";
     private TextView mBufferingTextView;
     ProgressBar progressBar;
-
-    // Current playback position (in milliseconds).
     private int mCurrentPosition = 0;
-
-    // Tag for the instance state bundle.
     private static final String PLAYBACK_TIME = "play_time";
     public MediaController controller;
     private ImageView imgPreview;
     String strName = "", strCat = "", strQul = "", strRel = "", strDur = "", strDesp = "", strurl = "", imgCode = "";
 
     TextView tvName, tvCat, tvqul, tvRel, tvDur, tvDesp;
-
+    InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +75,15 @@ public class VdoDetailsActivity extends AppCompatActivity {
                 finish();
             }
         });
+        mInterstitialAd = new InterstitialAd(this);
+
+        // set the ad unit ID
+        mInterstitialAd.setAdUnitId(getString(R.string.intts_ads_unit));
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest);
         session = new SessionManager(this);
 
         session = new SessionManager(getApplicationContext());
@@ -103,11 +115,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
         imgSetting.setVisibility(View.GONE);
         imgPlay.setVisibility(View.VISIBLE);
 
-
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(String.valueOf(R.string.intts_ads_unit));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
+        forAdvertise();
         Bundle i = getIntent().getExtras();
         if (i != null) {
             strurl = i.getString("url");
@@ -161,12 +169,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
                 ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo nf = cn.getActiveNetworkInfo();
                 if (nf != null && nf.isConnected() == true) {
-                    if (mInterstitialAd.isLoaded()) {
-                        mInterstitialAd.show();
-                    } else {
-                        Log.d("TAG", "The interstitial wasn't loaded yet.");
-                        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                    }
+
                     try {
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                         shareIntent.setType("text/plain");
@@ -194,6 +197,7 @@ public class VdoDetailsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         imgPlay.setVisibility(View.VISIBLE);
         imgPlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,9 +223,15 @@ public class VdoDetailsActivity extends AppCompatActivity {
                     //  Toast.makeText(VdoDetailsActivity.this, "Playing vdo", Toast.LENGTH_SHORT).show();
                     imgPlay.setVisibility(View.GONE);*/
 
-                    Log.d("TAG", "onClick: " + VIDEO_SAMPLE);
-                    startActivity(new Intent(getApplicationContext(), VideoActivity.class).putExtra("key", VIDEO_SAMPLE));
-
+                    Log.e("TAG", "onClick: " + VIDEO_SAMPLE);
+                    //   startActivity(new Intent(getApplicationContext(), VideoActivity.class).putExtra("key", VIDEO_SAMPLE));
+                    Intent ii = new Intent(VdoDetailsActivity.this, VideoVideoActivity.class);
+                    ii.putExtra("key", VIDEO_SAMPLE);
+                    startActivity(ii);
+                   /* Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+                    Uri data = Uri.parse(VIDEO_SAMPLE);
+                    intent.setData(data);
+                    startActivity(intent);*/
 
                 } else {
                     Toast.makeText(VdoDetailsActivity.this, "Check internet connection", Toast.LENGTH_SHORT).show();
@@ -254,9 +264,16 @@ public class VdoDetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         Log.d("TAG", "onResume: ");
         //  mVideoView.setAudioFocusRequest(AudioManager.AUDIOFOCUS_NONE);
-
+      /*  mInterstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+            }
+        });*/
         findViewById(R.id.imgFull).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,20 +282,28 @@ public class VdoDetailsActivity extends AppCompatActivity {
                 Log.d("TAG", "onClick: " + mVideoView.getCurrentPosition());
             }
         });
+
+
+    }
+
+    private void forAdvertise() {
+        MobileAds.initialize(VdoDetailsActivity.this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+
+            }
+        });
+        PublisherAdView mPublisherAdView = findViewById(R.id.adView);
+        PublisherAdRequest adRequest = new PublisherAdRequest.Builder().build();
+        mPublisherAdView.loadAd(adRequest);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.d("TAG", "onPause: ");
-        // In Android versions less than N (7.0, API 24), onPause() is the
-        // end of the visual lifecycle of the app.  Pausing the video here
-        // prevents the sound from continuing to play even after the app
-        // disappears.
-        //
-        // This is not a problem for more recent versions of Android because
-        // onStop() is now the end of the visual lifecycle, and that is where
-        // most of the app teardown should take place.
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             mVideoView.stopPlayback();
         }
@@ -319,7 +344,6 @@ public class VdoDetailsActivity extends AppCompatActivity {
                 new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mediaPlayer) {
-
 
                         // Hide buffering message.
                         mBufferingTextView.setVisibility(VideoView.INVISIBLE);

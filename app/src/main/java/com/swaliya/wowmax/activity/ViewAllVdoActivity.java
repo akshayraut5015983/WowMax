@@ -134,7 +134,7 @@ public class ViewAllVdoActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 parseData(response);
-                Log.d("TAG", "onResponse: " + response);
+                Log.e("TAG", "onResponse: " + response);
 
             }
         }, new Response.ErrorListener() {
@@ -142,7 +142,7 @@ public class ViewAllVdoActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 loading.dismiss();
                 Toast.makeText(ViewAllVdoActivity.this, "Poor Internet Connection", Toast.LENGTH_LONG).show();
-                Log.d("TAG", "onErrorResponse: " + error.getLocalizedMessage());
+                Log.e("TAG", "onErrorResponse: " + error.getLocalizedMessage());
             }
         });
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -181,6 +181,7 @@ public class ViewAllVdoActivity extends AppCompatActivity {
             }
         }
         if (listAll.isEmpty()) {
+            loading.dismiss();
             Toast.makeText(this, "Not Match Found " + strSearch, Toast.LENGTH_SHORT).show();
         }
     }

@@ -1,5 +1,6 @@
 package com.swaliya.wowmax.fragment;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,14 +26,19 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.swaliya.wowmax.R;
 import com.swaliya.wowmax.activity.ViewAllVdoActivity;
 import com.swaliya.wowmax.adapter.AdapterActionComedy;
@@ -42,8 +49,10 @@ import com.swaliya.wowmax.adapter.AdapterMarathi;
 import com.swaliya.wowmax.adapter.AdapterRemAll;
 import com.swaliya.wowmax.adapter.AdapterRomance;
 import com.swaliya.wowmax.adapter.AdapterThrAction;
+import com.swaliya.wowmax.adapter.SliderPagerAdapter;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.model.MainMovieListModel;
+import com.swaliya.wowmax.model.SliderModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,27 +62,43 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class JustAddedFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
     private AdView mAdView, adView;
     private SliderLayout sliderLayout;
+    ViewPager viewPager;
     private HashMap<String, Integer> sliderImages;
+    private ArrayList<MainMovieListModel> listSlider;
 
-    List<MainMovieListModel> listComedy, listActComedy, listAll, listActDrama, listThrAction, listRomance, listComDrama,listMarathi;
-    RecyclerView.Adapter adpComedy, adpActComedy, adpAll, adpActDrama, adpThrAction, adpRomance, adpComDrama,adpMarathi;
-    RecyclerView rcComedy, rcActComedy, rcAll, rcActDrama, rcThrAction, rcRomance, rcComDrama,reMarathi;
-    LinearLayout layComedy, layactCom, layAll, layActDrama, layThrAction, layRomance, layComDrama,lyMarathi;
+    private ArrayList<MainMovieListModel> listMAinSlider;
+    List<MainMovieListModel> listComedy, listActComedy, listAll, listActDrama, listThrAction, listRomance, listComDrama, listMarathi;
+    RecyclerView.Adapter adpComedy, adpActComedy, adpAll, adpActDrama, adpThrAction, adpRomance, adpComDrama, adpMarathi;
+    RecyclerView rcComedy, rcActComedy, rcAll, rcActDrama, rcThrAction, rcRomance, rcComDrama, reMarathi;
+    LinearLayout layComedy, layactCom, layAll, layActDrama, layThrAction, layRomance, layComDrama, lyMarathi;
 
-    ProgressDialog loading;
+    ProgressDialog loading, getLoading;
+    InterstitialAd mInterstitialAd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.layout_mainjust, viewGroup, false);
+        mInterstitialAd = new InterstitialAd(getContext());
+
+        mInterstitialAd.setAdUnitId(getString(R.string.intts_ads_unit));
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        // Load ads into Interstitial Ads  
+        mInterstitialAd.loadAd(adRequest);
 
 
         forAdverties(v);
 
-        //   forSlider(v);
+        listMAinSlider = new ArrayList<>();
+        listSlider = new ArrayList<>();
+        viewPager = v.findViewById(R.id.viewPager);
         layAll = v.findViewById(R.id.layAll);
         listAll = new ArrayList<>();
         rcAll = v.findViewById(R.id.recAll);
@@ -122,17 +147,136 @@ public class JustAddedFragment extends Fragment implements BaseSliderView.OnSlid
         ConnectivityManager cn = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo nf = cn.getActiveNetworkInfo();
         if (nf != null && nf.isConnected()) {
+            getList();
+
+            getLoading = ProgressDialog.show(getContext(), "Loading Data", "Please Wait...", false, false);
+        } else {
+            Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_SHORT).show();
+        }
+
+        if (nf != null && nf.isConnected()) {
             getResponce();
             loading = ProgressDialog.show(getContext(), "Loading Data", "Please Wait...", false, false);
         } else {
             Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_SHORT).show();
         }
+
+
         onLayoutClick();
+
         return v;
 
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mInterstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                }
+            }
+        });
+
+    }
+
+    private void getList() {
+        String url = Config.URL + "api/apiurl.aspx?msg=Top10Image";
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                addDataToSlider(response);
+                Log.e("TAG", "onResponse: " + response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                getLoading.dismiss();
+                Toast.makeText(getContext(), "Poor Internet Connection", Toast.LENGTH_LONG).show();
+                Log.e("TAG", "onErrorResponse: " + error.getLocalizedMessage());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(jsonArrayRequest);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
+
+    private void addDataToSlider(JSONArray response) {
+        getLoading.dismiss();
+        for (int i = 0; i < response.length(); i++) {
+            MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+            try {
+                JSONObject jsonObject = response.getJSONObject(i);
+
+                mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
+                mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
+                mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
+                mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
+                mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
+                mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
+                mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
+                mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
+                mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
+                mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+
+            } catch (Exception e) {
+                Log.d("TAG", "setListComedy: " + e);
+            }
+            listSlider.add(mAinMoviListModel);
+            getLoading.dismiss();
+            SliderPagerAdapter sliderPagerAdapter = new SliderPagerAdapter(getContext(), listSlider);
+            viewPager.setAdapter(sliderPagerAdapter);
+            Timer timer = new Timer();
+            timer.schedule(new RemindTask(listSlider.size(), viewPager, getContext()), 2500, 2500);
+
+//            videoItems.add(mAinMoviListModel);
+//            videosViewPager.setAdapter(new VideosAdapter(videoItems, this));
+
+        }
+    }
+
+    class RemindTask extends TimerTask {
+        int no_of_pages;
+        ViewPager viewPager;
+        int page = 0;
+        Context context;
+
+        public RemindTask(int no_of_pages, ViewPager viewPager, Context context) {
+            this.no_of_pages = no_of_pages;
+            this.viewPager = viewPager;
+            this.context = context;
+        }
+
+        @Override
+        public void run() {
+            ((Activity) context).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (page > no_of_pages) {
+                        viewPager.setCurrentItem(0,true);
+                        page = 0;
+
+                    } else {
+
+                        viewPager.setCurrentItem(page++);
+                    }
+                }
+            });
+        }
+    }
+
     private void onLayoutClick() {
+
         layAll.setOnClickListener(v -> startActivity(new Intent(getContext(), ViewAllVdoActivity.class).putExtra("key", "All")));
 
         layComedy.setOnClickListener(new View.OnClickListener() {
@@ -186,8 +330,8 @@ public class JustAddedFragment extends Fragment implements BaseSliderView.OnSlid
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                parseData(response);
                 Log.d("TAG", "onResponse: " + response);
+                parseData(response);
 
             }
         }, new Response.ErrorListener() {
@@ -203,7 +347,9 @@ public class JustAddedFragment extends Fragment implements BaseSliderView.OnSlid
 
     }
 
+
     private void parseData(JSONArray response) {
+        loading.dismiss();
         for (int i = 0; i < response.length(); i++) {
             try {
                 JSONObject jsonObject = response.getJSONObject(i);
@@ -217,7 +363,7 @@ public class JustAddedFragment extends Fragment implements BaseSliderView.OnSlid
                     setListRomance(jsonObject);
                 } else if (jsonObject.getString("CategoryName").equals("Marathi")) {
                     setListMarathi(jsonObject);
-                }else if (jsonObject.getString("CategoryName").equals("Thriller and action")) {
+                } else if (jsonObject.getString("CategoryName").equals("Thriller and action")) {
                     setListThrAction(jsonObject);
                 } else if (jsonObject.getString("CategoryName").equals("Comedy and Drama")) {
                     setListComDrama(jsonObject);
@@ -232,6 +378,8 @@ public class JustAddedFragment extends Fragment implements BaseSliderView.OnSlid
         }
 
     }
+
+
     private void setListMarathi(JSONObject jsonObject) {
         MainMovieListModel mAinMoviListModel = new MainMovieListModel();
         try {
@@ -280,16 +428,19 @@ public class JustAddedFragment extends Fragment implements BaseSliderView.OnSlid
         } catch (Exception e) {
             Log.d("TAG", "setListComedy: " + e);
         }
+
         listComDrama.add(mAinMoviListModel);
         if (listComDrama.size() != 0) {
             layComDrama.setVisibility(View.VISIBLE);
         } else {
             layComDrama.setVisibility(View.GONE);
         }
+
         loading.dismiss();
         Collections.reverse(listComDrama);
         adpComDrama = new AdapterComedyDrama(listComDrama, getContext());
         rcComDrama.setAdapter(adpComDrama);
+
     }
 
     private void setListRomance(JSONObject jsonObject) {
@@ -495,34 +646,6 @@ public class JustAddedFragment extends Fragment implements BaseSliderView.OnSlid
         }
     }
 
-    private void forSlider(View v) {
-        sliderLayout = v.findViewById(R.id.sliderLayout);
-        sliderImages = new HashMap<>();
-        sliderImages.put("Nawabzade", R.drawable.nawabazadep);
-        sliderImages.put("Manmarziyaa", R.drawable.manmarziyaanp);
-
-
-        for (String name : sliderImages.keySet()) {
-
-            TextSliderView textSliderView = new TextSliderView(getContext());
-            textSliderView
-                    .description(name)
-                    .image(sliderImages.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.FitCenterCrop)
-                    .setOnSliderClickListener(this);
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra", name);
-            sliderLayout.addSlider(textSliderView);
-        }
-
-        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
-        // sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        //  sliderLayout.setCustomAnimation(new DescriptionAnimation());
-        sliderLayout.setDuration(2000);
-        sliderLayout.addOnPageChangeListener(this);
-        sliderLayout.getPagerIndicator().setVisibility(View.GONE);
-    }
 
     @Override
     public void onSliderClick(BaseSliderView slider) {

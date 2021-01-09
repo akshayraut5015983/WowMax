@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "597825694589-1170ph1bvee2659g0npfhmea2va3lrr6.apps.googleusercontent.com",
+          "client_id": "597825694589-j4rrid56ik36i9opnc1jgpdjk5gvtc8p.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.swaliya.wowmax",
-            "certificate_hash": "c6a8a337b05ddb041509e27a07d6df16e771f948"
+            "certificate_hash": "fcace63587f79bb50901b776aabdb55cfe84a4ad"
           }
         },
         {

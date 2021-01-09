@@ -9,8 +9,10 @@ import android.content.IntentSender;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -74,16 +77,28 @@ public class SplashActivity extends Activity {
         mAuth = FirebaseAuth.getInstance();
         session = new SessionManager(SplashActivity.this);
         imageView = (ImageView) findViewById(R.id.img);
-        anim = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.zoom);
+        // anim = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.zoom);
 
-        imageView.startAnimation(anim);
+        //  imageView.startAnimation(anim);
+
+        VideoView videoView = (VideoView) findViewById(R.id.vv);
+//        MediaController mediaController = new MediaController(this);
+//        mediaController.setAnchorView(videoView);
+        Uri uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.spl);
+        // videoView.setMediaController(mediaController);
+        videoView.setVideoURI(uri);
+        videoView.requestFocus();
+        videoView.setZOrderOnTop(true);
+        videoView.start();
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (mAuth.getCurrentUser() != null) {
-                    finish();
                     mAuth.signOut();
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class).putExtra("key", "mail"));
+                    finish();
                 } else if (session.isLoggedIn()) {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class).putExtra("key", "reg").setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     finish();
@@ -93,7 +108,8 @@ public class SplashActivity extends Activity {
                 }
 
             }
-        }, 2000);
+        }, 4000);
+
       /*  PackageInfo info = null;
         try {
             PackageManager manager = this.getPackageManager();
@@ -164,10 +180,6 @@ public class SplashActivity extends Activity {
         });*/
     }
 
-    private void continueWithTheLogin() {
-
-
-    }
 
     private void showDialogToSendToPlayStore() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
