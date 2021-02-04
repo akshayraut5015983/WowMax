@@ -1,5 +1,6 @@
 package com.swaliya.wowmax.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,10 +60,12 @@ public class VdoDetailsActivity extends AppCompatActivity {
     private static final String PLAYBACK_TIME = "play_time";
     public MediaController controller;
     private ImageView imgPreview;
-    String strName = "", strCat = "", strQul = "", strRel = "", strDur = "", strDesp = "", strurl = "", imgCode = "";
+    String strName = "", strCat = "", strQul = "", strRel = "", strDur = "", strDesp = "", strurl = "", imgCode = "", strWrit = "", strMuscDire = "", strCast = "", strOneLine = "";
 
-    TextView tvName, tvCat, tvqul, tvRel, tvDur, tvDesp;
+    TextView tvName, tvCat, tvqul, tvRel, tvDur, tvDesp, tvWriter, tvMusiceDir, tvCast, tvOneline;
     InterstitialAd mInterstitialAd;
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +107,10 @@ public class VdoDetailsActivity extends AppCompatActivity {
         tvRel = findViewById(R.id.tvRel);
         tvDur = findViewById(R.id.tvDur);
         tvDesp = findViewById(R.id.tvDesp);
+        tvWriter = findViewById(R.id.tvWriter);
+        tvMusiceDir = findViewById(R.id.tvMusicDirec);
+        tvCast = findViewById(R.id.tvCast);
+        tvOneline = findViewById(R.id.tvOneline);
         mVideoView = findViewById(R.id.vid);
         imgPlay = findViewById(R.id.omgPlay);
         imgFull = findViewById(R.id.imgFull);
@@ -118,12 +125,17 @@ public class VdoDetailsActivity extends AppCompatActivity {
         forAdvertise();
         Bundle i = getIntent().getExtras();
         if (i != null) {
+            Log.e("TAG", "onCreate: " + i);
             strurl = i.getString("url");
             strName = i.getString("name");
             strCat = i.getString("cat");
             strRel = i.getString("rel");
             strQul = i.getString("qlt");
             strDur = i.getString("dur");
+            strWrit = i.getString("writ");
+            strMuscDire = i.getString("mdir");
+            strCast = i.getString("cast");
+            strOneLine = i.getString("onel");
             strDesp = i.getString("desp");
             imgCode = i.getString("img");
 
@@ -133,6 +145,10 @@ public class VdoDetailsActivity extends AppCompatActivity {
             tvqul.setText("Quality -" + strQul);
             tvRel.setText("Release- " + strRel);
             tvDur.setText("Duration- " + strDur);
+            tvWriter.setText("Writer- " + strWrit);
+            tvMusiceDir.setText("MusicDirector -" + strMuscDire);
+            tvCast.setText("Cast- " + strCast);
+            tvOneline.setText("OneLine- " + strOneLine);
             tvDesp.setText("Description- " + strDesp);
             VIDEO_SAMPLE = strurl;
         }

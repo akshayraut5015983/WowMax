@@ -1,14 +1,11 @@
 package com.swaliya.wowmax.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -23,7 +20,6 @@ import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.swaliya.wowmax.R;
-import com.swaliya.wowmax.adapter.DbAdapter;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
 import com.swaliya.wowmax.helper.DatabaseHelper;
@@ -85,7 +81,7 @@ public class SearchActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(SearchActivity.this, "Not Insert", Toast.LENGTH_SHORT).show();
                 }
-                fillListview();
+
                 //  Toast.makeText(SearchActivity.this, "Searching on " + strSearch, Toast.LENGTH_SHORT).show();
 
 
@@ -95,28 +91,6 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    public void fillListview() {
-        RecyclerView recyclerView = findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
-
-        ArrayList<DbModel> dbModels = new ArrayList<>();
-        DatabaseHelper dbhelper = new DatabaseHelper(this);
-
-       /* ArrayList<DbModel> dogList = dbhelper.getAllData();
-        for (int i = 0; i < dogList.size(); i++) {
-            DbModel dbModel = new DbModel();
-            dbModel.setId(dogList.get(i).getId());
-            dbModel.setName(dogList.get(i).getName());
-            dbModel.setDesp(dogList.get(i).getDesp());
-            Log.d("TAG", "fillListview: " + dogList.get(i).getDesp() + dogList.get(i).getName());
-
-        }*/
-
-        DbAdapter dbAdapter = new DbAdapter(SearchActivity.this, dbhelper.getAllData());
-        recyclerView.setAdapter(dbAdapter);
-    /*    Customadapter myAdapter = new Customadapter(dogList, this);
-        myListview.setAdapter(myAdapter);*/
-    }
 
     @Override
     protected void onResume() {

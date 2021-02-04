@@ -282,7 +282,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_marginLeft="20dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="20dp"
                         android:layout_weight="2"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -295,8 +295,9 @@
 
                             <TextView
                                 android:id="@+id/tvName"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:background="@drawable/back_squre"
                                 android:hint="Name of movie"
                                 android:textColor="@color/white"
                                 android:textColorHint="@color/greay"
@@ -306,52 +307,107 @@
 
                         </RelativeLayout>
 
-                        <TextView
-                            android:id="@+id/tvCat"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Category - Crime, Action"
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/greay"
-                            android:textSize="18dp" />
+                            android:background="@drawable/back_squre"
+                            android:layout_marginBottom="20dp"
+                            android:paddingBottom="10dp"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/tvQlt"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Quality - Full HD 1080"
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/greay"
-                            android:textSize="18dp" />
 
-                        <TextView
-                            android:id="@+id/tvRel"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Release: 2019-02-03"
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/greay"
-                            android:textSize="18dp" />
+                            <TextView
+                                android:id="@+id/tvCat"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Category - Crime, Action"
+                                android:padding="3dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/greay"
+                                android:textSize="18dp" />
 
-                        <TextView
-                            android:id="@+id/tvDur"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Duration - 2.21 hr."
-                            android:textColor="@color/white"
-                            android:textColorHint="@color/greay"
-                            android:textSize="18dp" />
+                            <TextView
+                                android:id="@+id/tvQlt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Quality - Full HD 1080"
+                                android:padding="3dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/greay"
+                                android:textSize="18dp" />
 
-                        <TextView
-                            android:id="@+id/tvDesp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:hint="Description - Google material design icon for my resolution "
-                            android:textColor="@color/whitee"
-                            android:textColorHint="@color/greay"
-                            android:textSize="18dp" />
+                            <TextView
+                                android:id="@+id/tvRel"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Release: 2019-02-03"
+                                android:padding="3dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/greay"
+                                android:textSize="18dp" />
 
+                            <TextView
+                                android:id="@+id/tvDur"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Duration - 2.21 hr."
+                                android:padding="3dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/greay"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/tvWriter"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Writer."
+                                android:padding="3dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/greay"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/tvMusicDirec"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Music Directer"
+                                android:padding="3dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/greay"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/tvCast"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Cast"
+                                android:padding="3dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/greay"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/tvOneline"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="One Line-"
+                                android:padding="3dp"
+                                android:textColor="@color/white"
+                                android:textColorHint="@color/greay"
+                                android:textSize="18dp" />
+
+                            <TextView
+                                android:id="@+id/tvDesp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:hint="Description - Google material design icon for my resolution "
+                                android:padding="3dp"
+                                android:textColor="@color/whitee"
+                                android:textColorHint="@color/greay"
+                                android:textSize="18dp" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

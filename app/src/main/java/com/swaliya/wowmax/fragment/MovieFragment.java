@@ -3,6 +3,7 @@ package com.swaliya.wowmax.fragment;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -10,11 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -23,110 +27,190 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.InterstitialAd;
+import com.facebook.appevents.ml.Utils;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.doubleclick.PublisherAdRequest;
 import com.google.android.gms.ads.doubleclick.PublisherAdView;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.swaliya.wowmax.R;
-import com.swaliya.wowmax.adapter.AdapterViewAll;
-import com.swaliya.wowmax.adapter.SliderPagerAdapter;
+import com.swaliya.wowmax.adapter.AdapterMovieList;
+import com.swaliya.wowmax.adapter.AdapterSubCategory;
+import com.swaliya.wowmax.adapter.Slider10Adapter;
 import com.swaliya.wowmax.configg.Config;
-import com.swaliya.wowmax.model.MainMovieListModel;
+import com.swaliya.wowmax.model.Slider10Model;
+import com.swaliya.wowmax.model.SubCategryModel;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MovieFragment extends Fragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
-
-    private AdView mAdView, adView;
-    private SliderLayout sliderLayout;
+public class MovieFragment extends Fragment {
     ViewPager viewPager;
-    private HashMap<String, Integer> sliderImages;
-    private ArrayList<MainMovieListModel> listSlider;
-    LinearLayout layComedy, layactCom, layAll, layActDrama, layThrAction, layRomance, layComDrama, lyOther;
+    private ArrayList<Slider10Model> listSlider;
+    private ArrayList<Slider10Model> listMovie;
+    ProgressDialog progressDialog;
+    private RecyclerView recCategory;
+    RecyclerView recMovie;
+    private ArrayList<SubCategryModel> subCategryModelArrayList;
+    private RecyclerView.Adapter adapterSubCAt;
+    AdapterMovieList adpListMovi;
 
-    ProgressDialog loading, getLoading;
-    InterstitialAd mInterstitialAd;
-    AdapterViewAll adapterViewAll;
-    RecyclerView recCategory;
-    List<MainMovieListModel> listCategory;
+    public static ProgressDialog createProgressDialog(Context context) {
+        ProgressDialog dialog = new ProgressDialog(context);
+        try {
+            dialog.show();
+        } catch (WindowManager.BadTokenException e) {
+
+        }
+        dialog.setCancelable(false);
+        dialog.getWindow()
+                .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.progressdialog);
+        // dialog.setMessage(Message);
+        return dialog;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_movie, viewGroup, false);
-        forAdverties(v);
         listSlider = new ArrayList<>();
+        listMovie = new ArrayList<>();
+        subCategryModelArrayList = new ArrayList<>();
         viewPager = v.findViewById(R.id.viewPager);
-
-        mInterstitialAd = new InterstitialAd(getContext());
-
-        // set the ad unit ID
-        mInterstitialAd.setAdUnitId(getString(R.string.intts_ads_unit));
-
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        // Load ads into Interstitial Ads
-        mInterstitialAd.loadAd(adRequest);
-        listCategory = new ArrayList<>();
         recCategory = v.findViewById(R.id.recCate);
-        recCategory.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recMovie = v.findViewById(R.id.recMovie);
+        recCategory.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recMovie.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-
-        layAll = v.findViewById(R.id.layAll);
-        lyOther = v.findViewById(R.id.layOther);
-        layComedy = v.findViewById(R.id.layComedy);
-        layactCom = v.findViewById(R.id.layActionComedy);
-        layComDrama = v.findViewById(R.id.layComedyDrama);
-        layActDrama = v.findViewById(R.id.layActionDrama);
-        layRomance = v.findViewById(R.id.layRomance);
-        layThrAction = v.findViewById(R.id.layThrAction);
-
+        forAdverties(v);
         ConnectivityManager cn = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo nf = cn.getActiveNetworkInfo();
         if (nf != null && nf.isConnected()) {
-
             getList();
-            getLoading = ProgressDialog.show(getContext(), "Loading Data", "Please Wait...", false, false);
+            if (progressDialog == null) {
+                progressDialog = createProgressDialog(getContext());
+            }
+            progressDialog.show();
         } else {
             Toast.makeText(getContext(), "Check internet connection", Toast.LENGTH_SHORT).show();
         }
-        getResponce("All");
-        onLayoutClick();
+       /* adapterSubCAt = new AdapterSubCategory(subCategryModelArrayList, getContext());
+        recCategory.setAdapter(adapterSubCAt);*/
 
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getData();
+            }
+        });
+        thread.start();
+        getMovieList("action");
         return v;
+    }
+
+    private void getData() {
+        String url = Config.URL + "api/apiurl.aspx?msg=SubCategoryName";
+        Log.e("TAG", "getData: " + url);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                parseData(response);
+                Log.d("TAG", "onnse: " + response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //  Toast.makeText(getContext(), "Poor Internet Connection", Toast.LENGTH_LONG).show();
+                Log.d("TAG", "onErrorResponse: " + error.getLocalizedMessage());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(jsonArrayRequest);
 
     }
+
+    private void parseData(JSONArray response) {
+        for (int i = 0; i < response.length(); i++) {
+            SubCategryModel mAinMoviListModel = new SubCategryModel();
+
+            try {
+                JSONObject jsonObject = response.getJSONObject(i);
+                mAinMoviListModel.setSubCategoryName(jsonObject.getString("SubCategoryName"));
+
+            } catch (Exception e) {
+                Log.d("TAG", "setListComedy: " + e);
+            }
+            subCategryModelArrayList.add(mAinMoviListModel);
+
+            AdapterSubCategory adapterSubCategory = new AdapterSubCategory(subCategryModelArrayList, getContext(), new AdapterSubCategory.OnItemClicked() {
+                @Override
+                public void onItemClick(String position) {
+
+                    getName(position);
+                    Log.e("TAG", "onItemClick: " + position);
+                    //Toast.makeText(getContext(), position, Toast.LENGTH_SHORT).show();
+                }
+            });
+            recCategory.setAdapter(adapterSubCategory);
+        }
+
+    }
+
 
     @Override
     public void onStart() {
         super.onStart();
-        mInterstitialAd.setAdListener(new AdListener() {
-            public void onAdLoaded() {
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
+
+    }
+
+    public void getName(String name) {
+
+        listMovie.clear();
+
+        if (name.equals("")) {
+            Log.e("TAG", "getName: ");
+        } else {
+            Log.e("TAG", "getName: " + name);
+            // Toast.makeText(getContext(), name, Toast.LENGTH_SHORT).show();
+            progressDialog.show();
+            getMovieList(name);
+
+        }
+    }
+
+
+    private void forAdverties(View v) {
+
+        try {
+
+            MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+                @Override
+                public void onInitializationComplete(InitializationStatus initializationStatus) {
+
                 }
-            }
-        });
+            });
+            /*PublisherAdView mPublisherAdView = v.findViewById(R.id.adView);
+            PublisherAdRequest adRequest = new PublisherAdRequest.Builder().build();
+            mPublisherAdView.loadAd(adRequest);*/
+
+            PublisherAdView mPublisherAdVieww = v.findViewById(R.id.adVieww);
+            PublisherAdRequest adRequestt = new PublisherAdRequest.Builder().build();
+            mPublisherAdVieww.loadAd(adRequestt);
+        } catch (Exception e) {
+            Log.d("TAAG", "forAdverties: " + e.getMessage(), e.getCause());
+        }
     }
 
     private void getList() {
-        String url = Config.URL + "api/apiurl.aspx?msg=Top10Image";
+        String url = Config.URL + "api/apiurl.aspx?msg=NewVideotop10List";
+        Log.e("TAG", "getList: " + url);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -137,7 +221,7 @@ public class MovieFragment extends Fragment implements BaseSliderView.OnSliderCl
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                getLoading.dismiss();
+                progressDialog.dismiss();
                 Toast.makeText(getContext(), "Poor Internet Connection", Toast.LENGTH_LONG).show();
                 Log.e("TAG", "onErrorResponse: " + error.getLocalizedMessage());
             }
@@ -148,26 +232,38 @@ public class MovieFragment extends Fragment implements BaseSliderView.OnSliderCl
     }
 
     private void addDataToSlider(JSONArray response) {
+        progressDialog.dismiss();
         for (int i = 0; i < response.length(); i++) {
-            MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+            Slider10Model mAinMoviListModel = new Slider10Model();
             try {
                 JSONObject jsonObject = response.getJSONObject(i);
 
-                mAinMoviListModel.setMovieName(jsonObject.getString("MovieName"));
-                mAinMoviListModel.setMovieImage2(jsonObject.getString("Image2List"));
+                mAinMoviListModel.setVideoName(jsonObject.getString("VideoName"));
+                mAinMoviListModel.setTypes(jsonObject.getString("Types"));
+                mAinMoviListModel.setCategory(jsonObject.getString("Category"));
+                mAinMoviListModel.setLanguage(jsonObject.getString("Language"));
+                mAinMoviListModel.setDirectorName(jsonObject.getString("DirectorName"));
+                mAinMoviListModel.setDuration(jsonObject.getString("Duration"));
+                mAinMoviListModel.setWriter(jsonObject.getString("Writer"));
+                mAinMoviListModel.setMusicDirector(jsonObject.getString("MusicDirector"));
+                mAinMoviListModel.setDiscription(jsonObject.getString("Discription"));
+                mAinMoviListModel.setCast(jsonObject.getString("Cast"));
+                mAinMoviListModel.setOneLine(jsonObject.getString("OneLine"));
+                mAinMoviListModel.setReleseDate(jsonObject.getString("ReleseDate"));
+                mAinMoviListModel.setThumbnail1(jsonObject.getString("Thumbnail1"));
+                mAinMoviListModel.setThumbnail2(jsonObject.getString("Thumbnail2"));
+                mAinMoviListModel.setVidePath(jsonObject.getString("VidePath"));
+
 
             } catch (Exception e) {
                 Log.d("TAG", "setListComedy: " + e);
             }
             listSlider.add(mAinMoviListModel);
-            getLoading.dismiss();
-            SliderPagerAdapter sliderPagerAdapter = new SliderPagerAdapter(getContext(), listSlider);
+
+            Slider10Adapter sliderPagerAdapter = new Slider10Adapter(getContext(), listSlider);
             viewPager.setAdapter(sliderPagerAdapter);
             Timer timer = new Timer();
-            timer.schedule(new MovieFragment.RemindTask(listSlider.size(), viewPager, getContext()), 2500, 2500);
-
-//            videoItems.add(mAinMoviListModel);
-//            videosViewPager.setAdapter(new VideosAdapter(videoItems, this));
+            timer.schedule(new RemindTask(listSlider.size(), viewPager, getContext()), 2500, 2500);
 
         }
     }
@@ -190,10 +286,11 @@ public class MovieFragment extends Fragment implements BaseSliderView.OnSliderCl
                 @Override
                 public void run() {
                     if (page > no_of_pages) {
-                        viewPager.setCurrentItem(0);
+                        viewPager.setCurrentItem(0, true);
                         page = 0;
 
                     } else {
+
                         viewPager.setCurrentItem(page++);
                     }
                 }
@@ -201,100 +298,21 @@ public class MovieFragment extends Fragment implements BaseSliderView.OnSliderCl
         }
     }
 
-    private void onLayoutClick() {
-        ConnectivityManager cn = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo nf = cn.getActiveNetworkInfo();
-
-        layAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nf != null && nf.isConnected()) {
-
-                    listCategory.clear();
-                    getResponce("All");
-                }
-            }
-        });
-        layactCom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nf != null && nf.isConnected()) {
-                    listCategory.clear();
-                    getResponce("Action and Comedy");
-                }
-            }
-        });
-        layActDrama.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nf != null && nf.isConnected()) {
-                    listCategory.clear();
-                    getResponce("Action and Drama");
-                }
-            }
-        });
-        layComedy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nf != null && nf.isConnected()) {
-                    listCategory.clear();
-                    getResponce("Comedy");
-                }
-            }
-        });
-        layComDrama.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nf != null && nf.isConnected()) {
-                    listCategory.clear();
-                    getResponce("Comedy and Drama");
-                }
-            }
-        });
-        layRomance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nf != null && nf.isConnected()) {
-                    listCategory.clear();
-                    getResponce("Romance");
-                }
-            }
-        });
-        layThrAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nf != null && nf.isConnected()) {
-                    listCategory.clear();
-                    getResponce("Thriller and action");
-                }
-            }
-        });
-        lyOther.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (nf != null && nf.isConnected()) {
-                    listCategory.clear();
-                    getResponce("Movie");
-                }
-            }
-        });
-    }
-
-
-    private void getResponce(String category) {
-
-        String url = Config.URL + "api/apiurl.aspx?msg=GetMovieDetails";
+    private void getMovieList(String na) {
+        String ss = na.replace(" ", "%20");
+        String url = Config.URL + "api/apiurl.aspx?msg=NewVideoList%20movies%20" + ss;
+        Log.e("TAG", "getList: " + url);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                parseData(response, category);
-                Log.d("TAG", "onResponse: " + response);
+                addData(response);
+                Log.e("TAG", "onResponse: " + response);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // loading.dismiss();
+                progressDialog.dismiss();
                 Toast.makeText(getContext(), "Poor Internet Connection", Toast.LENGTH_LONG).show();
                 Log.e("TAG", "onErrorResponse: " + error.getLocalizedMessage());
             }
@@ -304,95 +322,50 @@ public class MovieFragment extends Fragment implements BaseSliderView.OnSliderCl
 
     }
 
-    private void parseData(JSONArray response, String category) {
-
+    private void addData(JSONArray response) {
+        progressDialog.dismiss();
+        Log.e("TAG", "lst: " + response);
+        if (response.isNull(0)) {
+            Log.e("TAG", "lst:null " + response);
+            Toast.makeText(getContext(), "No data Found", Toast.LENGTH_SHORT).show();
+        }
         for (int i = 0; i < response.length(); i++) {
-            MainMovieListModel mAinMoviListModel = new MainMovieListModel();
-
+            Slider10Model mAinMoviListModel = new Slider10Model();
             try {
                 JSONObject jsonObject = response.getJSONObject(i);
-                if (category.equals("All")) {
-                    mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
-                    mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
-                    mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
-                    mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
-                    mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
-                    mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
-                    mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
-                    mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
-                    mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
-                    mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
 
-                    listCategory.add(mAinMoviListModel);
-                } else if (jsonObject.getString("CategoryName").equals(category)) {
+                mAinMoviListModel.setVideoName(jsonObject.getString("VideoName"));
+                mAinMoviListModel.setTypes(jsonObject.getString("Types"));
+                mAinMoviListModel.setCategory(jsonObject.getString("Category"));
+                mAinMoviListModel.setLanguage(jsonObject.getString("Language"));
+                mAinMoviListModel.setDirectorName(jsonObject.getString("DirectorName"));
+                mAinMoviListModel.setDuration(jsonObject.getString("Duration"));
+                mAinMoviListModel.setWriter(jsonObject.getString("Writer"));
+                mAinMoviListModel.setMusicDirector(jsonObject.getString("MusicDirector"));
+                mAinMoviListModel.setDiscription(jsonObject.getString("Discription"));
+                mAinMoviListModel.setCast(jsonObject.getString("Cast"));
+                mAinMoviListModel.setOneLine(jsonObject.getString("OneLine"));
+                mAinMoviListModel.setReleseDate(jsonObject.getString("ReleseDate"));
+                mAinMoviListModel.setThumbnail1(jsonObject.getString("Thumbnail1"));
+                mAinMoviListModel.setThumbnail2(jsonObject.getString("Thumbnail2"));
+                mAinMoviListModel.setVidePath(jsonObject.getString("VidePath"));
 
-                    mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
-                    mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
-                    mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
-                    mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
-                    mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
-                    mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
-                    mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
-                    mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
-                    mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
-                    mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
 
-                    listCategory.add(mAinMoviListModel);
-
-                }
-
-                Log.d("list", "parseData: " + jsonObject.getString("MovieTitle"));
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                Log.d("TAG", "setListComedy: " + e);
             }
+            listMovie.add(mAinMoviListModel);
+            Log.e("TAG", "list: " + listMovie.size());
+            Log.e("TAG", "list: " + listMovie.isEmpty());
+            if (listMovie.size() <= 0) {
+                Toast.makeText(getContext(), "No Item Found", Toast.LENGTH_SHORT).show();
+            } else {
 
+                Collections.reverse(listMovie);
+                adpListMovi = new AdapterMovieList(listMovie, getContext());
+                Log.d("taag", String.valueOf(adpListMovi.getItemCount()));
+                recMovie.setAdapter(adpListMovi);
+            }
         }
-        Collections.reverse(listCategory);
-        adapterViewAll = new AdapterViewAll(listCategory, getContext());
-        recCategory.setAdapter(adapterViewAll);
-
-    }
-
-    private void forAdverties(View v) {
-
-        try {
-
-            MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
-                @Override
-                public void onInitializationComplete(InitializationStatus initializationStatus) {
-
-                }
-            });
-            PublisherAdView mPublisherAdView = v.findViewById(R.id.adView);
-            PublisherAdRequest adRequest = new PublisherAdRequest.Builder().build();
-            mPublisherAdView.loadAd(adRequest);
-
-            PublisherAdView mPublisherAdVieww = v.findViewById(R.id.adVieww);
-            PublisherAdRequest adRequestt = new PublisherAdRequest.Builder().build();
-            mPublisherAdVieww.loadAd(adRequestt);
-        } catch (Exception e) {
-            Log.d("TAAG", "forAdverties: " + e.getMessage(), e.getCause());
-        }
-    }
-
-
-    @Override
-    public void onSliderClick(BaseSliderView slider) {
-        //  Toast.makeText(getContext(), slider.getBundle().get("extra") +  " ", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
     }
 }

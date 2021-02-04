@@ -9,7 +9,7 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/one"
-        android:icon="@drawable/ic_search_black_24dp"
+        android:icon="@drawable/ic_searc"
         android:title="Search"
         app:showAsAction="always" />
 

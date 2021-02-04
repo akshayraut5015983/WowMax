@@ -7,7 +7,7 @@
     <VideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="fill_parent"
         android:layout_centerInParent="true"
         android:fitsSystemWindows="true" />
 
@@ -32,25 +32,55 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:orientation="vertical">
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:weightSum="10">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:src="@drawable/ic_perm_identity_black_24dp" />
+
+            <TextView
+                android:id="@+id/tvProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:text="Profile"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:padding="5dp">
 
 
             <ImageView
                 android:id="@+id/imgLike"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:src="@drawable/ic_baseline_thumb_up_24" />
 
@@ -60,22 +90,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:gravity="center"
-                android:text="00"
+                android:text="0"
                 android:textColor="@color/white" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:padding="5dp">
 
 
             <ImageView
                 android:id="@+id/imgDislike"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:src="@drawable/ic_baseline_thumb_down_alt_24" />
 
@@ -85,22 +116,51 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:gravity="center"
-                android:text="00"
+                android:text="0"
                 android:textColor="@color/white" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <ImageView
+                android:id="@+id/imgCmt"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_margin="3dp"
+                android:src="@drawable/ic_baseline_comment_24" />
+
+            <TextView
+                android:id="@+id/tvCmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:gravity="center"
+                android:text="Comment"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:padding="5dp">
 
 
             <ImageView
                 android:id="@+id/imgShare"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
                 android:layout_margin="3dp"
                 android:src="@drawable/ic_baseline_share_24" />
 
@@ -111,7 +171,7 @@
                 android:gravity="center"
                 android:text="Share"
                 android:textColor="@color/white"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 
@@ -130,6 +190,8 @@
             android:id="@+id/txtTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="35dp"
+            android:maxLines="1"
             android:paddingStart="5dp"
             android:paddingTop="5dp"
             android:paddingEnd="5dp"
@@ -137,14 +199,34 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="15"
+            android:text="#My Name is"
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/txtHAs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="35dp"
+            android:maxLines="1"
+            android:paddingStart="5dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="5dp"
+            android:shadowColor="@android:color/holo_blue_light"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="15"
+            android:text="#Song #Comedy"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <TextView
             android:id="@+id/txtDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="35dp"
+            android:maxLines="1"
             android:paddingStart="5dp"
             android:paddingTop="5dp"
             android:paddingEnd="5dp"
@@ -152,8 +234,9 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="15"
+            android:text="This is Form Directer"
             android:textColor="@android:color/white"
-            android:textSize="10sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 </RelativeLayout>

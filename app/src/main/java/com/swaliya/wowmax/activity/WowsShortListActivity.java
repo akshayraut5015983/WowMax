@@ -4,12 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -27,6 +29,7 @@ import com.swaliya.wowmax.adapter.WowShortAdapter;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
 import com.swaliya.wowmax.model.MainMovieListModel;
+import com.swaliya.wowmax.model.WowMeModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,11 +43,25 @@ public class WowsShortListActivity extends AppCompatActivity {
     SessionManager sessionManager;
     SharedPreferences pref;
     String loginid = "", mobilenumber = "", passwords = "";
-    List<MainMovieListModel> videoItems;
+    List<WowMeModel> videoItems;
     ViewPager2 videosViewPager;
     ProgressDialog loading;
     private static final int VIDEO_CAPTURE = 101;
 
+    public static ProgressDialog createProgressDialog(Context context) {
+        ProgressDialog dialog = new ProgressDialog(context);
+        try {
+            dialog.show();
+        } catch (WindowManager.BadTokenException e) {
+
+        }
+        dialog.setCancelable(false);
+        dialog.getWindow()
+                .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setContentView(R.layout.progressdialog);
+        // dialog.setMessage(Message);
+        return dialog;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +83,28 @@ public class WowsShortListActivity extends AppCompatActivity {
         }
         videosViewPager = findViewById(R.id.viewPagerVideos);
         videoItems = new ArrayList<>();
-        //  loading = ProgressDialog.show(this, "", "Please Wait...", false, false);
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        findViewById(R.id.tvFollowing).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(WowsShortListActivity.this, "Following", Toast.LENGTH_SHORT).show();
+            }
+        });
+        findViewById(R.id.tvForYou).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(WowsShortListActivity.this, "For You", Toast.LENGTH_SHORT).show();
+            }
+        });
+         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         Log.e("TAG", "onCreate: " + policy.toString());
-
-        //   getResponce();
-        MainMovieListModel item2 = new MainMovieListModel();
+        if (loading == null) {
+            loading = createProgressDialog(this);
+        }
+        loading.show();
+        getResponce();
+       /* MainMovieListModel item2 = new MainMovieListModel();
         item2.setMovieAddress("http://wowmaxmovies.com/video/paijantrailer.mp4");
         item2.setMovieTitle("Sasha Solomon");
         item2.setMovieDesc("How Sasha Solomon Became a Software Developer at Twitter");
@@ -90,7 +122,7 @@ public class WowsShortListActivity extends AppCompatActivity {
         item3.setMovieTitle("Happy Hour Wednesday");
         item3.setMovieDesc("Depth-First Search Algorithm");
         videoItems.add(item3);
-        videosViewPager.setAdapter(new WowShortAdapter(videoItems, this));
+        videosViewPager.setAdapter(new WowShortAdapter(videoItems, this));*/
 
         findViewById(R.id.layHome).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,26 +130,28 @@ public class WowsShortListActivity extends AppCompatActivity {
                 finish();
             }
         });
-        findViewById(R.id.layWowShort).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.layWowSearch).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // startActivity(new Intent(VdoPlayingListActivity.this, VdoPlayingListActivity.class));
 
             }
         });
-        findViewById(R.id.laySong).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.layAdd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(WowsShortListActivity.this, SongsActivity.class));
-                finish();
-            }
-        });
-        findViewById(R.id.layCamera).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
                 Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 15);
                 startActivityForResult(intent, VIDEO_CAPTURE);
 
+            }
+        });
+        findViewById(R.id.layProfile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(WowsShortListActivity.this, ProfileActivity.class));
+                finish();
             }
         });
 
@@ -125,7 +159,7 @@ public class WowsShortListActivity extends AppCompatActivity {
 
     private void getResponce() {
 
-        String url = Config.URL + "api/apiurl.aspx?msg=GetMovieDetails";
+        String url = Config.URL + "api/apiurl.aspx?msg=WowMeVideoList";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -149,22 +183,18 @@ public class WowsShortListActivity extends AppCompatActivity {
 
     private void parseData(JSONArray response) {
         for (int i = 0; i < response.length(); i++) {
-            MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+            WowMeModel mAinMoviListModel = new WowMeModel();
 
             try {
                 JSONObject jsonObject = response.getJSONObject(i);
 
 
-                mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
-                mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
-                mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
-                mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
-                mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
-                mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
-                mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
-                mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
-                mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
-                mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+                mAinMoviListModel.setUserID(jsonObject.getString("UserID"));
+                mAinMoviListModel.setUserName(jsonObject.getString("UserName"));
+                mAinMoviListModel.setVideoName(jsonObject.getString("VideoName"));
+                mAinMoviListModel.setDescription(jsonObject.getString("Description"));
+                mAinMoviListModel.setHashTag(jsonObject.getString("HashTag"));
+                mAinMoviListModel.setVidePath(jsonObject.getString("VidePath"));
 
             } catch (Exception e) {
                 Log.d("TAG", "setListComedy: " + e);

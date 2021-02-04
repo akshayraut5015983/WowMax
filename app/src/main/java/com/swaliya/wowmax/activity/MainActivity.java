@@ -40,7 +40,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.swaliya.wowmax.BuildConfig;
 import com.swaliya.wowmax.R;
-import com.swaliya.wowmax.adapter.AdapterComedy;
 import com.swaliya.wowmax.adapter.TabsAdapter;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
@@ -62,13 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     boolean isFromMail = true;
     FirebaseUser user;
 
-
-    private List<Movie> listSuperHeroes;
-    private AdapterComedy adapter;
-    ProgressDialog loading;
-    RecyclerView recyclerView;
-    List<Movie> movieList;
-    AdapterComedy recyclerAdapter;
 
     View layoutMAin, layoutInternet;
     ViewPager viewPager;
@@ -92,15 +84,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         toggle.syncState();
-
+       // navigationView.getMenu().getItem(1).setIcon(R.drawable.ic_searc);
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.gold));
 
         toolbar.inflateMenu(R.menu.home_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if (item.getItemId() == R.id.one) {
-                    startActivity(new Intent(MainActivity.this, ViewAllVdoActivity.class).putExtra("key", "All"));
-//                    overridePendingTransition(R.anim.enter, R.anim.hold);
+                    ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo nf = cn.getActiveNetworkInfo();
+                    if (nf != null && nf.isConnected()) {
+                        startActivity(new Intent(MainActivity.this, ViewAllVdoActivity.class).putExtra("key", "All"));
+                    } else {
+                        Log.e(TAG, "onMenuItemClick: " );
+                    }
                 } else if (item.getItemId() == R.id.two) {
                     ConnectivityManager cn = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
                     NetworkInfo nf = cn.getActiveNetworkInfo();
@@ -147,29 +145,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        //  navigationView.getMenu().getItem(1).setIcon(R.drawable.ic_wrap_text_black_24dp);
-        //    forAdvertise();
+          //    forAdvertise();
 
         forNotification();
-        //  forSlider();
 
 
         navigationView.setNavigationItemSelectedListener(this);
         TextView tvId = navigationView.findViewById(R.id.tvUserId);
         tvId.setText(mobilenumber);
-       /* listSuperHeroes = new ArrayList<>();
-        recyclerView = findViewById(R.id.recycler);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(layoutManager);
-        loading = ProgressDialog.show(this, "Loading Data", "Please Wait...", false, false);
-        getData();
-        loading.dismiss();
-        adapter = new HindiAdapter(listSuperHeroes, this);
 
-        Log.d("tag", String.valueOf(adapter.getItemCount()));
-        recyclerView.setAdapter(adapter);*/
-        //  getResponce();
         findViewById(R.id.layHome).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -395,8 +379,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         tabLayout.addTab(tabLayout.newTab().setText("Just Added"));
         tabLayout.addTab(tabLayout.newTab().setText("Movie"));
-        tabLayout.addTab(tabLayout.newTab().setText("Web Series"));
+        tabLayout.addTab(tabLayout.newTab().setText("Drama"));
         tabLayout.addTab(tabLayout.newTab().setText("Short Movie"));
+        tabLayout.addTab(tabLayout.newTab().setText("Songs"));
+        tabLayout.addTab(tabLayout.newTab().setText("Trailer"));
+        tabLayout.addTab(tabLayout.newTab().setText("18 Plus"));
+        tabLayout.addTab(tabLayout.newTab().setText("Web Series"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 

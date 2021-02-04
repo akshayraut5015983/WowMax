@@ -53,6 +53,7 @@ import com.swaliya.wowmax.R;
 import com.swaliya.wowmax.configg.SessionManager;
 import com.swaliya.wowmax.helper.VersionChecker;
 
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -90,7 +91,7 @@ public class SplashActivity extends Activity {
         videoView.requestFocus();
         videoView.setZOrderOnTop(true);
         videoView.start();
-
+        deleteCache(this);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -239,4 +240,29 @@ public class SplashActivity extends Activity {
     }
 
 
+    public static void deleteCache(Context context) {
+        try {
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
 }

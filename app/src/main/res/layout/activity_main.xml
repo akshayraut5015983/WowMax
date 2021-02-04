@@ -56,7 +56,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="20dp"
-                        android:src="@drawable/ic_search_black_24dp"
+                        android:src="@drawable/ic_searc"
                         android:visibility="gone" />
 
                 </RelativeLayout>
@@ -93,7 +93,7 @@
                     android:minHeight="?attr/actionBarSize"
                     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                     app:tabGravity="fill"
-                    app:tabMode="fixed"
+                    app:tabMode="scrollable"
                     app:tabSelectedTextColor="@color/gold" />
 
                 <androidx.viewpager.widget.ViewPager
@@ -114,7 +114,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/white" />
+                    android:background="@color/gold" />
 
 
                 <LinearLayout
@@ -134,14 +134,14 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_home_black_24dp" />
+                            android:src="@drawable/ic_home" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="Home"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/gold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -161,8 +161,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="WowShort"
-                            android:textColor="@color/white" />
+                            android:text="WowMe"
+                            android:textColor="@color/gold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -183,7 +183,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="Song"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/gold" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -197,14 +197,14 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_baseline_share_24" />
+                            android:src="@drawable/ic_share_24" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="Share"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/gold" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

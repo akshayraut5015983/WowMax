@@ -23,14 +23,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.util.Strings;
 import com.swaliya.wowmax.R;
-import com.swaliya.wowmax.adapter.AdapterRomance;
+import com.swaliya.wowmax.adapter.AdapterDramaList;
 import com.swaliya.wowmax.adapter.AdapterViewAll;
-import com.swaliya.wowmax.adapter.MyListAdapter;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.configg.SessionManager;
 import com.swaliya.wowmax.model.MainMovieListModel;
+import com.swaliya.wowmax.model.Slider10Model;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,7 +46,7 @@ public class ViewAllVdoActivity extends AppCompatActivity {
     String strCat = "", strSearch = "";
     TextView tvCat;
 
-    List<MainMovieListModel> listAll;
+    List<Slider10Model> listAll;
     RecyclerView.Adapter adpAll;
     RecyclerView rcViewAll;
 
@@ -129,7 +128,7 @@ public class ViewAllVdoActivity extends AppCompatActivity {
 
     private void getResponce() {
 
-        String url = Config.URL + "api/apiurl.aspx?msg=GetMovieDetails";
+        String url = Config.URL + "api/apiurl.aspx?msg=NewVideoList%20movies%20action";
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -159,23 +158,14 @@ public class ViewAllVdoActivity extends AppCompatActivity {
                     if (strSearch.equals("")) {
                         setListRomance(jsonObject);
                     } else {
-                        String sss = jsonObject.getString("MovieTitle");
+                        String sss = jsonObject.getString("VideoName");
                         if (sss.toLowerCase().contains(strSearch.toLowerCase())) {
                             setListRomance(jsonObject);
                         }
                     }
                 }
-                if (strCat.equals(jsonObject.getString("CategoryName"))) {
-                    if (strSearch.equals("")) {
-                        setListRomance(jsonObject);
-                    } else {
-                        String sss = jsonObject.getString("MovieTitle");
-                        if (sss.toLowerCase().contains(strSearch.toLowerCase())) {
-                            setListRomance(jsonObject);
-                        }
-                    }
-                }
-                Log.d("list", "parseData: " + jsonObject.getString("MovieTitle"));
+
+                Log.d("list", "parseData: " + jsonObject.getString("VideoName"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -189,18 +179,26 @@ public class ViewAllVdoActivity extends AppCompatActivity {
     private void setListRomance(JSONObject jsonObject) {
         loading.dismiss();
 
-        MainMovieListModel mAinMoviListModel = new MainMovieListModel();
+        Slider10Model mAinMoviListModel = new Slider10Model();
         try {
-            mAinMoviListModel.setMovieTitle(jsonObject.getString("MovieTitle"));
-            mAinMoviListModel.setCategoryName(jsonObject.getString("CategoryName"));
-            mAinMoviListModel.setMovieQuality(jsonObject.getString("MovieQuality"));
-            mAinMoviListModel.setMovieImage(jsonObject.getString("MovieImage"));
-            mAinMoviListModel.setMovieDesc(jsonObject.getString("MovieDesc"));
-            mAinMoviListModel.setMovieRelYear(jsonObject.getString("MovieRelYear"));
-            mAinMoviListModel.setMovieLanguage(jsonObject.getString("MovieLanguage"));
-            mAinMoviListModel.setMovieDuration(jsonObject.getString("MovieDuration"));
-            mAinMoviListModel.setMovieAddress(jsonObject.getString("MovieAddress"));
-            mAinMoviListModel.setMovieImage2(jsonObject.getString("MovieImage2"));
+
+
+            mAinMoviListModel.setVideoName(jsonObject.getString("VideoName"));
+            mAinMoviListModel.setTypes(jsonObject.getString("Types"));
+            mAinMoviListModel.setCategory(jsonObject.getString("Category"));
+            mAinMoviListModel.setLanguage(jsonObject.getString("Language"));
+            mAinMoviListModel.setDirectorName(jsonObject.getString("DirectorName"));
+            mAinMoviListModel.setDuration(jsonObject.getString("Duration"));
+            mAinMoviListModel.setWriter(jsonObject.getString("Writer"));
+            mAinMoviListModel.setMusicDirector(jsonObject.getString("MusicDirector"));
+            mAinMoviListModel.setDiscription(jsonObject.getString("Discription"));
+            mAinMoviListModel.setCast(jsonObject.getString("Cast"));
+            mAinMoviListModel.setOneLine(jsonObject.getString("OneLine"));
+            mAinMoviListModel.setReleseDate(jsonObject.getString("ReleseDate"));
+            mAinMoviListModel.setThumbnail1(jsonObject.getString("Thumbnail1"));
+            mAinMoviListModel.setThumbnail2(jsonObject.getString("Thumbnail2"));
+            mAinMoviListModel.setVidePath(jsonObject.getString("VidePath"));
+
 
         } catch (Exception e) {
             Log.d("TAG", "setListComedy: " + e);
@@ -214,5 +212,6 @@ public class ViewAllVdoActivity extends AppCompatActivity {
         rcViewAll.setAdapter(adpAll);
 
     }
+
 
 }

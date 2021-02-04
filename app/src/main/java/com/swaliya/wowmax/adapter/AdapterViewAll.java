@@ -18,14 +18,15 @@ import com.swaliya.wowmax.R;
 import com.swaliya.wowmax.activity.VdoDetailsActivity;
 import com.swaliya.wowmax.configg.Config;
 import com.swaliya.wowmax.model.MainMovieListModel;
+import com.swaliya.wowmax.model.Slider10Model;
 
 import java.util.List;
 
 public class AdapterViewAll extends RecyclerView.Adapter<AdapterViewAll.ViewHolder> {
-    private List<MainMovieListModel> android;
+    private List<Slider10Model> android;
     private Context mContex;
 
-    public AdapterViewAll(List<MainMovieListModel> android, Context mContex) {
+    public AdapterViewAll(List<Slider10Model> android, Context mContex) {
         this.android = android;
         this.mContex = mContex;
     }
@@ -39,12 +40,12 @@ public class AdapterViewAll extends RecyclerView.Adapter<AdapterViewAll.ViewHold
 
     @Override
     public void onBindViewHolder(AdapterViewAll.ViewHolder viewHolder, int i) {
-        MainMovieListModel mAinMoviListModel = android.get(i);
+        Slider10Model mAinMoviListModel = android.get(i);
 
-        viewHolder.tv_name.setText(mAinMoviListModel.getMovieTitle());
-        viewHolder.tvCat.setText(mAinMoviListModel.getCategoryName());
-        viewHolder.tvDate.setText(mAinMoviListModel.getMovieRelYear());
-        String url = Config.URL + mAinMoviListModel.getMovieImage();
+        viewHolder.tv_name.setText(mAinMoviListModel.getVideoName());
+        viewHolder.tvCat.setText(mAinMoviListModel.getCategory());
+        viewHolder.tvDate.setText(mAinMoviListModel.getReleseDate());
+        String url = Config.URL + mAinMoviListModel.getThumbnail1();
         try {
 
             RequestOptions options = new RequestOptions()
@@ -77,14 +78,18 @@ public class AdapterViewAll extends RecyclerView.Adapter<AdapterViewAll.ViewHold
             public void onClick(View v) {
 
                 Intent intent = new Intent(mContex, VdoDetailsActivity.class);
-                intent.putExtra("url", mAinMoviListModel.getMovieAddress());
-                intent.putExtra("name", mAinMoviListModel.getMovieTitle());
-                intent.putExtra("cat", mAinMoviListModel.getCategoryName());
-                intent.putExtra("rel", mAinMoviListModel.getMovieRelYear());
-                intent.putExtra("qlt", mAinMoviListModel.getMovieQuality());
-                intent.putExtra("dur", mAinMoviListModel.getMovieDuration());
-                intent.putExtra("desp", mAinMoviListModel.getMovieDesc());
-                intent.putExtra("img", mAinMoviListModel.getMovieImage2());
+                intent.putExtra("url", mAinMoviListModel.getVidePath());
+                intent.putExtra("name", mAinMoviListModel.getVideoName());
+                intent.putExtra("cat", mAinMoviListModel.getCategory());
+                intent.putExtra("rel", mAinMoviListModel.getReleseDate());
+                intent.putExtra("qlt", mAinMoviListModel.getTypes());
+                intent.putExtra("dur", mAinMoviListModel.getDuration());
+                intent.putExtra("desp", mAinMoviListModel.getDiscription());
+                intent.putExtra("writ", mAinMoviListModel.getWriter());
+                intent.putExtra("mdir", mAinMoviListModel.getMusicDirector());
+                intent.putExtra("cast", mAinMoviListModel.getCast());
+                intent.putExtra("onel", mAinMoviListModel.getOneLine());
+                intent.putExtra("img", mAinMoviListModel.getThumbnail2());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContex.startActivity(intent);
 
