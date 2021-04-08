@@ -2,12 +2,18 @@
 <resources>
     <color name="colorAccent">#D81B60</color>
     <color name="white">#ffffff</color>
+   <!-- <color name="swwh">#170E0E</color>-->
 
+    <color name="swwh">#190210</color>
+    <color name="swh">#EDC80D4F</color>
+    <color name="swhh">#9ACA0F50</color>
     <color name="wh">#46FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="bla">#7E1A1A1A</color>
+    <color name="bla">#4A05214E</color>
+    <color name="forg">#103140</color>
     <color name="red">#EE0202</color>
     <color name="redd">#DFEE0202</color>
+    <color name="gold">#ff3333</color>
     <color name="grea">#C8050505</color>
     <color name="greay">#707070</color>
     <color name="whitee">#ADFFFFFF</color>

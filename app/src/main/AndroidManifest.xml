@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.swaliya.vidmax">
+    package="com.swaliya.wowmax">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+        android:adjustViewBounds="true"
         android:allowBackup="true"
-        android:debuggable="true"
-        android:icon="@drawable/cir_logo"
+        android:debuggable="false"
+        android:hardwareAccelerated="false"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/cir_logo"
+        android:largeHeap="true"
+        android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="HardcodedDebugMode">
+        tools:ignore="HardcodedDebugMode"
+        tools:targetApi="m">
+
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-7999232318006976~6141148234" />
+            android:value="@string/app_id_admob" />
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -44,31 +52,59 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
-
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.SongsActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.MySubscriptionActivity" />
+        <activity android:name=".activity.WalletActivity" />
+        <activity android:name=".activity.WishListActivity" />
         <activity
             android:name=".activity.VideoActivity"
             android:screenOrientation="landscape" />
+
         <activity android:name=".activity.ViewAllVdoActivity" />
-        <activity android:name=".activity.VdoDetailsActivity" />
+        <activity
+            android:name=".activity.VdoDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VdoDetailsOfflineActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.SearchActivity" />
+        <activity
+            android:name=".activity.VideoVideoActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".activity.WowsShortListActivity"
+             />
+
         <activity
             android:name=".activity.VdoPlayActivity"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".activity.ProfileActivity"
-            android:label="My Profile" />
+
+        <activity android:name=".activity.ProfileActivity" />
+
+        <service
+            android:name=".configg.MyMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo_wow" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
     </application>
 
 </manifest>
